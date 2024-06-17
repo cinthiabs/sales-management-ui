@@ -1,1 +1,30 @@
-<p>header works!</p>
+
+<p-menubar [model]="items">
+  <ng-template pTemplate="item" let-item>
+    <ng-container *ngIf="item.items && item.items.length > 0">
+      <a class="p-menuitem-link">
+        <span [class]="item.icon"></span>
+        <span class="ml-2">{{ item.label }}</span>
+        <span class="pi pi-fw pi-angle-down ml-2"></span>
+      </a>
+      <ng-template pTemplate="submenu" let-subItem>
+        <ul class="p-submenu-list">
+          <li *ngFor="let subItem of item.items">
+            <a [routerLink]="[subItem.route]" class="p-submenu-link">
+              <span [class]="subItem.icon"></span>
+              <span>{{ subItem.label }}</span>
+            </a>
+          </li>
+        </ul>
+      </ng-template>
+    </ng-container>
+    <ng-container *ngIf="!item.items && item.route">
+      <a [routerLink]="[item.route]" class="p-menuitem-link">
+        <span [class]="item.icon"></span>
+        <span class="ml-2">{{ item.label }}</span>
+      </a>
+    </ng-container>
+  </ng-template>
+</p-menubar>
+
+  

@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="file">
+        <div class="icon-text-container">
+            <i class="pi pi-cloud-upload"></i>
+            <h3>Import File</h3>
+          </div>
+            <p-progressSpinner 
+                ariaLabel="loadingUpload"  
+                strokeWidth="3" 
+                *ngIf="loadingUpload"
+                [style]="{'margin': '10px', 'width': '3rem', 'height': '3rem'}">
+            </p-progressSpinner> 
+            <p-fileUpload 
+                name="demo[]" 
+                chooseIcon="pi pi-upload"
+                (onSelect)="onSelect($event)"
+                [multiple]="true" 
+                accept=".xlsx,.xls"
+                maxFileSize="1000000">
+            </p-fileUpload>
+
+        <div class="py-3 text-template" style="padding-top: 10px; color:#7c7c7c;">
+            Only file(s) with extension (xls/xlsx)
+        </div>
+
+        
+    </div>
+    
+</div>
