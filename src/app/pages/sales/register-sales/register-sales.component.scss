@@ -23,3 +23,26 @@
         }
     }
 }
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-field {
+    display: flex;
+    align-items: center;
+}
+
+.form-field label {
+    flex: 0 0 10rem; 
+    margin-right: 1rem;
+    font-weight: 500;
+    align-items: left;
+    text-align: left;
+}
+
+.form-field input,
+.form-field p-dropdown {
+    flex: 1;
+}

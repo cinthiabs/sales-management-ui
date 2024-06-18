@@ -8,6 +8,8 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { Sale } from '../../../models/sales/sale';
 import { FormsModule } from '@angular/forms';
@@ -29,6 +31,8 @@ import { Title } from '@angular/platform-browser';
     CommonModule,
     ToolbarModule,
     DialogModule,
+    ConfirmDialogModule,
+    DropdownModule,
     InputTextModule],
   templateUrl: './register-sales.component.html',
   styleUrl: './register-sales.component.scss',
@@ -79,7 +83,5 @@ export class RegisterSalesComponent implements OnInit {
     console.log('Nova sale'); 
   }
 
-  deleteSelectedSales() {
-    console.log('Sales selecionadas deletadas'); 
-  }
+
 }

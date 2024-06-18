@@ -1,5 +1,5 @@
-import { Component,OnInit} from '@angular/core';
-import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
+import { Component,OnInit, ViewChild} from '@angular/core';
+import { FileSelectEvent, FileUpload, FileUploadModule } from 'primeng/fileupload';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SalesService } from '../../../services/sales.service';
 import { CommonModule } from '@angular/common';
@@ -10,12 +10,13 @@ import { Title } from '@angular/platform-browser';
   standalone: true,
   imports: [
     FileUploadModule, 
-    ProgressSpinnerModule, 
+    ProgressSpinnerModule,
     CommonModule],
   templateUrl: './import-excel-sales.component.html',
   styleUrl: './import-excel-sales.component.scss'
 })
 export class ImportExcelSalesComponent implements OnInit {
+  @ViewChild(FileUpload) fileUpload!: FileUpload; 
   loadingUpload = false;
   returnMessage = '';
 
@@ -42,11 +43,13 @@ export class ImportExcelSalesComponent implements OnInit {
           if (!response) this.returnMessage = 'Upload completed successfully!';
           console.log(this.returnMessage)
           this.loadingUpload = false;
+          this.fileUpload.clear();
         },
         error: (error: any) => {
           console.error(error)
           this.returnMessage = error.error
           this.loadingUpload = false;
+          this.fileUpload.clear();
         }
       })
     }
