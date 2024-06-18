@@ -1,91 +1,124 @@
-<p-toast></p-toast>
+<div class="container">
+  <div class="crud">
+    <p-toast></p-toast>
+    <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="left">
+        <p-button pRipple label="New" icon="pi pi-plus" class="mr-2" (click)="openCreate()"></p-button>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')" placeholder="Search...">
+        </span>
+      </ng-template>
+    </p-toolbar>
+    <!--dialog
+    <p-dialog 
+    header="Header" 
+    [(visible)]="visible" 
+    [modal]="false" 
+    [style]="{ width: '25rem' }">
+        <ng-template pTemplate="header">
+            <p>Create</p>
+        </ng-template>
+        <span class="p-text-secondary block mb-5">Update your information.</span>
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="username" class="font-semibold w-6rem">
+                Username
+            </label>
+            <input pInputText id="username" class="flex-auto" autocomplete="off" />
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="email" class="font-semibold w-6rem">Email</label>
+            <input pInputText id="email" class="flex-auto" autocomplete="off" />
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button 
+                label="Cancel" 
+                [text]="true" 
+                severity="secondary" 
+                 />
+            <p-button 
+                label="Save" 
+                [outlined]="true" 
+                severity="secondary" 
+                
+              />
+        </ng-template>
+    </p-dialog>
+    -->
 
-<p-toolbar styleClass="mb-4 gap-2">
-  <ng-template pTemplate="left">
-    <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2" (click)="openNew()"></p-button>
-    <p-button pRipple severity="danger" label="Delete" icon="pi pi-trash" (click)="deleteSelectedSales()"
-      [disabled]="!selectedSales || !selectedSales.length"></p-button>
-  </ng-template>
-
-
-<p-table #dt [value]="sales" [rows]="10" [paginator]="true"
-  [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
-  [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedSales" [rowHover]="true" dataKey="id"
-  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
-
-  <ng-template pTemplate="caption">
-    <div class="flex align-items-center justify-content-between">
-      <h5 class="m-0">Manage Sales</h5> <!-- Alterado para Manage Sales -->
-      <span class="p-input-icon-left">
-        <i class="pi pi-search"></i>
-        <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')" placeholder="Search...">
-      </span>
-    </div>
-  </ng-template>
-
-  <ng-template pTemplate="header">
-    <tr>
-      <th style="width: 4rem">
-        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-      </th>
-      <th pSortableColumn="name" style="min-width:15rem">
-        Name <p-sortIcon field="name"></p-sortIcon>
-      </th>
-      <th>
-        Image
-      </th>
-      <th pSortableColumn="price">
-        Price <p-sortIcon field="price"></p-sortIcon>
-      </th>
-      <th pSortableColumn="category" style="min-width:10rem">
-        Category <p-sortIcon field="category"></p-sortIcon>
-      </th>
-      <th pSortableColumn="rating">
-        Reviews <p-sortIcon field="rating"></p-sortIcon>
-      </th>
-      <th pSortableColumn="inventoryStatus" style="min-width:10rem">
-        Status <p-sortIcon field="inventoryStatus"></p-sortIcon>
-      </th>
-      <th></th>
-    </tr>
-  </ng-template>
-
-  <ng-template pTemplate="body" let-sale>
-    <tr>
-      <td>
-        <p-tableCheckbox [value]="sale"></p-tableCheckbox>
-      </td>
-      <td>
-        {{ sale.name }}
-      </td>
-      <td>
-        <img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + sale.image" [alt]="sale.name"
-          width="50" class="shadow-4">
-      </td>
-      <td>
-        {{ sale.price | currency : 'USD' }}
-      </td>
-      <td>
-        {{ sale.category }}
-      </td>
-      <td>
-        <p-rating [(ngModel)]="sale.rating" [readonly]="true" ></p-rating>
-      </td>
-      <td>
-        <p-tag [value]="sale.inventoryStatus" [class]="getSeverity(sale.inventoryStatus)"></p-tag>
-      </td>
-      <td>
-        <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"
-          (click)="editSale(sale)"></p-button>
-        <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
-          (click)="deleteSale(sale)"></p-button>
-      </td>
-    </tr>
-  </ng-template>
-
-  <ng-template pTemplate="summary">
-    <div class="flex align-items-center justify-content-between">
-      In total there are {{ sales ? sales.length : 0 }} sales. <!-- Alterado para sales -->
-    </div>
-  </ng-template>
-</p-table>
+    <p-table #dt [value]="sales" [rows]="10" [paginator]="true"
+      [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+      [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedSales" [rowHover]="true" dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="data-sale">
+            Date Sale <p-sortIcon field="data-sale"></p-sortIcon>
+          </th>
+          <th pSortableColumn="name">
+            Name <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="details" style="min-width:10rem">
+            Details <p-sortIcon field="details"></p-sortIcon>
+          </th>
+          <th pSortableColumn="quantity">
+            Quantity <p-sortIcon field="quantity"></p-sortIcon>
+          </th>
+          <th pSortableColumn="price">
+            Price <p-sortIcon field="price"></p-sortIcon>
+          </th>
+          <th pSortableColumn="data-create">
+            Data Create <p-sortIcon field="data-create"></p-sortIcon>
+          </th>
+          <th pSortableColumn="pay" style="min-width:1rem">
+            Pay <p-sortIcon field="pay"></p-sortIcon>
+          </th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-sale>
+        <tr>
+          <td>
+            {{ sale.dateSale  | date: 'dd/MM/yyyy'  }}
+          </td>
+          <td>
+            {{ sale.name }}
+          </td>
+          <td>
+            {{ sale.details }}
+          </td>
+          <td>
+            {{ sale.quantity }}
+          </td>
+          <td>
+            {{ sale.price }}
+          </td>
+          <td>
+            {{ sale.dataCreate  | date: 'dd/MM/yyyy' }}
+          </td>
+          <td>
+            <p-tag [value]="sale.pay ? 'PAGO' : 'PENDENTE'">
+          </p-tag>
+          </td>
+          <td>
+            <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"
+            [style]="{
+             'margin':'5px',
+             height: '40px',
+             width: '40px'
+            }" (click)="editSale(sale)"></p-button>
+            <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+            [style]="{
+              'margin':'5px',
+              height: '40px',
+              width: '40px'
+             }" (click)="deleteSale(sale)"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    
+    </p-table>  
+  </div>
+</div>

@@ -3,6 +3,7 @@ import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SalesService } from '../../../services/sales.service';
 import { CommonModule } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-import-excel-sales',
@@ -18,7 +19,11 @@ export class ImportExcelSalesComponent implements OnInit {
   loadingUpload = false;
   returnMessage = '';
 
-  constructor(private salesService: SalesService){}
+  constructor(private salesService: SalesService,
+    private titleService: Title
+  ){
+    this.titleService.setTitle('Import Excel');
+  }
   ngOnInit(): void {
     this.salesService.getAllSales().subscribe({
       next:(response: any) => {

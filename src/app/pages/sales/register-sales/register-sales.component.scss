@@ -1,0 +1,25 @@
+.crud {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+.p-datatable-thead{
+    tr{
+        th{
+            font-weight: 500;
+            font-size: medium;
+            align-items: center;
+            text-align: center;
+        } 
+        
+    }
+}
+.p-element .p-datatable-tbody{
+    tr{
+        td{
+            align-items: center;
+            text-align: center;
+        }
+    }
+}
