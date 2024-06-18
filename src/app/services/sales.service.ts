@@ -19,11 +19,9 @@ export class SalesService {
   postUploadExcel(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
-    const headers = new HttpHeaders({
-      'Content-Type': 'multipart/form-data'
-    });
-    return this.http.post<any>(`${this.apiUrl}/UploadExcel`, formData, { headers });
+    return this.http.post<any>(`${this.apiUrl}/UploadExcel`, formData);
   }
+  
   getAllSales():Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/GetAllSales`, this.httpOptions);
   }

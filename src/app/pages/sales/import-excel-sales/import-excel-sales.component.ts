@@ -7,7 +7,10 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-import-excel-sales',
   standalone: true,
-  imports: [FileUploadModule, ProgressSpinnerModule, CommonModule],
+  imports: [
+    FileUploadModule, 
+    ProgressSpinnerModule, 
+    CommonModule],
   templateUrl: './import-excel-sales.component.html',
   styleUrl: './import-excel-sales.component.scss'
 })
@@ -17,7 +20,6 @@ export class ImportExcelSalesComponent implements OnInit {
 
   constructor(private salesService: SalesService){}
   ngOnInit(): void {
-    console.log('aqui')
     this.salesService.getAllSales().subscribe({
       next:(response: any) => {
         console.log(response)
@@ -32,11 +34,14 @@ export class ImportExcelSalesComponent implements OnInit {
       console.log(uploadFile)
       this.salesService.postUploadExcel(uploadFile).subscribe({
         next: (response: any) => {
-          if (!response) this.returnMessage = 'Upload realizado com sucesso!';
+          if (!response) this.returnMessage = 'Upload completed successfully!';
+          console.log(this.returnMessage)
           this.loadingUpload = false;
         },
         error: (error: any) => {
           console.error(error)
+ 
+          this.loadingUpload = false;
         }
       })
     }
