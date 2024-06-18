@@ -21,8 +21,8 @@ export class SalesService {
     formData.append('file', file);
     return this.http.post<any>(`${this.apiUrl}/UploadExcel`, formData);
   }
-  getAllSales():Observable<any>{
-    return this.http.get<any>(`${this.apiUrl}/GetAllSales`, this.httpOptions);
+  getAllSales():Observable<Sale[]>{
+    return this.http.get<Sale[]>(`${this.apiUrl}/GetAllSales`, this.httpOptions);
   }
   getByIdSale(id: number):Observable<Sale>{
     return this.http.get<Sale>(`${this.apiUrl}/GetByIdSale/${id}`, this.httpOptions);
