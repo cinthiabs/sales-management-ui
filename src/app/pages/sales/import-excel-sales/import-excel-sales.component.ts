@@ -40,7 +40,7 @@ export class ImportExcelSalesComponent implements OnInit {
         },
         error: (error: any) => {
           console.error(error)
- 
+          this.returnMessage = error.error
           this.loadingUpload = false;
         }
       })
