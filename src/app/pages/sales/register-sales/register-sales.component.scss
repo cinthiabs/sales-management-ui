@@ -49,3 +49,11 @@
 .p-datatable-loading-overlay {
     background-color: rgba(214, 213, 213, 0.4);
 }
+.footer-dialog{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 3.5rem;
+}
+.footer-dialog button{
+    margin-left: 0.5rem;
+}

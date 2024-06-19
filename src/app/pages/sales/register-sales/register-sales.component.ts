@@ -10,9 +10,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { FormGroup, FormBuilder, FormsModule , ReactiveFormsModule, Validators} from '@angular/forms';
 
 import { Sale } from '../../../models/sales/sale';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SalesService } from '../../../services/sales.service';
 import { MessageService } from 'primeng/api';
@@ -29,6 +29,7 @@ import { MessagesService } from '../../../services/shared/messages.service';
     ToastModule, 
     RatingModule, 
     FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     ToolbarModule,
     DialogModule,
@@ -48,7 +49,17 @@ export class RegisterSalesComponent implements OnInit {
   loadingTable = false;
   messageTable = 'Nenhum dado encontrado';
 
-  constructor(private salesService: SalesService,
+  createForm: FormGroup = this.fb.group({
+    nameProduct: ['', Validators.required],
+    details: [''],
+    quant: ['',Validators.required],
+    paySelect: [''],
+    price: ['',Validators.required]
+  })
+
+  constructor(
+    private fb: FormBuilder,
+    private salesService: SalesService,
     public handlers: RegisterHandlers,
     private titleService: Title,
     private messagesService: MessagesService
@@ -110,6 +121,9 @@ export class RegisterSalesComponent implements OnInit {
     })
   }
 
+  createNewSale(){
+    console.log('estou aqui')
+  }
   openCreate() {
     console.log('Nova sale'); 
   }
