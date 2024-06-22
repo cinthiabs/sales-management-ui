@@ -1,7 +1,7 @@
 import { Component,OnInit, ViewChild} from '@angular/core';
 import { FileSelectEvent, FileUpload, FileUploadModule } from 'primeng/fileupload';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { SalesService } from '../../../services/sales.service';
+import { SalesService } from '../../../services/sales/sales.service';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 

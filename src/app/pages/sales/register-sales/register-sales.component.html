@@ -1,9 +1,12 @@
+<p-toast key="success"></p-toast>
+<p-toast key="error" position="bottom-center"></p-toast>
+
 <div class="container">
   <div class="crud">
     <p-toast></p-toast>
     <p-toolbar styleClass="mb-4 gap-2">
       <ng-template pTemplate="left">
-        <p-button pRipple label="New" icon="pi pi-plus" class="mr-2" (click)="handlers.handleInsertDialog()"></p-button>
+        <p-button pRipple label="New" icon="pi pi-plus" class="mr-2" (click)="openCreate()"></p-button>
       </ng-template>
       <ng-template pTemplate="right">
         <span class="p-input-icon-left">
@@ -29,13 +32,13 @@
       <form
         [formGroup]="createForm"
         method="post"
-        (ngSubmit)="createNewSale()">
+        (ngSubmit)="CreateOrEdit(createForm)">
 
           <div class="form-grid">
 
             <div class="form-field">
               <label for="username" class="font-semibold">Product Name</label>
-              <input pInputText id="username" autocomplete="off" />
+              <input pInputText  formControlName="nameProduct" id="username" autocomplete="off" />
           </div>
 
             <div class="form-field">
@@ -53,28 +56,30 @@
 
             <div class="form-field">
                 <label for="details" class="font-semibold">Details/Clients</label>
-                <input pInputText id="details" autocomplete="off" />
+                <input pInputText formControlName="details" id="details" autocomplete="off" />
             </div>
             
             <div class="form-field">
                 <label for="quantity" class="font-semibold">Quantity</label>
-                <input pInputText id="quantity" autocomplete="off" />
+                <input pInputText id="quantity" formControlName="quantity"  autocomplete="off" />
             </div>
 
             <div class="form-field">
               <label for="pay" class="font-semibold">Pay?</label>
-              <p-dropdown [options]="handlers.situation"   [style]="{width: '100%'}" id="pay" optionLabel="name" placeholder="Select a situation"></p-dropdown>
+              <p-dropdown [options]="handlers.situation"  formControlName="paySelect" 
+              [style]="{'width': '100%', 'text-align': 'left'}"
+              id="pay" optionLabel="name" placeholder="Select a situation"></p-dropdown>
             </div>
 
             <div class="form-field">
                 <label for="price" class="font-semibold">Price</label>
-                <input pInputText id="price" autocomplete="off" />
+                <input pInputText id="price" formControlName="price" autocomplete="off" />
             </div>       
         </div>
         
           <div class="footer-dialog">
-              <p-button pRipple label="Cancel" severity="primary" />
-              <p-button pRipple label="Save" severity="success"  type="submit"/>
+              <p-button pRipple label="Cancel" severity="primary" (click)="cancel()"/>
+              <p-button pRipple [label]="isEditMode ? 'Update' : 'Save'" severity="success" type="submit" [loading]="loadingButton" />
           </div>
       </form>    
 

@@ -5,7 +5,7 @@ import { MessageService } from 'primeng/api';
   providedIn: 'root'
 })
 
-export class MessagesService {
+export class NotificationService {
 
   constructor(private messageService: MessageService) { }
 
