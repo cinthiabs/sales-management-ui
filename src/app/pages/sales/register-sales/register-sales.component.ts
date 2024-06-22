@@ -11,6 +11,8 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormGroup, FormBuilder, FormsModule , ReactiveFormsModule, Validators} from '@angular/forms';
+import { CalendarModule } from 'primeng/calendar';
+
 
 import { Sale } from '../../../models/sales/sale';
 import { CommonModule } from '@angular/common';
@@ -35,6 +37,7 @@ import { MessagesService } from '../../../services/shared/messages.service';
     DialogModule,
     ConfirmDialogModule,
     DropdownModule,
+    CalendarModule,
     InputTextModule],
   templateUrl: './register-sales.component.html',
   styleUrl: './register-sales.component.scss',
@@ -50,6 +53,7 @@ export class RegisterSalesComponent implements OnInit {
   messageTable = 'Nenhum dado encontrado';
 
   createForm: FormGroup = this.fb.group({
+    dateSale:['',Validators.required],
     nameProduct: ['', Validators.required],
     details: [''],
     quant: ['',Validators.required],
@@ -105,6 +109,24 @@ export class RegisterSalesComponent implements OnInit {
       
     })
   }
+
+  dialogEdit(sale: Sale){
+    this.handlers.headerDialog = 'Edit Sale'
+    this.handlers.handleInsertDialog()
+
+    this.createForm.patchValue({
+      dateSale: sale.dateSale,
+      nomeProduto: sale.name,
+      details: sale.details,
+      quantity: sale.quantity,
+      pay: sale.pay,
+      price: sale.price,
+    });
+    this.createForm.value
+    console.log(this.createForm.value)
+
+  }
+
 
   editSale(sale: Sale) { 
     this.salesService.updateSale(sale).subscribe({

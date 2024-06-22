@@ -7,6 +7,7 @@ import { Sale } from '../../../models/sales/sale';
 export class RegisterHandlers {
   sale: Sale[];
   visibleCreate: boolean = false;
+  headerDialog = '';
   
   constructor() {
     this.sale = [{
