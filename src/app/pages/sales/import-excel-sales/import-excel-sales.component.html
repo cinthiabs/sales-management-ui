@@ -1,3 +1,5 @@
+<p-toast key="success"></p-toast>
+<p-toast key="error" position="bottom-center"></p-toast>
 <div class="container">
     <div class="file">
         <div class="icon-text-container">
@@ -23,8 +25,5 @@
                 class="file-upload"
                 maxFileSize="1000000">
             </p-fileUpload>
-        @if(!!returnMessage){
-            <p class="return-message">{{returnMessage}}</p>
-        }
     </div>
 </div>

@@ -1,9 +1,12 @@
-import { Component,OnInit, ViewChild} from '@angular/core';
+import { Component,OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import { FileSelectEvent, FileUpload, FileUploadModule } from 'primeng/fileupload';
+import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SalesService } from '../../../services/sales/sales.service';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
+import { NotificationService } from '../../../services/shared/messages/notification.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-import-excel-sales',
@@ -11,9 +14,12 @@ import { Title } from '@angular/platform-browser';
   imports: [
     FileUploadModule, 
     ProgressSpinnerModule,
+    ToastModule,
     CommonModule],
   templateUrl: './import-excel-sales.component.html',
-  styleUrl: './import-excel-sales.component.scss'
+  styleUrl: './import-excel-sales.component.scss',
+  providers: [MessageService, NotificationService],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ImportExcelSalesComponent implements OnInit {
   @ViewChild(FileUpload) fileUpload!: FileUpload; 
@@ -21,7 +27,8 @@ export class ImportExcelSalesComponent implements OnInit {
   returnMessage = '';
 
   constructor(private salesService: SalesService,
-    private titleService: Title
+    private titleService: Title,
+    private notificationService: NotificationService
   ){
     this.titleService.setTitle('Import Excel');
   }
@@ -40,14 +47,14 @@ export class ImportExcelSalesComponent implements OnInit {
       console.log(uploadFile)
       this.salesService.postUploadExcel(uploadFile).subscribe({
         next: (response: any) => {
-          if (!response) this.returnMessage = 'Upload completed successfully!';
-          console.log(this.returnMessage)
+          if (!response) 
+          this.notificationService.showSuccessToast('Sale successfully deleted!')
           this.loadingUpload = false;
           this.fileUpload.clear();
         },
         error: (error: any) => {
-          console.error(error)
-          this.returnMessage = error.error
+          const errorMessage = error?.error ?? 'An error has occurred during the operation.';
+          this.notificationService.showErrorToast(errorMessage)
           this.loadingUpload = false;
           this.fileUpload.clear();
         }
