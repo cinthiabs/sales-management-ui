@@ -1,4 +1,4 @@
-export interface Sale{
+export interface Sale {
     id? :number,
     idProduto?: number,
     dateSale: string, 
@@ -9,4 +9,9 @@ export interface Sale{
     pay:boolean,
     dateCreate?:string | null,
     dateEdit?:string | null
+}
+export interface RelQuantitySale {
+    name: string,
+    quantity:number,
+    price: number
 }

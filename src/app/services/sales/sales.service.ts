@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Sale } from '../../models/sales/sale';
+import { RelQuantitySale, Sale } from '../../models/sales/sale';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,9 @@ export class SalesService {
   }
   deleteSale(id: number):Observable<any>{
     return this.http.delete<any>(`/DeleteSale/${id}`);
+  }
+  getRelQuantity(dateIni: string, dateEnd: string): Observable<RelQuantitySale[]>{
+    return this.http.get<RelQuantitySale[]>(`/GetRelQuantity?dateIni=${dateIni}&dateEnd=${dateEnd}`);
   }
 
 }

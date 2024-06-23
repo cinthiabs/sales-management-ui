@@ -1,0 +1,73 @@
+.dashboard-container {
+    padding: 20px;
+  }
+  .date-filter-section {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .top-section,
+  .middle-section,
+  .bottom-section {
+    margin-bottom: 20px;
+  }
+  
+
+  .p-grid {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .p-col-12 {
+    flex: 1;
+    margin-right: 10px; 
+  }
+  
+  .p-col-12:last-child {
+    margin-right: 0;
+  }
+  
+  .p-card {
+    border-radius: 8px;
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .quantity-card,
+  .chart-card,
+  .large-chart-card {
+    text-align: center;
+    color: #333333;
+  }
+  
+  .quantity-card .card-header,
+  .chart-card .card-header,
+  .large-chart-card .card-header {
+    margin-bottom: 10px;
+  }
+  
+  .quantity-card i,
+  .chart-card i,
+  .large-chart-card i {
+    font-size: 2em;
+    display: block;
+    margin-right: 10px;
+  }
+  
+  
+  @media (max-width: 768px) {
+    .p-grid {
+      flex-direction: column;
+    }
+  
+    .p-col-12 {
+      margin-right: 0;
+      margin-bottom: 10px; 
+    }
+  }
+  

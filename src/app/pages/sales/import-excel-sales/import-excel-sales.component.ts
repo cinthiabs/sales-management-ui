@@ -32,25 +32,21 @@ export class ImportExcelSalesComponent implements OnInit {
   ){
     this.titleService.setTitle('Import Excel');
   }
-  ngOnInit(): void {
-    this.salesService.getAllSales().subscribe({
-      next:(response: any) => {
-        console.log(response)
-      }
-    })
+  ngOnInit() {
+    
   }
 
   onSelect(event: FileSelectEvent) {
     this.loadingUpload = true;
     const uploadFile = event.files && event.files.length > 0 ? event.files[0] : null;
     if (uploadFile) {
-      console.log(uploadFile)
       this.salesService.postUploadExcel(uploadFile).subscribe({
         next: (response: any) => {
-          if (!response) 
-          this.notificationService.showSuccessToast('Sale successfully deleted!')
-          this.loadingUpload = false;
-          this.fileUpload.clear();
+          if (response) {
+            this.notificationService.showSuccessToast('Data imported successfully!')
+            this.loadingUpload = false;
+            this.fileUpload.clear();
+          }
         },
         error: (error: any) => {
           const errorMessage = error?.error ?? 'An error has occurred during the operation.';

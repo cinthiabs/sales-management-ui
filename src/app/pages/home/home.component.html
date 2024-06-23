@@ -1,1 +1,113 @@
-<p>home works!</p>
+<div class="dashboard-container">
+
+  <div class="date-filter-section">
+    <div class="p-grid p-justify-end">
+      <div class="p-col-12 p-md-3">
+        <p-calendar  
+        [(ngModel)]="selectedDate"
+        (ngModelChange)="onDateSelect($event)"
+        selectionMode="range" 
+        [showIcon]="true"  
+        [style]="{'height':'35px'}"
+        [panelStyle]="{ 'transform': 'scale(0.7)'}" 
+        [dateFormat]="datePickerOptions.dateFormat">
+      </p-calendar>
+      </div>
+    </div>
+  </div>
+    <div class="top-section">
+      <div class="p-grid">
+        <div class="p-col-12 p-md-3">
+          <p-card class="quantity-card" [style]="{'background-color': '#FF9F40'}">
+            <ng-template pTemplate="title">
+              <div class="card-header">
+                <i class="pi pi-plus-circle"></i>
+                <span>Quantity Sale</span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="subtitle">
+              {{totalQuantity}}
+            </ng-template>
+          </p-card>
+        </div>
+        <div class="p-col-12 p-md-3">
+          <p-card class="quantity-card" [style]="{'background-color': '#FF6384'}">
+            <ng-template pTemplate="title">
+              <div class="card-header">
+                <i class="pi pi-shopping-cart"></i>
+                <span>Cost</span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="subtitle">
+              500
+            </ng-template>
+          </p-card>
+        </div>
+        <div class="p-col-12 p-md-3">
+          <p-card class="quantity-card" [style]="{'background-color': '#4CAF50'}">
+            <ng-template pTemplate="title">
+              <div class="card-header">
+                <i class="pi pi-money-bill"></i>
+                <span>Sales</span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="subtitle">
+              R$ {{totalPrice}}
+            </ng-template>
+          </p-card>
+        </div>
+        <div class="p-col-12 p-md-3">
+          <p-card class="quantity-card" [style]="{'background-color': '#36A2EB'}">
+            <ng-template pTemplate="title">
+              <div class="card-header">
+                <i class="pi pi-chart-line"></i>
+                <span>Profit</span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="subtitle">
+              R$ 20K
+            </ng-template>
+          </p-card>
+        </div>
+      </div>
+    </div>
+    <div class="middle-section">
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+          <p-card class="chart-card">
+            <ng-template pTemplate="title">
+              Sales
+            </ng-template>
+            <ng-template pTemplate="content">
+                <p-chart type="bar" [data]="" [options]="" />
+            </ng-template>
+          </p-card>
+        </div>
+        <div class="p-col-12 p-md-6">
+          <p-card class="chart-card">
+            <ng-template pTemplate="title">
+              Graphic
+            </ng-template>
+            <ng-template pTemplate="content">
+                <p-chart type="bar" [data]="" [options]="" />
+            </ng-template>
+          </p-card>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-section">
+      <div class="p-grid">
+        <div class="p-col-12">
+            <p-card class="large-chart-card">
+            <ng-template pTemplate="title">
+              Graphic
+            </ng-template>
+            <ng-template pTemplate="content">
+                <p-chart type="line" [data]="" [options]="" />
+            </ng-template>
+            </p-card>
+        </div>
+      </div>
+    </div>
+</div>
+  
