@@ -59,4 +59,13 @@ export class HomeComponent implements OnInit {
       dateFormat: 'dd/mm/yy',
     };
   }
+
+  formartValor(valor: number): string {
+    const formatter = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    });
+
+    return formatter.format(valor).replace('.', '|').replace('.', ',').replace('|', '.');
+  }
 }

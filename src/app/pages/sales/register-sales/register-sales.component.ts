@@ -199,6 +199,7 @@ export class RegisterSalesComponent implements OnInit {
   cancel(){
     this.handlers.visibleCreate = false;
   }
+  
   openCreate() {
     this.isEditMode = false;
     this.handlers.headerDialog = 'Create Sale'

@@ -18,7 +18,7 @@
     <div class="top-section">
       <div class="p-grid">
         <div class="p-col-12 p-md-3">
-          <p-card class="quantity-card" [style]="{'background-color': '#FF9F40'}">
+          <p-card class="quantity-card" [style]="{'background-color': 'var(--default)', height: '180px'}">
             <ng-template pTemplate="title">
               <div class="card-header">
                 <i class="pi pi-plus-circle"></i>
@@ -26,12 +26,12 @@
               </div>
             </ng-template>
             <ng-template pTemplate="subtitle">
-              {{totalQuantity}}
+              <p class="subtitle">{{totalQuantity}}</p>
             </ng-template>
           </p-card>
         </div>
         <div class="p-col-12 p-md-3">
-          <p-card class="quantity-card" [style]="{'background-color': '#FF6384'}">
+          <p-card class="quantity-card" [style]="{'background-color': 'var(--danger)' , height: '180px'}">
             <ng-template pTemplate="title">
               <div class="card-header">
                 <i class="pi pi-shopping-cart"></i>
@@ -39,12 +39,12 @@
               </div>
             </ng-template>
             <ng-template pTemplate="subtitle">
-              500
+              <p class="subtitle">{{formartValor(300)}}</p> 
             </ng-template>
           </p-card>
         </div>
         <div class="p-col-12 p-md-3">
-          <p-card class="quantity-card" [style]="{'background-color': '#4CAF50'}">
+          <p-card class="quantity-card" [style]="{'background-color': 'var(--sucess)' , height: '180px'}">
             <ng-template pTemplate="title">
               <div class="card-header">
                 <i class="pi pi-money-bill"></i>
@@ -52,12 +52,12 @@
               </div>
             </ng-template>
             <ng-template pTemplate="subtitle">
-              R$ {{totalPrice}}
+              <p class="subtitle">{{formartValor(totalPrice)}}</p>
             </ng-template>
           </p-card>
         </div>
         <div class="p-col-12 p-md-3">
-          <p-card class="quantity-card" [style]="{'background-color': '#36A2EB'}">
+          <p-card class="quantity-card" [style]="{'background-color': 'var(--yellow)', height: '180px'}">
             <ng-template pTemplate="title">
               <div class="card-header">
                 <i class="pi pi-chart-line"></i>
@@ -65,7 +65,7 @@
               </div>
             </ng-template>
             <ng-template pTemplate="subtitle">
-              R$ 20K
+              <p class="subtitle">{{formartValor(400)}}</p> 
             </ng-template>
           </p-card>
         </div>

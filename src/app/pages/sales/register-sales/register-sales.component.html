@@ -61,7 +61,7 @@
             
             <div class="form-field">
                 <label for="quantity" class="font-semibold">Quantity</label>
-                <input pInputText id="quantity" formControlName="quantity"  autocomplete="off" />
+                <input pInputText id="quantity" type="number" formControlName="quantity"  autocomplete="off" />
             </div>
 
             <div class="form-field">
@@ -72,8 +72,8 @@
             </div>
 
             <div class="form-field">
-                <label for="price" class="font-semibold">Price</label>
-                <input pInputText id="price" formControlName="price" autocomplete="off" />
+                <label for="price" class="font-semibold">Price (R$)</label>
+                <input pInputText id="price" formControlName="price" type="number" step="0.01" min="0" autocomplete="off" />
             </div>       
         </div>
         
@@ -102,7 +102,7 @@
             Date Sale <p-sortIcon field="data-sale"></p-sortIcon>
           </th>
           <th pSortableColumn="name">
-            Name <p-sortIcon field="name"></p-sortIcon>
+            Product Name <p-sortIcon field="name"></p-sortIcon>
           </th>
           <th pSortableColumn="details" style="min-width:10rem">
             Details <p-sortIcon field="details"></p-sortIcon>
@@ -137,14 +137,13 @@
             {{ sale.quantity }}
           </td>
           <td>
-            {{ sale.price }}
+            {{ handlers.formartValor(sale.price) }}
           </td>
           <td>
-            {{ sale.dataCreate  | date: 'dd/MM/yyyy' }}
+            {{ sale.dateCreate  | date: 'dd/MM/yyyy' }}
           </td>
           <td>
-            <p-tag [value]="sale.pay ? 'PAGO' : 'PENDENTE'">
-          </p-tag>
+            <p-tag [value]="sale.pay ? 'PAGO' : 'PENDENTE'" [severity]="sale.pay ? 'success' : 'danger'"></p-tag>
           </td>
           <td>
             <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"

@@ -10,4 +10,5 @@ import { HeaderComponent } from './pages/shared/components/header/header.compone
 })
 export class AppComponent {
   title = 'sales management';
+
 }
