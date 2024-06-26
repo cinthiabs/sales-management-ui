@@ -31,7 +31,13 @@ export class HeaderComponent {
         label: 'Products',
         items: [
           { label: 'Register Product', icon: 'pi pi-file-plus', route: '/register-products' },
-          { label: 'Edit Product', icon: 'pi pi-file-edit', route: '/' },
+          { label: 'Others', icon: 'pi pi-fw pi-bell', route: '/' }
+        ]
+      },
+      {
+        label: 'Costs',
+        items: [
+          { label: 'Register Costs', icon: 'pi pi-file-plus', route: '/register-costs' },
           { label: 'Others', icon: 'pi pi-fw pi-bell', route: '/' }
         ]
       },
@@ -40,7 +46,7 @@ export class HeaderComponent {
         items: [
           { label: 'Sales', icon: 'pi pi-align-justify', route: '/report-sales' },
           { label: 'Products', icon: 'pi pi-align-justify', route: '/report-products' },
-          { label: 'Others', icon: 'pi pi-align-justify', route: '/' }
+          { label: 'Costs', icon: 'pi pi-align-justify', route: '/report-costs' }
         ]
       }
     ];
