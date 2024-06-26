@@ -14,10 +14,14 @@
   .bottom-section {
     margin-bottom: 20px;
   }
+  .middle-section {
+    width: 100%;
+  }
   
   .p-grid {
     display: flex;
     justify-content: space-between;
+    box-shadow:inset;
   }
   
   .p-col-12 {

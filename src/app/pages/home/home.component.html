@@ -18,7 +18,7 @@
     <div class="top-section">
       <div class="p-grid">
         <div class="p-col-12 p-md-3">
-          <p-card class="quantity-card" [style]="{'background-color': 'var(--default)', height: '180px'}">
+          <p-card class="quantity-card" [style]="{'background-color': 'var(--default)', height: '160px'}">
             <ng-template pTemplate="title">
               <div class="card-header">
                 <i class="pi pi-plus-circle"></i>
@@ -31,7 +31,7 @@
           </p-card>
         </div>
         <div class="p-col-12 p-md-3">
-          <p-card class="quantity-card" [style]="{'background-color': 'var(--danger)' , height: '180px'}">
+          <p-card class="quantity-card" [style]="{'background-color': 'var(--danger)' , height: '160px'}">
             <ng-template pTemplate="title">
               <div class="card-header">
                 <i class="pi pi-shopping-cart"></i>
@@ -44,7 +44,7 @@
           </p-card>
         </div>
         <div class="p-col-12 p-md-3">
-          <p-card class="quantity-card" [style]="{'background-color': 'var(--sucess)' , height: '180px'}">
+          <p-card class="quantity-card" [style]="{'background-color': 'var(--sucess)' , height: '160px'}">
             <ng-template pTemplate="title">
               <div class="card-header">
                 <i class="pi pi-money-bill"></i>
@@ -57,7 +57,7 @@
           </p-card>
         </div>
         <div class="p-col-12 p-md-3">
-          <p-card class="quantity-card" [style]="{'background-color': 'var(--yellow)', height: '180px'}">
+          <p-card class="quantity-card" [style]="{'background-color': 'var(--yellow)', height: '160px'}">
             <ng-template pTemplate="title">
               <div class="card-header">
                 <i class="pi pi-chart-line"></i>
@@ -79,7 +79,7 @@
               Sales
             </ng-template>
             <ng-template pTemplate="content">
-                <p-chart type="bar" [data]="" [options]="" />
+                <p-chart type="bar" [data]="basicData" [options]="basicOptions" ></p-chart>
             </ng-template>
           </p-card>
         </div>
@@ -89,7 +89,7 @@
               Graphic
             </ng-template>
             <ng-template pTemplate="content">
-                <p-chart type="bar" [data]="" [options]="" />
+              <p-chart type="line" [data]="basicData" [options]="basicOptions"></p-chart>
             </ng-template>
           </p-card>
         </div>
@@ -98,14 +98,31 @@
     <div class="bottom-section">
       <div class="p-grid">
         <div class="p-col-12">
-            <p-card class="large-chart-card">
-            <ng-template pTemplate="title">
-              Graphic
+          <p-card class="chart-card">
+            <p-table
+            [value]="relQuantitySale"
+            styleClass="p-datatable-striped" 
+            [paginator]="true"
+            [rows]="5"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            [rowsPerPageOptions]="[5, 10, 20]"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:25%">Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
             </ng-template>
-            <ng-template pTemplate="content">
-                <p-chart type="line" [data]="" [options]="" />
+            <ng-template pTemplate="body" let-relQuantitySale>
+                <tr>
+                    <td>{{relQuantitySale.name}}</td>
+                    <td>{{relQuantitySale.quantity}}</td>
+                    <td>{{formartValor(relQuantitySale.price)}}</td>
+                </tr>
             </ng-template>
-            </p-card>
+            </p-table>
+          </p-card>
         </div>
       </div>
     </div>

@@ -5,12 +5,13 @@ import { CalendarModule } from 'primeng/calendar';
 import { startOfMonth, endOfMonth } from 'date-fns';
 import { FormGroup, FormsModule } from '@angular/forms';
 import { SalesService } from '../../services/sales/sales.service';
-import { RelQuantitySale } from '../../models/sales/sale';
+import { RelQuantitySale, Sale } from '../../models/sales/sale';
+import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ChartModule,CardModule,CalendarModule, FormsModule],
+  imports: [ChartModule,CardModule,CalendarModule, FormsModule,TableModule],
   providers:[],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -23,6 +24,9 @@ export class HomeComponent implements OnInit {
  totalPrice: number = 0;
  totalQuantity: number = 0;
  relQuantitySale: RelQuantitySale[] = [];
+ basicData: any; 
+ basicOptions: any;
+
 
  constructor(
   private salesService: SalesService
@@ -40,8 +44,8 @@ export class HomeComponent implements OnInit {
        this.relQuantitySale = response.flat()
        this.totalPrice = this.relQuantitySale.reduce((acc, current) => acc + current.price, 0);
        this.totalQuantity = this.relQuantitySale.reduce((acc, current) => acc + current.quantity, 0);
-       console.log(this.totalPrice)
-       console.log(this.totalQuantity)
+
+       this.transformDataForChart(this.relQuantitySale);
       }
     })
   }
@@ -60,7 +64,7 @@ export class HomeComponent implements OnInit {
     };
   }
 
-  formartValor(valor: number): string {
+  formartValor(valor: number) {
     const formatter = new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL'
@@ -68,4 +72,29 @@ export class HomeComponent implements OnInit {
 
     return formatter.format(valor).replace('.', '|').replace('.', ',').replace('|', '.');
   }
+
+  transformDataForChart(data: any[]): void {
+    const labels = data.map(item => item.name);
+    const quantities = data.map(item => item.quantity);
+    const prices = data.map(item => item.price);
+
+    this.basicData = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Quantity',
+          backgroundColor: '#42A5F5',
+          borderColor: '#d7ecfb',
+          data: quantities
+        }
+      ]
+    };
+
+    this.basicOptions = {
+      responsive: true,
+      maintainAspectRatio: false
+    };
+  }
+
 }
+
