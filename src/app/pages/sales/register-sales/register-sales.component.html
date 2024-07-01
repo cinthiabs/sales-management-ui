@@ -85,7 +85,7 @@
     </p-dialog>
 
     <p-table #dt [value]="sales" [rows]="10" [paginator]="true"
-      [globalFilterFields]="['name', 'dataSale', 'details', 'status','quantity','price', 'dataCreate', 'pay']"
+      [globalFilterFields]="['name', 'dateSale', 'details', 'status','quantity','price', 'dateCreate', 'pay']"
       [tableStyle]="{ 'min-width': '75rem' }" 
       [(selection)]="selectedSales" 
       [rowHover]="true" 
@@ -97,8 +97,8 @@
       [showCurrentPageReport]="true">
       <ng-template pTemplate="header">
         <tr>
-          <th pSortableColumn="data-sale">
-            Date Sale <p-sortIcon field="data-sale"></p-sortIcon>
+          <th pSortableColumn="dateSale">
+            Date Sale <p-sortIcon field="dateSale"></p-sortIcon>
           </th>
           <th pSortableColumn="name">
             Product Name <p-sortIcon field="name"></p-sortIcon>
@@ -112,8 +112,8 @@
           <th pSortableColumn="price">
             Price <p-sortIcon field="price"></p-sortIcon>
           </th>
-          <th pSortableColumn="data-create">
-            Data Create <p-sortIcon field="data-create"></p-sortIcon>
+          <th pSortableColumn="dateCreate">
+            Data Create <p-sortIcon field="dateCreate"></p-sortIcon>
           </th>
           <th pSortableColumn="pay" style="min-width:1rem">
             Pay <p-sortIcon field="pay"></p-sortIcon>

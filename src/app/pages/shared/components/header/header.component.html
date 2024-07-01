@@ -25,6 +25,16 @@
       </a>
     </ng-container>
   </ng-template>
+  <ng-template pTemplate="end">
+    <ul class="p-menubar-end">
+      <li *ngFor="let item of userMenu">
+        <a [routerLink]="[item.route]" class="p-menuitem-link">
+          <span [class]="item.icon"></span>
+          <span class="ml-2">{{ item.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </ng-template>
 </p-menubar>
 
   

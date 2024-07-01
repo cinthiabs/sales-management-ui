@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
-
-
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -13,6 +11,8 @@ import { MenubarModule } from 'primeng/menubar';
 })
 export class HeaderComponent {
   items: any[] = []; 
+  userMenu: any[] = [];
+
    constructor(private route: ActivatedRoute) {}
 
    ngOnInit() {
@@ -24,21 +24,21 @@ export class HeaderComponent {
         label: 'Sales',
         items: [
           { label: 'Register Sale', icon: 'pi pi-file-plus', route: '/register-sales' },
-          { label: 'Edit Regiter', icon: 'pi pi-file-edit', route: '/' }
+          { label: 'Others', icon: 'pi pi-fw pi-bell', route: '/home' }
         ]
       },
       {
         label: 'Products',
         items: [
           { label: 'Register Product', icon: 'pi pi-file-plus', route: '/register-products' },
-          { label: 'Others', icon: 'pi pi-fw pi-bell', route: '/' }
+          { label: 'Others', icon: 'pi pi-fw pi-bell', route: '/home' }
         ]
       },
       {
         label: 'Costs',
         items: [
           { label: 'Register Costs', icon: 'pi pi-file-plus', route: '/register-costs' },
-          { label: 'Others', icon: 'pi pi-fw pi-bell', route: '/' }
+          { label: 'Others', icon: 'pi pi-fw pi-bell', route: '/home' }
         ]
       },
       {
@@ -49,6 +49,10 @@ export class HeaderComponent {
           { label: 'Costs', icon: 'pi pi-align-justify', route: '/report-costs' }
         ]
       }
+    ];
+
+    this.userMenu = [
+      { label: '', icon: 'pi pi-user',route: '/profile'}
     ];
   }
 
