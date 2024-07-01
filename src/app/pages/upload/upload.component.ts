@@ -1,46 +1,44 @@
-import { Component,OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation} from '@angular/core';
 import { FileSelectEvent, FileUpload, FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { SalesService } from '../../../services/sales/sales.service';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
-import { NotificationService } from '../../../services/shared/messages/notification.service';
 import { MessageService } from 'primeng/api';
+import { NotificationService } from '../../services/shared/messages/notification.service';
+import { UploadService } from '../../services/upload/sales.service';
 
 @Component({
-  selector: 'app-import-excel-sales',
+  selector: 'app-upload',
   standalone: true,
   imports: [
     FileUploadModule, 
     ProgressSpinnerModule,
     ToastModule,
     CommonModule],
-  templateUrl: './import-excel-sales.component.html',
-  styleUrl: './import-excel-sales.component.scss',
+  templateUrl: './upload.component.html',
+  styleUrl: './upload.component.scss',
   providers: [MessageService, NotificationService],
   encapsulation: ViewEncapsulation.None,
 })
-export class ImportExcelSalesComponent implements OnInit {
+export class UploadComponent {
   @ViewChild(FileUpload) fileUpload!: FileUpload; 
   loadingUpload = false;
   returnMessage = '';
 
-  constructor(private salesService: SalesService,
+  constructor(private upload: UploadService,
     private titleService: Title,
     private notificationService: NotificationService
   ){
-    this.titleService.setTitle('Import Excel');
+    this.titleService.setTitle('Upload File');
   }
-  ngOnInit() {
-    
-  }
+
 
   onSelect(event: FileSelectEvent) {
     this.loadingUpload = true;
     const uploadFile = event.files && event.files.length > 0 ? event.files[0] : null;
     if (uploadFile) {
-      this.salesService.postUploadExcel(uploadFile).subscribe({
+      this.upload.postUploadExcel(uploadFile).subscribe({
         next: (response: any) => {
           if (response) {
             this.notificationService.showSuccessToast('Data imported successfully!')

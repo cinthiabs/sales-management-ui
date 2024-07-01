@@ -19,10 +19,10 @@ export class HeaderComponent {
 
     this.items = [
       { label: 'Home', icon: 'pi pi-home', route: '/' },
+      { label: 'Upload', icon: 'pi pi-file-excel', route: '/upload' },
       {
         label: 'Sales',
         items: [
-          { label: 'Import Excel', icon: 'pi pi-file-excel', route: '/import-excel-sales' },
           { label: 'Register Sale', icon: 'pi pi-file-plus', route: '/register-sales' },
           { label: 'Edit Regiter', icon: 'pi pi-file-edit', route: '/' }
         ]
