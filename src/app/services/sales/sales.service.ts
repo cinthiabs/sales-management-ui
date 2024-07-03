@@ -10,11 +10,6 @@ export class SalesService {
 
   constructor(private http: HttpClient) { }
 
-  postUploadExcel(file: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', file);
-    return this.http.post<any>('/UploadExcel', formData);
-  }
   getAllSales():Observable<Sale[]>{
     return this.http.get<Sale[]>('/GetAllSales');
   }

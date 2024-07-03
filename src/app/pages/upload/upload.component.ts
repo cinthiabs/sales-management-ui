@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { NotificationService } from '../../services/shared/messages/notification.service';
-import { UploadService } from '../../services/upload/sales.service';
+import { UploadService } from '../../services/upload/upload.service';
 
 @Component({
   selector: 'app-upload',

@@ -3,14 +3,9 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class RegisterHandlers {
+export class RegisterCostHandlers {
   visibleCreate: boolean = false;
   headerDialog = '';
-
-  situation = [
-    {name: 'Pago', value: true},
-    {name: 'Pendente', value: false}
-  ]
 
   handleInsertDialog() {
     this.visibleCreate = true;
