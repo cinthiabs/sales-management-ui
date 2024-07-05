@@ -1,0 +1,67 @@
+<p-sidebar
+  [style]="{
+    background: '#ffff',
+    'background-color': '#0000',
+    'border-top-right-radius': '8px',
+    'border-bottom-right-radius': '8px',
+    padding: '2% 0%',
+    width: '15%'
+  }"
+  [showCloseIcon]="false"
+  [(visible)]="sidebarVisible"
+>
+  <header>
+    <div>
+      <i class="pi pi-bars icon" (click)="sidebarVisible = !sidebarVisible"></i>
+    </div>
+    <div class="title-line-box">
+      <div class="title-div">
+        <p class="header-title">Sales Management</p>
+      </div>
+      <div class="line-div">
+        <hr />
+      </div>
+    </div>
+  </header>
+  <div class="p-sidebar-content">
+    <a
+      routerLinkActive="a-active"
+      routerLink="/"
+      class="navigate-option"
+    >
+      <i class="pi pi-wallet"></i>
+      <p>Cobrança</p>
+      <div></div>
+    </a>
+    <a
+      routerLinkActive="a-active"
+      routerLink="/"
+      class="navigate-option"
+    >
+      <i class="pi pi-th-large"></i>
+      <p>Aglutinação</p>
+      <div></div>
+    </a>
+  </div>
+</p-sidebar>
+<aside class="closed-side-bar-container">
+  <i class="pi pi-bars icon" (click)="sidebarVisible = !sidebarVisible"></i>
+
+  <div class="screens-box">
+    <a
+      class="closed-navigation-option"
+      routerLinkActive="closed-navigation-active"
+      routerLink="/"
+    >
+      <i class="pi pi-wallet"></i>
+    </a>
+    <a
+      class="closed-navigation-option"
+      routerLinkActive="closed-navigation-active"
+      routerLink="/"
+    >
+      <i class="pi pi-th-large"></i>
+    </a>
+  </div>
+</aside>
+
