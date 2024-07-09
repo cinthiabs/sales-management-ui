@@ -32,8 +32,7 @@ export class UploadComponent {
   ){
     this.titleService.setTitle('Upload File');
   }
-
-
+  
   onSelect(event: FileSelectEvent) {
     this.loadingUpload = true;
     const uploadFile = event.files && event.files.length > 0 ? event.files[0] : null;

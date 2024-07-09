@@ -142,7 +142,7 @@ export class RegisterSalesComponent implements OnInit {
       pay: form.get('paySelect')?.value.value, 
       price: form.get('price')?.value
     };
-    this.salesService.updateSale(this.sale).subscribe({
+    this.salesService.updateSale(this.sale, this.saleId).subscribe({
       next:() => {
         this.notificationService.showSuccessToast('Sale successfully updated!')
         this.handlers.visibleCreate = false;
@@ -168,6 +168,10 @@ export class RegisterSalesComponent implements OnInit {
   }
 
   saveNewSale(form: FormGroup){
+    if (form.invalid) {
+      this.notificationService.showErrorToast('Please fill in all required fields.');
+      return;
+    }
     this.loadingButton = true;
     this.sale = {
       name: form.get('nameProduct')?.value,

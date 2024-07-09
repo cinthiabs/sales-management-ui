@@ -19,8 +19,8 @@ export class SalesService {
   postCreateSale(sale: Sale):Observable<any>{
     return this.http.post<any>('/CreateSale/', sale);
   }
-  updateSale(sale: Sale):Observable<any>{
-    return this.http.put<any>('/UpdateSale/', sale);
+  updateSale(sale: Sale, id: number):Observable<any>{
+    return this.http.put<any>(`/UpdateSale/${id}`, sale);
   }
   deleteSale(id: number):Observable<any>{
     return this.http.delete<any>(`/DeleteSale/${id}`);
