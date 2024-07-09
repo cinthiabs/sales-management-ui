@@ -36,12 +36,12 @@
 
           <div class="form-grid">
             <div class="form-field">
-              <label for="username" class="font-semibold">Product Name</label>
+              <label for="username" class="font-semibold">Product Name<span class="required">*</span></label>
               <input pInputText  formControlName="name" id="username" autocomplete="off" />
           </div>
 
             <div class="form-field">
-              <label for="username" class="font-semibold">Date Cost</label>
+              <label for="username" class="font-semibold">Date Cost<span class="required">*</span></label>
               <p-calendar 
               [iconDisplay]="'input'" 
               [showIcon]="true" 
@@ -54,7 +54,7 @@
           </div>
 
             <div class="form-field">
-                <label for="quantity" class="font-semibold">Quantity</label>
+                <label for="quantity" class="font-semibold">Quantity<span class="required">*</span></label>
                 <input pInputText formControlName="quantity" id="quantity" autocomplete="off" />
             </div>
             
@@ -64,7 +64,7 @@
                 <input pInputText id="unitPrice" formControlName="unitPrice" type="number" step="0.01" min="0" autocomplete="off" />
             </div>    
             <div class="form-field">
-                <label for="price" class="font-semibold">Total Price (R$)</label>
+                <label for="price" class="font-semibold">Total Price (R$)<span class="required">*</span></label>
                 <input pInputText id="price" formControlName="price" type="number" step="0.01" min="0" autocomplete="off" />
             </div>    
         </div>

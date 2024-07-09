@@ -162,6 +162,10 @@ export class RegisterCostsComponent {
   }
 
   saveNewCost(form: FormGroup){
+    if (form.invalid) {
+      this.notificationService.showErrorToast('Please fill in all required fields.');
+      return;
+    }
     this.loadingButton = true;
     this.cost = {
       name: form.get('name')?.value,
