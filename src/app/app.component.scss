@@ -3,3 +3,9 @@
     flex-direction: column;
     flex: 1;
 }
+::ng-deep .p-menuitem-content:hover, ::ng-deep .p-menuitem-content {
+	background: transparent !important;
+}
+::ng-deep .p-submenu-list .p-menuitem-link {
+	color: #2563eb !important;
+}
