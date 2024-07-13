@@ -136,7 +136,7 @@ export class RegisterCostsComponent {
       unitPrice: form.get('unitPrice')?.value,
       totalPrice: form.get('price')?.value
     };
-    this.costsService.updateCost(this.cost).subscribe({
+    this.costsService.updateCost(this.cost, this.costId).subscribe({
       next:() => {
         this.notificationService.showSuccessToast('Cost successfully updated!')
         this.handlers.visibleCreate = false;

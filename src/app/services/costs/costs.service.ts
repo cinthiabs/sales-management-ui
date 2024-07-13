@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Cost } from '../../models/costs/costs';
+import { Cost, RelCostPrice } from '../../models/costs/costs';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -16,13 +16,17 @@ export class CostsService {
   getByIdCost(id: number):Observable<Cost>{
     return this.http.get<Cost>(`/GetByIdCost/${id}`);
   }
-  postCreateCost(sale: Cost):Observable<any>{
-    return this.http.post<any>('/CreateCost/', sale);
+  postCreateCost(cost: Cost):Observable<any>{
+    return this.http.post<any>('/CreateCost/', cost);
   }
-  updateCost(sale: Cost):Observable<any>{
-    return this.http.put<any>('/UpdateCost/', sale);
+  updateCost(cost: Cost, id:number):Observable<any>{
+    return this.http.put<any>(`/UpdateCost/${id}`, cost);
   }
   deleteCost(id: number):Observable<any>{
     return this.http.delete<any>(`/DeleteCost/${id}`);
   }
+  getRelCostPrice(dateIni: string, dateEnd: string): Observable<RelCostPrice[]>{
+    return this.http.get<RelCostPrice[]>(`/GetRelCostPrice?dateIni=${dateIni}&dateEnd=${dateEnd}`);
+  }
+
 }

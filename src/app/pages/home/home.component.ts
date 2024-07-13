@@ -5,8 +5,10 @@ import { CalendarModule } from 'primeng/calendar';
 import { startOfMonth, endOfMonth } from 'date-fns';
 import { FormGroup, FormsModule } from '@angular/forms';
 import { SalesService } from '../../services/sales/sales.service';
-import { RelQuantitySale, Sale } from '../../models/sales/sale';
+import { RelQuantitySale } from '../../models/sales/sale';
 import { TableModule } from 'primeng/table';
+import { CostsService } from '../../services/costs/costs.service';
+import { RelCostPrice } from '../../models/costs/costs';
 
 @Component({
   selector: 'app-home',
@@ -21,37 +23,52 @@ export class HomeComponent implements OnInit {
  selectedNewDate?: Date[];
  datePickerOptions: any;
  filterForm!: FormGroup;
+ price: number = 0;
  totalPrice: number = 0;
  totalQuantity: number = 0;
  relQuantitySale: RelQuantitySale[] = [];
+ relCostPrice: RelCostPrice[] = [];
  basicData: any; 
  basicOptions: any;
 
 
  constructor(
-  private salesService: SalesService
+  private salesService: SalesService,
+  private costService: CostsService
  ) {}
 
   ngOnInit() {
     this.setDate()
-    this.getRelQuantity()
+    this.getRel()
   }
-  getRelQuantity(){
+  getRel(){
     const startDate = this.selectedDate ? new Date(this.selectedDate[0]).toISOString().split('T')[0] : '';
     const endDate = this.selectedDate ? new Date(this.selectedDate[1]).toISOString().split('T')[0] : '';
+    this.getRelQuantity(startDate,endDate);
+    this.getRelCostPrice(startDate,endDate)
+  }
+  getRelQuantity(startDate: string, endDate: string){
     this.salesService.getRelQuantity(startDate,endDate).subscribe({
       next:(response) => {
        this.relQuantitySale = response.flat()
-       this.totalPrice = this.relQuantitySale.reduce((acc, current) => acc + current.price, 0);
+       this.price = this.relQuantitySale.reduce((acc, current) => acc + current.price, 0);
        this.totalQuantity = this.relQuantitySale.reduce((acc, current) => acc + current.quantity, 0);
-
        this.transformDataForChart(this.relQuantitySale);
       }
     })
   }
+  getRelCostPrice(startDate: string, endDate: string){
+    this.costService.getRelCostPrice(startDate,endDate).subscribe({
+      next:(response) => {
+       this.relCostPrice = response.flat()
+       this.totalPrice = this.relCostPrice.reduce((acc, current) => acc + current.totalPrice, 0);
+      }
+      
+    })
+  }
   onDateSelect(event: any) {
     if(this.selectedDate && this.selectedDate[1] !== undefined && this.selectedDate[1] !== null){
-      this.getRelQuantity()
+      this.getRel()
     }
   }
   setDate(){

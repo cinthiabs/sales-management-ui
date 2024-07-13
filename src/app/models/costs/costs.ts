@@ -8,3 +8,7 @@ export interface Cost {
     dateCreate?:string | null,
     dateEdit?:string | null
 }
+export interface RelCostPrice {
+    name: string,
+    totalPrice: number
+}
