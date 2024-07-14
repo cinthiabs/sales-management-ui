@@ -16,7 +16,7 @@ export class RegisterHandlers {
     this.visibleCreate = true;
   }
 
-  formartValor(valor: number): string {
+  formartValor(valor: number) {
     const formatter = new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL'

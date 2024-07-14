@@ -1,12 +1,191 @@
-import { Component } from '@angular/core';
-import { TableModule } from 'primeng/table';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
+import { Table, TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { RatingModule } from 'primeng/rating';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormBuilder, FormGroup, FormsModule , ReactiveFormsModule, Validators} from '@angular/forms';
+import { CalendarModule } from 'primeng/calendar';
+import { CommonModule } from '@angular/common';
+import { MessageService } from 'primeng/api';
+import { NotificationService } from '../../../services/shared/messages/notification.service';
+import { Title } from '@angular/platform-browser';
+import { Product } from '../../../models/products/products';
+import { RegisterProductHandlers } from './register-product-handlers';
+import { ProductsService } from '../../../services/products/products.service';
 @Component({
   selector: 'app-register-products',
   standalone: true,
-  imports: [TableModule],
+  imports: [ButtonModule,
+    TableModule,
+    TagModule,
+    ToastModule, 
+    RatingModule, 
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    ToolbarModule,
+    DialogModule,
+    ConfirmDialogModule,
+    DropdownModule,
+    CalendarModule,
+    InputTextModule],
   templateUrl: './register-products.component.html',
-  styleUrl: './register-products.component.scss'
+  styleUrl: './register-products.component.scss',
+  providers: [MessageService, NotificationService],
+  encapsulation: ViewEncapsulation.None,
 })
 export class RegisterProductsComponent {
+  @ViewChild('dt') dataTable!: Table;
+  products: Product[] = [];
+  selectedProducts: any = [];
+  loadingTable = false;
+  loadingButton = false;
+  messageTable = 'No data found';
+  isEditMode: boolean = false;
+  product!: Product;
+  productId: number = 0;
 
+  createForm: FormGroup = this.fb.group({
+    name: ['', Validators.required],
+    details: [''],
+    active: ['',Validators.required],
+    price: ['',Validators.required]
+  })
+  constructor(
+    private fb: FormBuilder,
+    private titleService: Title,
+    private notificationService: NotificationService,
+    public handlers: RegisterProductHandlers,
+    private productService: ProductsService
+  ){
+    this.titleService.setTitle('Register Product')
+  }
+
+  ngOnInit() {
+    this.getAllProducts()
+  }
+
+  filterGlobal(event: any){
+    const filterValue = event.target.value.trim().toLowerCase();
+    this.dataTable.filterGlobal(filterValue, 'contains');
+  }
+
+  getAllProducts(){
+    this.productService.getAllProducts().subscribe({
+      next:(response) => {
+        this.products = response.flat()
+      },
+      error: () => {
+        this.messageTable = 'No data found';
+      }
+    })
+  }
+  deleteProduct(id: number) { 
+    this.loadingTable = true;
+    this.productService.deleteProduct(id).subscribe({
+      next:() => {
+          this.notificationService.showSuccessToast('Cost successfully deleted!')
+          this.loadingTable = false;
+          this.getAllProducts()
+      },
+      error: (error) => {
+        const errorMessage = error?.error ?? 'An error has occurred during the operation.';
+        this.notificationService.showErrorToast(errorMessage)
+        this.loadingTable = false;
+      }
+      
+    })
+  }
+  dialogEdit(product: Product){
+    this.isEditMode = true;
+    this.handlers.headerDialog = 'Edit Cost'
+    this.handlers.handleInsertDialog()
+    if(!!product.id){
+      this.productId = product.id
+    }
+    const activeValue = this.handlers.active.find(s => s.value === product.active);
+    this.createForm.patchValue({
+      name: product.name,
+      details: product.details,
+      active: activeValue,
+      price: product.price,
+    });
+  }
+  editProduct(form: FormGroup) { 
+    this.loadingButton = true;
+    this.product = {
+      id: this.productId,
+      name: form.get('name')?.value,
+      details: form.get('details')?.value,
+      active: form.get('active')?.value,
+      price: form.get('price')?.value
+    };
+    this.productService.updateProduct(this.product, this.productId).subscribe({
+      next:() => {
+        this.notificationService.showSuccessToast('Product successfully updated!')
+        this.handlers.visibleCreate = false;
+        this.loadingButton = false;
+        this.getAllProducts()
+      },
+      error: (error) => {
+        const errorMessage = error?.error ?? 'An error has occurred during the operation.';
+        this.notificationService.showErrorToast(errorMessage)
+        this.loadingButton = false;
+      }
+    })
+  }
+
+  CreateOrEdit(form: FormGroup) {
+    if (this.isEditMode) {
+      this.editProduct(form);
+    } else {
+      this.saveNewProduct(form);
+    }
+  }
+  saveNewProduct(form: FormGroup){
+    if (form.invalid) {
+      this.notificationService.showErrorToast('Please fill in all required fields.');
+      return;
+    }
+    this.loadingButton = true;
+    this.product = {
+      id: this.productId,
+      name: form.get('name')?.value,
+      details: form.get('details')?.value,
+      active: form.get('active')?.value,
+      price: form.get('price')?.value
+    };
+    this.productService.postCreateProduct(this.product).subscribe({
+      next:() => {
+        this.notificationService.showSuccessToast('Product created successfully!')
+        this.handlers.visibleCreate = false;
+        this.loadingButton = false;
+        this.getAllProducts()
+      },
+      error: (error) => {
+        const errorMessage = error?.error ?? 'An error has occurred during the operation.';
+        this.notificationService.showErrorToast(errorMessage)
+        this.loadingButton = false;
+        this.getAllProducts()
+      }
+    })
+  }
+
+  cancel(){
+    this.handlers.visibleCreate = false;
+  }
+
+  openCreate() {
+    this.isEditMode = false;
+    this.handlers.headerDialog = 'Create Product'
+    this.createForm.reset();
+    this.handlers.handleInsertDialog()
+  }
 }
+
