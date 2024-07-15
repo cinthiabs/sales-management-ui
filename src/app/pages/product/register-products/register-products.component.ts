@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -12,12 +12,14 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormBuilder, FormGroup, FormsModule , ReactiveFormsModule, Validators} from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { CommonModule } from '@angular/common';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { NotificationService } from '../../../services/shared/messages/notification.service';
 import { Title } from '@angular/platform-browser';
 import { Product } from '../../../models/products/products';
 import { RegisterProductHandlers } from './register-product-handlers';
 import { ProductsService } from '../../../services/products/products.service';
+import { InputNumberModule } from 'primeng/inputnumber';
+
 @Component({
   selector: 'app-register-products',
   standalone: true,
@@ -34,13 +36,14 @@ import { ProductsService } from '../../../services/products/products.service';
     ConfirmDialogModule,
     DropdownModule,
     CalendarModule,
+    InputNumberModule,
     InputTextModule],
   templateUrl: './register-products.component.html',
   styleUrl: './register-products.component.scss',
-  providers: [MessageService, NotificationService],
+  providers: [MessageService, NotificationService, ConfirmationService],
   encapsulation: ViewEncapsulation.None,
 })
-export class RegisterProductsComponent {
+export class RegisterProductsComponent implements OnInit {
   @ViewChild('dt') dataTable!: Table;
   products: Product[] = [];
   selectedProducts: any = [];
@@ -65,6 +68,7 @@ export class RegisterProductsComponent {
     private titleService: Title,
     private notificationService: NotificationService,
     public handlers: RegisterProductHandlers,
+    private confirmationService: ConfirmationService,
     private productService: ProductsService
   ){
     this.titleService.setTitle('Register Product')
@@ -89,22 +93,30 @@ export class RegisterProductsComponent {
       }
     })
   }
-  deleteProduct(id: number) { 
-    this.loadingTable = true;
-    this.productService.deleteProduct(id).subscribe({
-      next:() => {
-          this.notificationService.showSuccessToast('Cost successfully deleted!')
-          this.loadingTable = false;
-          this.getAllProducts()
-      },
-      error: (error) => {
-        const errorMessage = error?.error ?? 'An error has occurred during the operation.';
-        this.notificationService.showErrorToast(errorMessage)
-        this.loadingTable = false;
+  
+  deleteProduct(id: number) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this product?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.loadingTable = true;
+        this.productService.deleteProduct(id).subscribe({
+          next: () => {
+            this.notificationService.showSuccessToast('Product successfully deleted!');
+            this.loadingTable = false;
+            this.getAllProducts();
+          },
+          error: (error) => {
+            const errorMessage = error?.error?.message ?? 'An error has occurred during the operation.';
+            this.notificationService.showErrorToast(errorMessage);
+            this.loadingTable = false;
+          }
+        });
       }
-      
-    })
+    });
   }
+
   dialogEdit(product: Product){
     this.isEditMode = true;
     this.isViewing = false;
