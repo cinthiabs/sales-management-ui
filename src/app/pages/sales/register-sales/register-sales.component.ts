@@ -12,11 +12,11 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormGroup, FormBuilder, FormsModule , ReactiveFormsModule, Validators} from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
-
+import { InputNumberModule } from 'primeng/inputnumber';
 import { Sale } from '../../../models/sales/sale';
 import { CommonModule } from '@angular/common';
 import { SalesService } from '../../../services/sales/sales.service';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { RegisterHandlers } from './register-handlers';
 import { Title } from '@angular/platform-browser';
 import { NotificationService } from '../../../services/shared/messages/notification.service';
@@ -36,11 +36,12 @@ import { NotificationService } from '../../../services/shared/messages/notificat
     DialogModule,
     ConfirmDialogModule,
     DropdownModule,
+    InputNumberModule,
     CalendarModule,
     InputTextModule],
   templateUrl: './register-sales.component.html',
   styleUrl: './register-sales.component.scss',
-  providers: [MessageService, NotificationService],
+  providers: [MessageService, NotificationService, ConfirmationService],
   encapsulation: ViewEncapsulation.None,
 })
 export class RegisterSalesComponent implements OnInit {
@@ -69,6 +70,7 @@ export class RegisterSalesComponent implements OnInit {
     private salesService: SalesService,
     public handlers: RegisterHandlers,
     private titleService: Title,
+    private confirmationService: ConfirmationService,
     private notificationService: NotificationService
   ){
     this.titleService.setTitle('Register Sales');
@@ -95,20 +97,26 @@ export class RegisterSalesComponent implements OnInit {
   }
 
   deleteSale(id: number) { 
-    this.loadingTable = true;
-    this.salesService.deleteSale(id).subscribe({
-      next:() => {
-          this.notificationService.showSuccessToast('Sale successfully deleted!')
-          this.loadingTable = false;
-          this.getallSale()
-      },
-      error: (error) => {
-        const errorMessage = error?.error ?? 'An error has occurred during the operation.';
-        this.notificationService.showErrorToast(errorMessage)
-        this.loadingTable = false;
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this sale?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.loadingTable = true;
+        this.salesService.deleteSale(id).subscribe({
+          next:() => {
+              this.notificationService.showSuccessToast('Sale successfully deleted!')
+              this.loadingTable = false;
+              this.getallSale()
+          },
+          error: (error) => {
+            const errorMessage = error?.error ?? 'An error has occurred during the operation.';
+            this.notificationService.showErrorToast(errorMessage)
+            this.loadingTable = false;
+          }  
+        })
       }
-      
-    })
+    });
   }
 
   dialogEdit(sale: Sale){

@@ -14,11 +14,12 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormBuilder, FormGroup, FormsModule , ReactiveFormsModule, Validators} from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { CommonModule } from '@angular/common';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { NotificationService } from '../../../services/shared/messages/notification.service';
 import { CostsService } from '../../../services/costs/costs.service';
 import { RegisterCostHandlers } from './register-cost-handlers';
 import { Title } from '@angular/platform-browser';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-register-costs',
@@ -35,12 +36,13 @@ import { Title } from '@angular/platform-browser';
     ToolbarModule,
     DialogModule,
     ConfirmDialogModule,
+    InputNumberModule,
     DropdownModule,
     CalendarModule,
     InputTextModule],
   templateUrl: './register-costs.component.html',
   styleUrl: './register-costs.component.scss',
-  providers: [MessageService, NotificationService],
+  providers: [MessageService, NotificationService, ConfirmationService],
   encapsulation: ViewEncapsulation.None,
 
 })
@@ -67,6 +69,7 @@ export class RegisterCostsComponent {
     private costsService: CostsService,
     public handlers: RegisterCostHandlers,
     private titleService: Title,
+    private confirmationService: ConfirmationService,
     private notificationService: NotificationService
   ){
     this.titleService.setTitle('Register Costs');
@@ -93,20 +96,26 @@ export class RegisterCostsComponent {
   }
 
   deleteCost(id: number) { 
-    this.loadingTable = true;
-    this.costsService.deleteCost(id).subscribe({
-      next:() => {
-          this.notificationService.showSuccessToast('Cost successfully deleted!')
-          this.loadingTable = false;
-          this.getallCosts()
-      },
-      error: (error) => {
-        const errorMessage = error?.error ?? 'An error has occurred during the operation.';
-        this.notificationService.showErrorToast(errorMessage)
-        this.loadingTable = false;
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this cost?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.loadingTable = true;
+        this.costsService.deleteCost(id).subscribe({
+          next:() => {
+              this.notificationService.showSuccessToast('Cost successfully deleted!')
+              this.loadingTable = false;
+              this.getallCosts()
+          },
+          error: (error) => {
+            const errorMessage = error?.error ?? 'An error has occurred during the operation.';
+            this.notificationService.showErrorToast(errorMessage)
+            this.loadingTable = false;
+          }
+        })
       }
-      
-    })
+    });
   }
 
   dialogEdit(cost: Cost){

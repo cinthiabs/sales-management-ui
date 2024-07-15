@@ -59,9 +59,9 @@
             </div>
             
             <div class="form-field">
-              <label for="quantity" class="font-semibold">Quantity <span class="required">*</span></label>
-                <input pInputText id="quantity" type="number" formControlName="quantity"  autocomplete="off" />
-            </div>
+              <label for="quantity" class="font-semibold">Quantity<span class="required">*</span></label>
+              <p-inputNumber formControlName="quantity" id="quantity" [style]="{ 'width': '100%' }" ></p-inputNumber>
+           </div>
 
             <div class="form-field">
               <label for="pay" class="font-semibold">Pay?</label>
@@ -72,14 +72,14 @@
 
             <div class="form-field">
               <label for="price" class="font-semibold">Price (R$) <span class="required">*</span></label>
-                <input pInputText id="price" formControlName="price" type="number" step="0.01" min="0" autocomplete="off" />
+              <p-inputNumber id="price" formControlName="price"  mode="currency" currency="BRL" locale="pt-BR"  [style]="{ 'width': '100%' }" ></p-inputNumber>
             </div>       
         </div>
         
           <div class="footer-dialog">
-              <p-button pRipple label="Cancel" severity="danger" (click)="cancel()"/>
               <p-button pRipple [label]="isEditMode ? 'Update' : 'Save'" severity="success" type="submit" [loading]="loadingButton" />
-          </div>
+              <p-button pRipple label="Cancel" severity="danger" (click)="cancel()"/>
+            </div>
       </form>    
 
     </p-dialog>
@@ -107,7 +107,7 @@
             Product Name <p-sortIcon field="name"></p-sortIcon>
           </th>
           <th pSortableColumn="details" style="min-width:10rem">
-            Details <p-sortIcon field="details"></p-sortIcon>
+            Details/Clients <p-sortIcon field="details"></p-sortIcon>
           </th>
           <th pSortableColumn="quantity">
             Quantity <p-sortIcon field="quantity"></p-sortIcon>
@@ -167,4 +167,5 @@
       </ng-template>
     </p-table>  
   </div>
+  <p-confirmDialog [style]="{ width: '450px' }" />
 </div>
