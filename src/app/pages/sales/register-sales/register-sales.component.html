@@ -100,6 +100,9 @@
           <th pSortableColumn="dateSale">
             Date Sale <p-sortIcon field="dateSale"></p-sortIcon>
           </th>
+          <th pSortableColumn="dateCreate">
+            Data Create <p-sortIcon field="dateCreate"></p-sortIcon>
+          </th>
           <th pSortableColumn="name">
             Product Name <p-sortIcon field="name"></p-sortIcon>
           </th>
@@ -111,9 +114,6 @@
           </th>
           <th pSortableColumn="price">
             Price <p-sortIcon field="price"></p-sortIcon>
-          </th>
-          <th pSortableColumn="dateCreate">
-            Data Create <p-sortIcon field="dateCreate"></p-sortIcon>
           </th>
           <th pSortableColumn="pay" style="min-width:1rem">
             Pay <p-sortIcon field="pay"></p-sortIcon>
@@ -127,6 +127,9 @@
             {{ sale.dateSale  | date: 'dd/MM/yyyy'  }}
           </td>
           <td>
+            {{ sale.dateCreate  | date: 'dd/MM/yyyy' }}
+          </td>
+          <td>
             {{ sale.name }}
           </td>
           <td>
@@ -137,9 +140,6 @@
           </td>
           <td>
             {{ handlers.formartValor(sale.price) }}
-          </td>
-          <td>
-            {{ sale.dateCreate  | date: 'dd/MM/yyyy' }}
           </td>
           <td>
             <p-tag [value]="sale.pay ? 'PAGO' : 'PENDENTE'" [severity]="sale.pay ? 'success' : 'danger'"></p-tag>

@@ -76,6 +76,9 @@
       [showCurrentPageReport]="true">
       <ng-template pTemplate="header">
         <tr>
+          <th pSortableColumn="dateCreate">
+            Date Create <p-sortIcon field="dateCreate"></p-sortIcon>
+          </th>
           <th pSortableColumn="name">
             Product Name <p-sortIcon field="name"></p-sortIcon>
           </th>
@@ -84,9 +87,6 @@
           </th>
           <th pSortableColumn="price">
             Price <p-sortIcon field="price"></p-sortIcon>
-          </th>
-          <th pSortableColumn="dateCreate">
-            Date Create <p-sortIcon field="dateCreate"></p-sortIcon>
           </th>
           <th pSortableColumn="active" style="min-width:1rem">
             Active <p-sortIcon field="active"></p-sortIcon>
@@ -97,6 +97,9 @@
       <ng-template pTemplate="body" let-product>
         <tr>
           <td>
+            {{ product.dateCreate  | date: 'dd/MM/yyyy' }}
+          </td>
+          <td>
             {{ product.name }}
           </td>
           <td>
@@ -106,10 +109,7 @@
             {{ handlers.formartValor(product.price) }}
           </td>
           <td>
-            {{ product.dateCreate  | date: 'dd/MM/yyyy' }}
-          </td>
-          <td>
-            <p-tag [value]="product.active ? 'Ativo' : 'Inativo'" [severity]="product.active ? 'success' : 'danger'"></p-tag>
+            <p-tag [value]="product.active ? 'ATIVO' : 'INATIVO'" [severity]="product.active ? 'success' : 'danger'"></p-tag>
           </td>
          
           <td>

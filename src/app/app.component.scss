@@ -15,3 +15,9 @@
 ::ng-deep .p-submenu-list .p-menuitem-link:hover {
 	background: #eeeeee;
 }
+::ng-deep .p-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 50%;
+}

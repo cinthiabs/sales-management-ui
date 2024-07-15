@@ -23,9 +23,10 @@ export class HomeComponent implements OnInit {
  selectedNewDate?: Date[];
  datePickerOptions: any;
  filterForm!: FormGroup;
- price: number = 0;
+ salesPrice: number = 0;
  totalPrice: number = 0;
  totalQuantity: number = 0;
+ totalProfit: number = 0;
  relQuantitySale: RelQuantitySale[] = [];
  relCostPrice: RelCostPrice[] = [];
  basicData: any; 
@@ -40,21 +41,24 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.setDate()
     this.getRel()
+    this.totalProfit = this.salesPrice - this.totalPrice;
+
   }
   getRel(){
     const startDate = this.selectedDate ? new Date(this.selectedDate[0]).toISOString().split('T')[0] : '';
     const endDate = this.selectedDate ? new Date(this.selectedDate[1]).toISOString().split('T')[0] : '';
-    this.getRelQuantity(startDate,endDate);
-    this.getRelCostPrice(startDate,endDate)
+      this.getRelQuantity(startDate, endDate),
+      this.getRelCostPrice(startDate, endDate)
   }
   getRelQuantity(startDate: string, endDate: string){
     this.salesService.getRelQuantity(startDate,endDate).subscribe({
       next:(response) => {
        this.relQuantitySale = response.flat()
-       this.price = this.relQuantitySale.reduce((acc, current) => acc + current.price, 0);
+       this.salesPrice = this.relQuantitySale.reduce((acc, current) => acc + current.price, 0);
        this.totalQuantity = this.relQuantitySale.reduce((acc, current) => acc + current.quantity, 0);
        this.transformDataForChart(this.relQuantitySale);
       }
+    
     })
   }
   getRelCostPrice(startDate: string, endDate: string){

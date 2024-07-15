@@ -123,7 +123,7 @@ export class RegisterProductsComponent {
       id: this.productId,
       name: form.get('name')?.value,
       details: form.get('details')?.value,
-      active: form.get('active')?.value,
+      active: form.get('active')?.value.value,
       price: form.get('price')?.value
     };
     this.productService.updateProduct(this.product, this.productId).subscribe({
@@ -158,7 +158,7 @@ export class RegisterProductsComponent {
       id: this.productId,
       name: form.get('name')?.value,
       details: form.get('details')?.value,
-      active: form.get('active')?.value,
+      active: form.get('active')?.value.value,
       price: form.get('price')?.value
     };
     this.productService.postCreateProduct(this.product).subscribe({

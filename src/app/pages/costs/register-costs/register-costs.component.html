@@ -93,6 +93,9 @@
           <th pSortableColumn="dateCost">
             Date Cost <p-sortIcon field="dateCost"></p-sortIcon>
           </th>
+          <th pSortableColumn="dateCreate">
+            Date Create <p-sortIcon field="dateCreate"></p-sortIcon>
+          </th>
           <th pSortableColumn="name">
             Product Name <p-sortIcon field="name"></p-sortIcon>
           </th>
@@ -105,9 +108,6 @@
           <th pSortableColumn="totalPrice">
             Total Price <p-sortIcon field="totalPrice"></p-sortIcon>
           </th>
-          <th pSortableColumn="dateCreate">
-            Date Create <p-sortIcon field="dateCreate"></p-sortIcon>
-          </th>
           <th>Actions</th>
         </tr>
       </ng-template>
@@ -115,6 +115,9 @@
         <tr>
           <td>
             {{ cost.dateCost  | date: 'dd/MM/yyyy'  }}
+          </td>
+          <td>
+            {{ cost.dateCreate  | date: 'dd/MM/yyyy' }}
           </td>
           <td>
             {{ cost.name }}
@@ -127,11 +130,7 @@
           </td>
           <td>
             {{ handlers.formartValor(cost.totalPrice) }}
-          </td>
-          <td>
-            {{ cost.dateCreate  | date: 'dd/MM/yyyy' }}
-          </td>
-         
+          </td>         
           <td>
             <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"
             [style]="{
