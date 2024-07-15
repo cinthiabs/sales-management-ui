@@ -50,12 +50,15 @@ export class RegisterProductsComponent {
   isEditMode: boolean = false;
   product!: Product;
   productId: number = 0;
+  isViewing: boolean = false;
 
   createForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
-    details: [''],
+    details: ['', Validators.required],
     active: ['',Validators.required],
-    price: ['',Validators.required]
+    price: ['',Validators.required],
+    createDate: [{value: '', disabled: true}],
+    editDate: [{value: '', disabled: true}] 
   })
   constructor(
     private fb: FormBuilder,
@@ -104,6 +107,7 @@ export class RegisterProductsComponent {
   }
   dialogEdit(product: Product){
     this.isEditMode = true;
+    this.isViewing = false;
     this.handlers.headerDialog = 'Edit Cost'
     this.handlers.handleInsertDialog()
     if(!!product.id){
@@ -116,8 +120,11 @@ export class RegisterProductsComponent {
       active: activeValue,
       price: product.price,
     });
+    this.createForm.enable();
   }
+
   editProduct(form: FormGroup) { 
+    this.isViewing = false;
     this.loadingButton = true;
     this.product = {
       id: this.productId,
@@ -141,6 +148,35 @@ export class RegisterProductsComponent {
     })
   }
 
+  getProductById(id: number) {
+    this.isViewing = true; 
+    this.handlers.headerDialog = 'View Product';
+    this.handlers.handleInsertDialog();
+  
+    if (!!id) {
+      this.productId = id;
+    }
+    this.productService.getByIdProduct(id).subscribe({
+      next: (response) => {
+        this.createForm.patchValue({
+          name: response.name,
+          details: response.details,
+          active: this.handlers.active.find(option => option.value === response.active), 
+          price: response.price,
+          createDate: response.dateCreate ? new Date(response.dateCreate).toLocaleDateString('pt-BR') : null,
+          editDate: response.dateEdit ? new Date(response.dateEdit).toLocaleDateString('pt-BR') : null,
+        });
+        this.createForm.disable();
+        console.log(response)
+      },
+
+      error: (error) => {
+        const errorMessage = error?.error?.message ?? 'An error has occurred during the operation.';
+        this.notificationService.showErrorToast(errorMessage);
+        this.loadingButton = false;
+      }
+    });
+  }
   CreateOrEdit(form: FormGroup) {
     if (this.isEditMode) {
       this.editProduct(form);
@@ -182,6 +218,7 @@ export class RegisterProductsComponent {
   }
 
   openCreate() {
+    this.isViewing = false;
     this.isEditMode = false;
     this.handlers.headerDialog = 'Create Product'
     this.createForm.reset();

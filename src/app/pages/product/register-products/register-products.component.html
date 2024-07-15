@@ -21,55 +21,67 @@
     </p-toolbar>
 
     <p-dialog 
-        header="{{handlers.headerDialog}}"
-        [modal]="true"
-        [draggable]="false"
-        [resizable]="false"
-        [(visible)]="handlers.visibleCreate" 
-        [style]="{ width: '38rem', height: '32rem'}"
-        [dismissableMask]="false" >
+      header="{{handlers.headerDialog}}"
+      [modal]="true"
+      [draggable]="false"
+      [resizable]="false"
+      [(visible)]="handlers.visibleCreate" 
+      [style]="{ width: '38rem'}"
+      [dismissableMask]="false" >
       
       <form
         [formGroup]="createForm"
         method="post"
         (ngSubmit)="CreateOrEdit(createForm)">
 
-          <div class="form-grid">
-            <div class="form-field">
-              <label for="username" class="font-semibold">Product Name<span class="required">*</span></label>
-              <input pInputText  formControlName="name" id="username" autocomplete="off" />
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="username" class="font-semibold">Product Name<span class="required">*</span></label>
+            <input pInputText  formControlName="name" id="username" autocomplete="off" />
           </div>
+          <div class="form-field">
+            <label for="details" class="font-semibold">Details<span class="required">*</span></label>
+            <input pInputText id="details" formControlName="details" autocomplete="off" />
+          </div>   
+          <div class="form-field">
+            <label for="active" class="font-semibold">Active?<span class="required">*</span></label>
+            <p-dropdown [options]="handlers.active"  formControlName="active" 
+              [style]="{'width': '100%', 'text-align': 'left'}"
+              id="pay" optionLabel="name" placeholder="Select..."></p-dropdown>
+          </div> 
+          <div class="form-field">
+            <label for="price" class="font-semibold">Price (R$)<span class="required">*</span></label>
+            <input pInputText id="price" formControlName="price" type="number" step="0.01" min="0" autocomplete="off" />
+          </div> 
+          
+          @if(!!isViewing){
             <div class="form-field">
-                <label for="details" class="font-semibold">Details</label>
-                <input pInputText id="details" formControlName="details" autocomplete="off" />
-            </div>   
+              <label for="createDate" class="font-semibold">Create Date</label>
+              <input  pInputText id="createDate" formControlName="createDate" type="text" autocomplete="off" />
+            </div>
             <div class="form-field">
-                <label for="active" class="font-semibold">Pay?</label>
-                <p-dropdown [options]="handlers.active"  formControlName="active" 
-                [style]="{'width': '100%', 'text-align': 'left'}"
-                id="pay" optionLabel="name" placeholder="Select..."></p-dropdown>
-              </div> 
-            <div class="form-field">
-                <label for="price" class="font-semibold">Price (R$)<span class="required">*</span></label>
-                <input pInputText id="price" formControlName="price" type="number" step="0.01" min="0" autocomplete="off" />
-            </div>    
+              <label for="editDate" class="font-semibold">Edit Date</label>
+              <input  pInputText id="editDate" formControlName="editDate" type="text" autocomplete="off" />
+            </div> 
+          }
+
         </div>
         
+        @if(!isViewing){
           <div class="footer-dialog">
-              <p-button pRipple label="Cancel" severity="danger" (click)="cancel()"/>
-              <p-button pRipple [label]="isEditMode ? 'Update' : 'Save'" severity="success" type="submit" [loading]="loadingButton" />
+            <p-button pRipple [label]="isEditMode ? 'Update' : 'Save'" severity="success" type="submit" [loading]="loadingButton" />
+            <p-button pRipple label="Cancel" severity="danger" (click)="cancel()"/>
           </div>
+        }
       </form>    
-
     </p-dialog>
 
-    <p-table #dt [value]="products" [rows]="10" [paginator]="true"
-      [globalFilterFields]="['name', 'detalis','active','totalprice','dateCreate']"
+    <p-table #dt [value]="products" [rows]="5" [paginator]="true"
+      [globalFilterFields]="['name', 'details', 'active', 'price', 'dateCreate']"
       [tableStyle]="{ 'min-width': '75rem' }" 
       [(selection)]="selectedProducts" 
       [rowHover]="true" 
       dataKey="id"
-      [rows]="5"
       [loading]="loadingTable"
       [rowsPerPageOptions]="[5, 10, 15, 20]"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
@@ -111,8 +123,13 @@
           <td>
             <p-tag [value]="product.active ? 'ATIVO' : 'INATIVO'" [severity]="product.active ? 'success' : 'danger'"></p-tag>
           </td>
-         
           <td>
+            <p-button pRipple icon="pi pi-eye" class="mr-2" [rounded]="true" [outlined]="true" severity="info"
+            [style]="{
+             'margin':'5px',
+             height: '40px',
+             width: '40px'
+            }" (click)="getProductById(product.id)"></p-button>
             <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"
             [style]="{
              'margin':'5px',

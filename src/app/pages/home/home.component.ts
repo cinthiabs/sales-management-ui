@@ -29,9 +29,10 @@ export class HomeComponent implements OnInit {
  totalProfit: number = 0;
  relQuantitySale: RelQuantitySale[] = [];
  relCostPrice: RelCostPrice[] = [];
- basicData: any; 
- basicOptions: any;
-
+ salesData: any; 
+ salesOptions: any;
+ costsData: any;
+ costsOptions: any;
 
  constructor(
   private salesService: SalesService,
@@ -41,15 +42,15 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.setDate()
     this.getRel()
-    this.totalProfit = this.salesPrice - this.totalPrice;
-
   }
+
   getRel(){
     const startDate = this.selectedDate ? new Date(this.selectedDate[0]).toISOString().split('T')[0] : '';
     const endDate = this.selectedDate ? new Date(this.selectedDate[1]).toISOString().split('T')[0] : '';
       this.getRelQuantity(startDate, endDate),
       this.getRelCostPrice(startDate, endDate)
   }
+
   getRelQuantity(startDate: string, endDate: string){
     this.salesService.getRelQuantity(startDate,endDate).subscribe({
       next:(response) => {
@@ -57,24 +58,34 @@ export class HomeComponent implements OnInit {
        this.salesPrice = this.relQuantitySale.reduce((acc, current) => acc + current.price, 0);
        this.totalQuantity = this.relQuantitySale.reduce((acc, current) => acc + current.quantity, 0);
        this.transformDataForChart(this.relQuantitySale);
+       this.calculateTotalProfit();
       }
     
     })
   }
+  
   getRelCostPrice(startDate: string, endDate: string){
     this.costService.getRelCostPrice(startDate,endDate).subscribe({
       next:(response) => {
        this.relCostPrice = response.flat()
        this.totalPrice = this.relCostPrice.reduce((acc, current) => acc + current.totalPrice, 0);
+       this.transformDataCostForChat(this.relCostPrice);
+       this.calculateTotalProfit();
       }
       
     })
   }
+
+  calculateTotalProfit() {
+    this.totalProfit = this.salesPrice - this.totalPrice;
+  }
+
   onDateSelect(event: any) {
     if(this.selectedDate && this.selectedDate[1] !== undefined && this.selectedDate[1] !== null){
       this.getRel()
     }
   }
+
   setDate(){
     const startDate = startOfMonth(new Date());
     const endDate = endOfMonth(new Date());
@@ -94,12 +105,12 @@ export class HomeComponent implements OnInit {
     return formatter.format(valor).replace('.', '|').replace('.', ',').replace('|', '.');
   }
 
-  transformDataForChart(data: any[]): void {
+  transformDataForChart(data: any[]) {
     const labels = data.map(item => item.name);
     const quantities = data.map(item => item.quantity);
     const prices = data.map(item => item.price);
 
-    this.basicData = {
+    this.salesData = {
       labels: labels,
       datasets: [
         {
@@ -111,11 +122,32 @@ export class HomeComponent implements OnInit {
       ]
     };
 
-    this.basicOptions = {
+    this.salesOptions = {
       responsive: true,
       maintainAspectRatio: false
     };
   }
 
+  transformDataCostForChat(data: any[]){
+    const labels = data.map(item => item.name);
+    const totalPrice = data.map(item => item.totalPrice);
+
+    this.costsData = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Total Price',
+          backgroundColor: '#42A5F5',
+          borderColor: '#d7ecfb',
+          data: totalPrice
+        }
+      ]
+    };
+
+    this.costsOptions = {
+      responsive: true,
+      maintainAspectRatio: false
+    };
+  }
 }
 

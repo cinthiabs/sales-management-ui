@@ -79,17 +79,17 @@
               Sales
             </ng-template>
             <ng-template pTemplate="content">
-                <p-chart type="bar" [data]="basicData" [options]="basicOptions" ></p-chart>
+                <p-chart type="bar" [data]="salesData" [options]="salesOptions" ></p-chart>
             </ng-template>
           </p-card>
         </div>
         <div class="p-col-12 p-md-6">
           <p-card class="chart-card">
             <ng-template pTemplate="title">
-              Graphic
+              Costs
             </ng-template>
             <ng-template pTemplate="content">
-              <p-chart type="line" [data]="basicData" [options]="basicOptions"></p-chart>
+              <p-chart type="line" [data]="costsData" [options]="costsOptions"></p-chart>
             </ng-template>
           </p-card>
         </div>
