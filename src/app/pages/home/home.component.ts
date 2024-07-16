@@ -58,6 +58,7 @@ export class HomeComponent implements OnInit {
        this.salesPrice = this.relQuantitySale.reduce((acc, current) => acc + current.price, 0);
        this.totalQuantity = this.relQuantitySale.reduce((acc, current) => acc + current.quantity, 0);
        this.transformDataForChart(this.relQuantitySale);
+       this.transformDataPayForChart(this.relQuantitySale);
        this.calculateTotalProfit();
       }
     
@@ -69,7 +70,6 @@ export class HomeComponent implements OnInit {
       next:(response) => {
        this.relCostPrice = response.flat()
        this.totalPrice = this.relCostPrice.reduce((acc, current) => acc + current.totalPrice, 0);
-       this.transformDataCostForChat(this.relCostPrice);
        this.calculateTotalProfit();
       }
       
@@ -128,26 +128,40 @@ export class HomeComponent implements OnInit {
     };
   }
 
-  transformDataCostForChat(data: any[]){
-    const labels = data.map(item => item.name);
-    const totalPrice = data.map(item => item.totalPrice);
+  transformDataPayForChart(data: any[]) {
+    let pending = 0;
+    let paid = 0;
+
+    data.forEach(item => {
+        const quantity = Number(item.quantity) || 0;
+        const pay = Number(item.pay) || 0;
+
+        if (pay === 0) {
+            pending += quantity;
+        } else {
+            const paidCount = pay;
+            const pendingCount = quantity - paidCount;
+            paid += paidCount;
+            pending += pendingCount;
+        }
+    });
 
     this.costsData = {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Total Price',
-          backgroundColor: '#42A5F5',
-          borderColor: '#d7ecfb',
-          data: totalPrice
-        }
-      ]
+        labels: ['Pending', 'Paid'],
+        datasets: [
+            {
+                data: [pending, paid],
+                backgroundColor: ['#D43241', '#22C55E'],
+                hoverBackgroundColor:  ['#D43241', '#22C55E']
+            }
+        ]
     };
 
     this.costsOptions = {
-      responsive: true,
-      maintainAspectRatio: false
+        responsive: true,
+        maintainAspectRatio: false
     };
   }
+
 }
 
