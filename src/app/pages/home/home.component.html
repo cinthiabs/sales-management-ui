@@ -73,22 +73,27 @@
   <div class="middle-section">
     <div class="p-grid">
       <div class="p-col-12 p-md-6">
-        <p-card class="chart-card">
+        <p-card class="chart-card"> 
           <ng-template pTemplate="title">
-            Sales
+            Quantity of product sales
           </ng-template>
           <ng-template pTemplate="content">
-            <p-chart type="bar" [data]="salesData" [options]="salesOptions" style="height: 500px;"></p-chart>
+            <p-chart 
+              type="bar" 
+              [data]="salesData" 
+              [options]="salesOptions" 
+              >
+            </p-chart>
           </ng-template>
         </p-card>
       </div>
       <div class="p-col-12 p-md-6">
         <p-card class="chart-card">
           <ng-template pTemplate="title">
-            Costs
+           Quantity product pending and paid
           </ng-template>
           <ng-template pTemplate="content">
-            <p-chart type="pie" [data]="costsData" [options]="costsOptions" style="height: 300px;"></p-chart>
+            <p-chart type="pie" [data]="costsData" [options]="costsOptions"></p-chart>
           </ng-template>
         </p-card>
       </div>
@@ -110,6 +115,7 @@
                 <th style="width:25%">Product Name</th>
                 <th>Quantity</th>
                 <th>Price</th>
+                <th style="width:15%">Pay?</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-relQuantitySale>
@@ -117,6 +123,9 @@
                 <td>{{ relQuantitySale.name }}</td>
                 <td>{{ relQuantitySale.quantity }}</td>
                 <td>{{ formartValor(relQuantitySale.price) }}</td>
+                <td>
+                  <p-tag [value]="relQuantitySale.pay ? 'PAGO' : 'PENDENTE'" [severity]="relQuantitySale.pay ? 'success' : 'danger'"></p-tag>
+                </td>
               </tr>
             </ng-template>
           </p-table>

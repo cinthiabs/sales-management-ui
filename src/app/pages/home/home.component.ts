@@ -9,11 +9,20 @@ import { RelQuantitySale } from '../../models/sales/sale';
 import { TableModule } from 'primeng/table';
 import { CostsService } from '../../services/costs/costs.service';
 import { RelCostPrice } from '../../models/costs/costs';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ChartModule,CardModule,CalendarModule, FormsModule,TableModule],
+  imports: 
+        [
+          ChartModule,
+          CardModule,
+          CalendarModule,
+          FormsModule,
+          TableModule,
+          TagModule
+        ],
   providers:[],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

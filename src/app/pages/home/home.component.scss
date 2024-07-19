@@ -1,3 +1,20 @@
+::ng-deep.p-card .p-card-title {
+	font-size: 18px;
+	font-weight: 600;
+	margin-bottom: 0.5rem;
+}
+::ng-deep.p-chart canvas{
+  box-sizing: border-box;
+  display: block;
+  height: 300px !important;
+  width: 895px !important;
+}
+::ng-deep canvas {
+	box-sizing: border-box;
+	display: block;
+	height: 280px;
+}
+
 .dashboard-container {
     padding: 20px;
     width: 100%;
@@ -73,9 +90,8 @@
     color: var(--white);
     
   }
+  
 
-  
-  
   @media (max-width: 768px) {
     .p-grid {
       flex-direction: column;
