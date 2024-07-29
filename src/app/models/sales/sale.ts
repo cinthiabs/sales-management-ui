@@ -1,6 +1,6 @@
 export interface Sale {
     id? :number,
-    idProduto?: number,
+    idProduct: number,
     dateSale: string, 
     name:string,
     details:string,

@@ -20,6 +20,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { RegisterHandlers } from './register-handlers';
 import { Title } from '@angular/platform-browser';
 import { NotificationService } from '../../../services/shared/messages/notification.service';
+import { Product } from '../../../models/products/products';
+import { ProductsService } from '../../../services/products/products.service';
 @Component({
   selector: 'app-register-sales',
   standalone: true,
@@ -50,6 +52,7 @@ export class RegisterSalesComponent implements OnInit {
   sales: Sale[] = [];
   allSales: Sale[] = [];
   selectedSales: any[] = [];
+  productObject: Product[] = [];
   loadingTable = false;
   loadingButton = false;
   messageTable = 'No data found';
@@ -58,6 +61,7 @@ export class RegisterSalesComponent implements OnInit {
   saleId: number = 0;
   isViewing: boolean = false;
   search = '';
+  selectedProduct!: Product;
 
   createForm: FormGroup = this.fb.group({
     dateSale:['',Validators.required],
@@ -73,6 +77,7 @@ export class RegisterSalesComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private salesService: SalesService,
+    private productService: ProductsService,
     public handlers: RegisterHandlers,
     private titleService: Title,
     private confirmationService: ConfirmationService,
@@ -83,10 +88,10 @@ export class RegisterSalesComponent implements OnInit {
 
   ngOnInit() {
     this.getallSale()
+    this.getProduct()
   }
 
   filterGlobal(event: any){
-    console.log(event)
     this.search = (event.target as HTMLInputElement).value.trim().toLowerCase();
     if (!this.search) {
       this.sales = [...this.allSales];
@@ -117,6 +122,23 @@ export class RegisterSalesComponent implements OnInit {
         this.messageTable = 'No data found';
       }
     })
+  }
+
+  getProduct(){
+    console.log('estou aqui')
+    this.productService.getAllProducts().subscribe(
+      (response: any) => {
+        if (response) {
+          this.productObject = response;
+        }
+        console.log(response)
+      }
+    );
+  }
+
+  onProductSelect(event: any){
+    this.selectedProduct = event.value; 
+    console.log(this.selectedProduct)
   }
 
   deleteSale(id: number) { 
@@ -168,7 +190,8 @@ export class RegisterSalesComponent implements OnInit {
     this.loadingButton = true;
     this.sale = {
       id: this.saleId,
-      name: form.get('nameProduct')?.value,
+      idProduct: this.selectedProduct.id,
+      name: this.selectedProduct.name,
       dateSale: new Date(form.get('dateSale')?.value).toISOString().split('T')[0],
       details: form.get('details')?.value,
       quantity: form.get('quantity')?.value,
@@ -207,13 +230,15 @@ export class RegisterSalesComponent implements OnInit {
     }
     this.loadingButton = true;
     this.sale = {
-      name: form.get('nameProduct')?.value,
+      idProduct : this.selectedProduct.id,
+      name:  this.selectedProduct.name,
       dateSale: new Date(form.get('dateSale')?.value).toISOString().split('T')[0],
       details: form.get('details')?.value,
       quantity: form.get('quantity')?.value,
       pay: form.get('paySelect')?.value.value, 
       price: form.get('price')?.value,
     };
+    console.log(this.sale)
     this.salesService.postCreateSale(this.sale).subscribe({
       next:() => {
         this.notificationService.showSuccessToast('Sale created successfully!')

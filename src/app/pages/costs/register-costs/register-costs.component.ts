@@ -82,7 +82,6 @@ export class RegisterCostsComponent {
   }
 
   filterGlobal(event: any){
-    console.log(event)
     this.search = (event.target as HTMLInputElement).value.trim().toLowerCase();
     if (!this.search) {
       this.costs = [...this.allCosts];

@@ -37,7 +37,10 @@
           <div class="form-grid">
             <div class="form-field">
               <label for="nameProduct" class="font-semibold">Product Name <span class="required">*</span></label>
-              <input pInputText  formControlName="nameProduct" id="username" autocomplete="off" />
+              <p-dropdown [style]="{width: '384px'}" 
+              id="nameProduct" formControlName="nameProduct" [options]="productObject" optionLabel="name"
+          placeholder="Select a product" [filter]="true" filterBy="name" [virtualScroll]="true" 
+          [virtualScrollItemSize]="38"   (onChange)="onProductSelect($event)"/>
           </div>
 
             <div class="form-field">
