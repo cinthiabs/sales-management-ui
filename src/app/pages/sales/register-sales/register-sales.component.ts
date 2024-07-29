@@ -48,6 +48,7 @@ export class RegisterSalesComponent implements OnInit {
   @ViewChild('dt') dataTable!: Table;
   
   sales: Sale[] = [];
+  allSales: Sale[] = [];
   selectedSales: any[] = [];
   loadingTable = false;
   loadingButton = false;
@@ -56,6 +57,7 @@ export class RegisterSalesComponent implements OnInit {
   sale! : Sale;
   saleId: number = 0;
   isViewing: boolean = false;
+  search = '';
 
   createForm: FormGroup = this.fb.group({
     dateSale:['',Validators.required],
@@ -84,14 +86,32 @@ export class RegisterSalesComponent implements OnInit {
   }
 
   filterGlobal(event: any){
-    const filterValue = event.target.value.trim().toLowerCase();
-    this.dataTable.filterGlobal(filterValue, 'contains');
+    console.log(event)
+    this.search = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    if (!this.search) {
+      this.sales = [...this.allSales];
+      return;
+    }
+    this.sales = this.allSales.filter(
+        (item) =>
+          item.dateSale && item.dateSale.includes(this.search) ||
+          item.dateCreate && item.dateCreate.includes(this.search) ||
+          item.name && item.name.toLocaleLowerCase().includes(this.search)||
+          item.details && item.details.toLocaleLowerCase().includes(this.search)||
+          item.quantity.toString().includes(this.search)||
+          item.price.toString().includes(this.search) ||
+          (item.pay !== undefined && (
+            (item.pay && 'pago'.includes(this.search)) ||
+            (!item.pay && 'pendente'.includes(this.search))
+        ))
+    );
   }
 
   getallSale(){
     this.salesService.getAllSales().subscribe({
       next:(response) => {
-        this.sales = response.flat()
+        this.allSales = response.flat()
+        this.sales = [...this.allSales];
       },
       error: () => {
         this.messageTable = 'No data found';

@@ -82,28 +82,27 @@ export class RegisterProductsComponent implements OnInit {
     this.getAllProducts()
   }
 
-  filterGlobal(event: any){
-    console.log(event)
+  filterGlobal(event: any) {
     this.search = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    if (!this.search) {
-      this.products = [...this.allProducts];
-      return;
-    }
-    this.products = this.allProducts.filter(
-      (item) =>
-        item.dateCreate && item.dateCreate.includes(this.search) ||
-      item.name && item.name.toLocaleLowerCase().includes(this.search)||
-      item.details && item.details.toLocaleLowerCase().includes(this.search)||
-      item.price.toString().includes(this.search) ||
-      (item.active !== undefined && (
-        (item.active && 'ativo'.includes(this.search)) ||
-        (!item.active && 'inativo'.includes(this.search))
-    ))
-      );
-    console.log('filter produto',this.products)
-    console.log('todos os produtos',this.allProducts)
 
-  }
+    if (!this.search) {
+        this.products = [...this.allProducts];
+        return;
+    }
+
+    this.products = this.allProducts.filter(
+        (item) =>
+            (item.dateCreate && item.dateCreate.includes(this.search)) ||
+            (item.name && item.name.toLowerCase().includes(this.search)) ||
+            (item.details && item.details.toLowerCase().includes(this.search)) ||
+            (item.price.toString().includes(this.search)) ||
+            (item.active !== undefined && (
+                (item.active && 'ativo'.includes(this.search)) ||
+                (!item.active && 'inativo'.includes(this.search))
+        ))
+    );
+}
+
 
   getAllProducts(){
     this.productService.getAllProducts().subscribe({

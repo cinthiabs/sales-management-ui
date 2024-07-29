@@ -49,6 +49,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 export class RegisterCostsComponent {
   @ViewChild('dt') dataTable!: Table;
   costs: Cost[] = [];
+  allCosts: Cost[] = [];
   selectedCosts: any = [];
   loadingTable = false;
   loadingButton = false;
@@ -56,6 +57,7 @@ export class RegisterCostsComponent {
   isEditMode: boolean = false;
   cost! : Cost;
   costId: number = 0;
+  search = '';
   
   createForm: FormGroup = this.fb.group({
     name:['',Validators.required],
@@ -80,14 +82,28 @@ export class RegisterCostsComponent {
   }
 
   filterGlobal(event: any){
-    const filterValue = event.target.value.trim().toLowerCase();
-    this.dataTable.filterGlobal(filterValue, 'contains');
+    console.log(event)
+    this.search = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    if (!this.search) {
+      this.costs = [...this.allCosts];
+      return;
+    }
+    this.costs = this.allCosts.filter(
+        (item) =>
+          item.dateCost && item.dateCost.includes(this.search) ||
+          item.dateCreate && item.dateCreate.includes(this.search) ||
+          item.name && item.name.toLocaleLowerCase().includes(this.search)||
+          item.quantity.toString().includes(this.search)||
+          item.unitPrice.toString().includes(this.search) ||
+          item.totalPrice.toString().includes(this.search)
+    );
   }
 
   getallCosts(){
     this.costsService.getAllCosts().subscribe({
       next:(response) => {
-        this.costs = response.flat()
+        this.allCosts = response.flat()
+        this.costs = [...this.allCosts];
       },
       error: () => {
         this.messageTable = 'No data found';
