@@ -26,7 +26,7 @@
         [draggable]="false"
         [resizable]="false"
         [(visible)]="handlers.visibleCreate" 
-        [style]="{ width: '38rem', height: '36rem'}"
+        [style]="{ width: '38rem'}"
         [dismissableMask]="false" >
       
       <form
@@ -74,14 +74,24 @@
               <label for="price" class="font-semibold">Price (R$) <span class="required">*</span></label>
               <p-inputNumber id="price" formControlName="price"  mode="currency" currency="BRL" locale="pt-BR"  [style]="{ 'width': '100%' }" ></p-inputNumber>
             </div>       
-        </div>
-        
+            @if(!!isViewing){
+              <div class="form-field">
+                <label for="createDate" class="font-semibold">Create Date</label>
+                <input  pInputText id="createDate" formControlName="createDate" type="text" autocomplete="off" />
+              </div>
+              <div class="form-field">
+                <label for="editDate" class="font-semibold">Edit Date</label>
+                <input  pInputText id="editDate" formControlName="editDate" type="text" autocomplete="off" />
+              </div> 
+            }
+          </div>
+        @if(!isViewing){
           <div class="footer-dialog">
-              <p-button pRipple [label]="isEditMode ? 'Update' : 'Save'" severity="success" type="submit" [loading]="loadingButton" />
-              <p-button pRipple label="Cancel" severity="danger" (click)="cancel()"/>
-            </div>
+            <p-button pRipple [label]="isEditMode ? 'Update' : 'Save'" severity="success" type="submit" [loading]="loadingButton" />
+            <p-button pRipple label="Cancel" severity="danger" (click)="cancel()"/>
+          </div>
+        }
       </form>    
-
     </p-dialog>
 
     <p-table #dt [value]="sales" [rows]="10" [paginator]="true"
@@ -145,6 +155,12 @@
             <p-tag [value]="sale.pay ? 'PAGO' : 'PENDENTE'" [severity]="sale.pay ? 'success' : 'danger'"></p-tag>
           </td>
           <td>
+            <p-button pRipple icon="pi pi-eye" class="mr-2" [rounded]="true" [outlined]="true" severity="info"
+            [style]="{
+             'margin':'5px',
+             height: '40px',
+             width: '40px'
+            }" (click)="getSaleById(sale.id)"></p-button>
             <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"
             [style]="{
              'margin':'5px',

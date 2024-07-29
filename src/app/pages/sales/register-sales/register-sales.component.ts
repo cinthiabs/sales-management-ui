@@ -55,6 +55,7 @@ export class RegisterSalesComponent implements OnInit {
   isEditMode: boolean = false;
   sale! : Sale;
   saleId: number = 0;
+  isViewing: boolean = false;
 
   createForm: FormGroup = this.fb.group({
     dateSale:['',Validators.required],
@@ -62,7 +63,9 @@ export class RegisterSalesComponent implements OnInit {
     details: [''],
     quantity: ['',Validators.required],
     paySelect: [''],
-    price: ['',Validators.required]
+    price: ['',Validators.required],
+    createDate: [{value: '', disabled: true}],
+    editDate: [{value: '', disabled: true}] 
   })
 
   constructor(
@@ -121,6 +124,7 @@ export class RegisterSalesComponent implements OnInit {
 
   dialogEdit(sale: Sale){
     this.isEditMode = true;
+    this.isViewing = false;
     this.handlers.headerDialog = 'Edit Sale'
     this.handlers.handleInsertDialog()
     if(!!sale.id){
@@ -136,10 +140,11 @@ export class RegisterSalesComponent implements OnInit {
       paySelect: payValue,
       price: sale.price,
     });
-
+    this.createForm.enable();
   }
 
   editSale(form: FormGroup) { 
+    this.isViewing = false;
     this.loadingButton = true;
     this.sale = {
       id: this.saleId,
@@ -205,7 +210,38 @@ export class RegisterSalesComponent implements OnInit {
       }
 
     })
-   
+  }
+
+  getSaleById(id: number){
+    this.isViewing = true; 
+    this.handlers.headerDialog = 'View Sale';
+    this.handlers.handleInsertDialog();
+    if (!!id) {
+      this.saleId = id;
+    }
+
+    this.salesService.getByIdSale(id).subscribe({
+      next: (response) => {
+        console.log(response)
+        this.createForm.patchValue({
+          nameProduct: response.name,
+          dateSale: response.dateSale ? new Date(response.dateSale).toLocaleDateString('pt-BR') : null,
+          details: response.details,
+          paySelect:  this.handlers.situation.find(option => option.value === response.pay),
+          price: response.price,
+          quantity: response.quantity,
+          createDate: response.dateCreate ? new Date(response.dateCreate).toLocaleDateString('pt-BR') : null,
+          editDate: response.dateEdit ? new Date(response.dateEdit).toLocaleDateString('pt-BR') : null,
+        });
+        this.createForm.disable();
+      },
+
+      error: (error) => {
+        const errorMessage = error?.error?.message ?? 'An error has occurred during the operation.';
+        this.notificationService.showErrorToast(errorMessage);
+        this.loadingButton = false;
+      }
+    })
   }
 
   cancel(){
@@ -213,11 +249,11 @@ export class RegisterSalesComponent implements OnInit {
   }
   
   openCreate() {
+    this.isViewing = false;
     this.isEditMode = false;
     this.handlers.headerDialog = 'Create Sale'
     this.createForm.reset();
     this.handlers.handleInsertDialog()
   }
-
 
 }
