@@ -46,6 +46,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 export class RegisterProductsComponent implements OnInit {
   @ViewChild('dt') dataTable!: Table;
   products: Product[] = [];
+  allProducts: Product[] = [];
+
   selectedProducts: any = [];
   loadingTable = false;
   loadingButton = false;
@@ -54,6 +56,8 @@ export class RegisterProductsComponent implements OnInit {
   product!: Product;
   productId: number = 0;
   isViewing: boolean = false;
+  search: string = '';
+
 
   createForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
@@ -79,14 +83,33 @@ export class RegisterProductsComponent implements OnInit {
   }
 
   filterGlobal(event: any){
-    const filterValue = event.target.value.trim().toLowerCase();
-    this.dataTable.filterGlobal(filterValue, 'contains');
+    console.log(event)
+    this.search = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    if (!this.search) {
+      this.products = [...this.allProducts];
+      return;
+    }
+    this.products = this.allProducts.filter(
+      (item) =>
+        item.dateCreate && item.dateCreate.includes(this.search) ||
+      item.name && item.name.toLocaleLowerCase().includes(this.search)||
+      item.details && item.details.toLocaleLowerCase().includes(this.search)||
+      item.price.toString().includes(this.search) ||
+      (item.active !== undefined && (
+        (item.active && 'ativo'.includes(this.search)) ||
+        (!item.active && 'inativo'.includes(this.search))
+    ))
+      );
+    console.log('filter produto',this.products)
+    console.log('todos os produtos',this.allProducts)
+
   }
 
   getAllProducts(){
     this.productService.getAllProducts().subscribe({
       next:(response) => {
-        this.products = response.flat()
+        this.allProducts  = response.flat()
+        this.products = [...this.allProducts];
       },
       error: () => {
         this.messageTable = 'No data found';
