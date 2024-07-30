@@ -125,20 +125,17 @@ export class RegisterSalesComponent implements OnInit {
   }
 
   getProduct(){
-    console.log('estou aqui')
     this.productService.getAllProducts().subscribe(
-      (response: any) => {
+      (response) => {
         if (response) {
           this.productObject = response;
         }
-        console.log(response)
       }
     );
   }
 
   onProductSelect(event: any){
     this.selectedProduct = event.value; 
-    console.log(this.selectedProduct)
   }
 
   deleteSale(id: number) { 
@@ -174,9 +171,10 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     const payValue = this.handlers.situation.find(s => s.value === sale.pay);
+    const selectedProduct = this.productObject.find(product => product.id === sale.idProduct);
     this.createForm.patchValue({
       dateSale: new Date (sale.dateSale),
-      nameProduct: sale.name,
+      nameProduct: selectedProduct,
       details: sale.details,
       quantity: sale.quantity,
       paySelect: payValue,
@@ -238,7 +236,6 @@ export class RegisterSalesComponent implements OnInit {
       pay: form.get('paySelect')?.value.value, 
       price: form.get('price')?.value,
     };
-    console.log(this.sale)
     this.salesService.postCreateSale(this.sale).subscribe({
       next:() => {
         this.notificationService.showSuccessToast('Sale created successfully!')
@@ -267,9 +264,8 @@ export class RegisterSalesComponent implements OnInit {
 
     this.salesService.getByIdSale(id).subscribe({
       next: (response) => {
-        console.log(response)
         this.createForm.patchValue({
-          nameProduct: response.name,
+          nameProduct: this.productObject.find(product => product.id === response.idProduct),
           dateSale: response.dateSale ? new Date(response.dateSale).toLocaleDateString('pt-BR') : null,
           details: response.details,
           paySelect:  this.handlers.situation.find(option => option.value === response.pay),
