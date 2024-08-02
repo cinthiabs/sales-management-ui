@@ -184,12 +184,13 @@ export class RegisterSalesComponent implements OnInit {
   }
 
   editSale(form: FormGroup) { 
+    const selectedProduct = form.get('nameProduct')?.value;
     this.isViewing = false;
     this.loadingButton = true;
     this.sale = {
       id: this.saleId,
-      idProduct: this.selectedProduct.id,
-      name: this.selectedProduct.name,
+      idProduct: selectedProduct.id,
+      name: selectedProduct.name,
       dateSale: new Date(form.get('dateSale')?.value).toISOString().split('T')[0],
       details: form.get('details')?.value,
       quantity: form.get('quantity')?.value,

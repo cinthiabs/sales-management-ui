@@ -124,7 +124,7 @@
                 <td>{{ relQuantitySale.quantity }}</td>
                 <td>{{ formartValor(relQuantitySale.price) }}</td>
                 <td>
-                  <p-tag [value]="relQuantitySale.pay ? 'PAGO' : 'PENDENTE'" [severity]="relQuantitySale.pay ? 'success' : 'danger'"></p-tag>
+                  <p-tag [value]="relQuantitySale.paid ? 'PAGO' : 'PENDENTE'" [severity]="relQuantitySale.paid ? 'success' : 'danger'"></p-tag>
                 </td>
               </tr>
             </ng-template>

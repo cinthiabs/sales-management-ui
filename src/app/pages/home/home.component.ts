@@ -138,28 +138,19 @@ export class HomeComponent implements OnInit {
   }
 
   transformDataPayForChart(data: any[]) {
-    let pending = 0;
     let paid = 0;
+    let notPaid = 0;
 
     data.forEach(item => {
-        const quantity = Number(item.quantity) || 0;
-        const pay = Number(item.pay) || 0;
-
-        if (pay === 0) {
-            pending += quantity;
-        } else {
-            const paidCount = pay;
-            const pendingCount = quantity - paidCount;
-            paid += paidCount;
-            pending += pendingCount;
-        }
-    });
-
+      paid += item.paid;
+      notPaid += item.notPaid;
+  });
+  
     this.costsData = {
         labels: ['Pending', 'Paid'],
         datasets: [
             {
-                data: [pending, paid],
+                data: [notPaid, paid],
                 backgroundColor: ['#D43241', '#22C55E'],
                 hoverBackgroundColor:  ['#D43241', '#22C55E']
             }

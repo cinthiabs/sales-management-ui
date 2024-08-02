@@ -14,5 +14,6 @@ export interface RelQuantitySale {
     name: string,
     quantity:number,
     price: number,
-    pay: number
+    paid: number,
+    notPaid: number
 }
