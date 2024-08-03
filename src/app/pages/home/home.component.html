@@ -113,7 +113,9 @@
             <ng-template pTemplate="header">
               <tr>
                 <th style="width:25%">Product Name</th>
-                <th>Quantity</th>
+                <th>Paid</th>
+                <th>Pending</th>
+                <th>Total(qtd)</th>
                 <th>Price</th>
                 <th style="width:15%">Pay?</th>
               </tr>
@@ -121,10 +123,17 @@
             <ng-template pTemplate="body" let-relQuantitySale>
               <tr>
                 <td>{{ relQuantitySale.name }}</td>
+                <td>{{ relQuantitySale.paid }}</td>
+                <td>{{ relQuantitySale.notPaid }}</td>
                 <td>{{ relQuantitySale.quantity }}</td>
                 <td>{{ formartValor(relQuantitySale.price) }}</td>
                 <td>
-                  <p-tag [value]="relQuantitySale.paid ? 'PAGO' : 'PENDENTE'" [severity]="relQuantitySale.paid ? 'success' : 'danger'"></p-tag>
+                  <ng-container *ngIf="relQuantitySale.notPaid > 0; else paidTemplate">
+                    <p-tag value="PENDENTE" severity="danger"></p-tag>
+                  </ng-container>
+                  <ng-template #paidTemplate>
+                    <p-tag value="PAGO" severity="success"></p-tag>
+                  </ng-template>
                 </td>
               </tr>
             </ng-template>

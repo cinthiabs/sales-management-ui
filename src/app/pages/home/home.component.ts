@@ -10,6 +10,7 @@ import { TableModule } from 'primeng/table';
 import { CostsService } from '../../services/costs/costs.service';
 import { RelCostPrice } from '../../models/costs/costs';
 import { TagModule } from 'primeng/tag';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,8 @@ import { TagModule } from 'primeng/tag';
           CalendarModule,
           FormsModule,
           TableModule,
-          TagModule
+          TagModule,
+          CommonModule
         ],
   providers:[],
   templateUrl: './home.component.html',
