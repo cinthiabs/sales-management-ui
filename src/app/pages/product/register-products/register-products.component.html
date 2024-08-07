@@ -108,7 +108,7 @@
       <ng-template pTemplate="body" let-product>
         <tr>
           <td>
-            {{ product.dateCreate  | date: 'dd/MM/yyyy' }}
+            {{ product.dateCreate  |date: 'dd/MM/yyyy HH:mm:ss'  }}
           </td>
           <td>
             {{ product.name }}
