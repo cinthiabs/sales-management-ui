@@ -1,18 +1,28 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './pages/shared/components/header/header.component';
 import { PrimeNGConfig } from 'primeng/api';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'sales management';
-  constructor(private primengConfig: PrimeNGConfig )  {}
+  showHeader = true;
+
+  constructor(private primengConfig: PrimeNGConfig, private router: Router) 
+  {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.showHeader = !(event.url === '/auth');
+      }
+    });
+  }
 
   ngOnInit() {
     this.formatCalendar()

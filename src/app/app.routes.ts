@@ -11,7 +11,7 @@ import { ProfileComponent } from './pages/login/profile/profile.component';
 import { AuthComponent } from './pages/login/auth/auth.component';
 
 export const routes: Routes = [
-    {path: '', redirectTo:'/home',pathMatch: 'full'},
+    {path: '', redirectTo:'/auth',pathMatch: 'full'},
     {path: 'home',component: HomeComponent},
     {path: 'register-products',component: RegisterProductsComponent},
     {path: 'register-costs', component: RegisterCostsComponent},
