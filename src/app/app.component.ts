@@ -3,6 +3,7 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './pages/shared/components/header/header.component';
 import { PrimeNGConfig } from 'primeng/api';
 import { CommonModule } from '@angular/common';
+import { AuthService } from './services/user/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent {
   title = 'sales management';
   showHeader = true;
 
-  constructor(private primengConfig: PrimeNGConfig, private router: Router) 
+  constructor(private primengConfig: PrimeNGConfig, private router: Router, private authService: AuthService) 
   {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -26,6 +27,11 @@ export class AppComponent {
 
   ngOnInit() {
     this.formatCalendar()
+
+    setInterval(() => {
+      this.authService.checkTokenExpiration();
+    }, 60000); 
+
   }
 
   formatCalendar(){

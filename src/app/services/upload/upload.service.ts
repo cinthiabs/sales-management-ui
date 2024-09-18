@@ -14,6 +14,4 @@ export class UploadService {
     formData.append('file', file);
     return this.http.post<any>('/UploadExcel', formData);
   }
- 
-
 }
