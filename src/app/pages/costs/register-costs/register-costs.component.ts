@@ -101,7 +101,7 @@ export class RegisterCostsComponent {
   getallCosts(){
     this.costsService.getAllCosts().subscribe({
       next:(response) => {
-        this.allCosts = response.flat()
+        this.allCosts = response.data.flat()
         this.costs = [...this.allCosts];
       },
       error: () => {

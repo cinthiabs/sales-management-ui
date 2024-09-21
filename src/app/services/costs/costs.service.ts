@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Cost, RelCostPrice } from '../../models/costs/costs';
 import { Observable } from 'rxjs';
+import { Response  } from '../../models/shared/response';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,11 @@ export class CostsService {
 
   constructor(private http: HttpClient) { }
 
-  getAllCosts():Observable<Cost[]>{
-    return this.http.get<Cost[]>('/GetAllCosts');
+  getAllCosts():Observable<Response<Cost>>{
+    return this.http.get<Response<Cost>>('/GetAllCosts');
   }
-  getByIdCost(id: number):Observable<Cost>{
-    return this.http.get<Cost>(`/GetByIdCost/${id}`);
+  getByIdCost(id: number):Observable<Response<Cost>>{
+    return this.http.get<Response<Cost>>(`/GetByIdCost/${id}`);
   }
   postCreateCost(cost: Cost):Observable<any>{
     return this.http.post<any>('/CreateCost/', cost);
