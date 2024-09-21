@@ -115,7 +115,7 @@ export class RegisterSalesComponent implements OnInit {
   getallSale(){
     this.salesService.getAllSales().subscribe({
       next:(response) => {
-        this.allSales = response.flat()
+        this.allSales = response.data.flat()
         this.sales = [...this.allSales];
       },
       error: () => {
@@ -128,7 +128,7 @@ export class RegisterSalesComponent implements OnInit {
     this.productService.getAllProducts().subscribe(
       (response) => {
         if (response) {
-          this.productObject = response;
+          this.productObject = response.data;
         }
       }
     );
@@ -266,14 +266,14 @@ export class RegisterSalesComponent implements OnInit {
     this.salesService.getByIdSale(id).subscribe({
       next: (response) => {
         this.createForm.patchValue({
-          nameProduct: this.productObject.find(product => product.id === response.idProduct),
-          dateSale: response.dateSale ? new Date(response.dateSale).toLocaleDateString('pt-BR') : null,
-          details: response.details,
-          paySelect:  this.handlers.situation.find(option => option.value === response.pay),
-          price: response.price,
-          quantity: response.quantity,
-          createDate: response.dateCreate ? new Date(response.dateCreate).toLocaleDateString('pt-BR') : null,
-          editDate: response.dateEdit ? new Date(response.dateEdit).toLocaleDateString('pt-BR') : null,
+          nameProduct: this.productObject.find(product => product.id === response.data[0].idProduct),
+          dateSale: response.data[0].dateSale ? new Date(response.data[0].dateSale).toLocaleDateString('pt-BR') : null,
+          details: response.data[0].details,
+          paySelect:  this.handlers.situation.find(option => option.value === response.data[0].pay),
+          price: response.data[0].price,
+          quantity: response.data[0].quantity,
+          createDate: response.data[0].dateCreate ? new Date(response.data[0].dateCreate).toLocaleDateString('pt-BR') : null,
+          editDate: response.data[0].dateEdit ? new Date(response.data[0].dateEdit).toLocaleDateString('pt-BR') : null,
         });
         this.createForm.disable();
       },

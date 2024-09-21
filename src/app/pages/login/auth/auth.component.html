@@ -1,31 +1,32 @@
 <p-toast key="success"></p-toast>
 <p-toast key="error"></p-toast>
+<app-loading></app-loading>
+
 <div class="card">
-    <div class="flex flex-column md:flex-row">
-      <form
-        [formGroup]="createForm"
-        method="post"
-        (ngSubmit)="postAuthentication(createForm)">
-       
-        <div class="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-3 py-5">
-            <div class="flex flex-wrap justify-content-center align-items-center gap-2">
-                <label class="w-6rem">Email</label>
-                <input pInputText id="email" type="text" class="w-12rem" formControlName="email" />
+    <form [formGroup]="createForm" method="post" (ngSubmit)="postAuthentication(createForm)">
+        <div class="login">
+            <h3>Login</h3>
+            <div>
+                <p-floatLabel>
+                    <input pInputText id="mail" type="text" formControlName="email" />
+                    <label for="mail">Email</label>
+                </p-floatLabel>
             </div>
-            <div class="flex flex-wrap justify-content-center align-items-center gap-2">
-                <label class="w-6rem">Password</label>
-                <input pInputText id="password" type="password" class="w-12rem"  formControlName="password"/>
+            <div>
+                <p-floatLabel>
+                    <p-password formControlName="password" [toggleMask]="true" [feedback]="false" />
+                    <label for="password">Password</label>
+                </p-floatLabel>
             </div>
-            <p-button label="Login" icon="pi pi-user" click="postAuthentication()" styleClass="w-10rem mx-auto" type="submit" />
+            <div class="button-container">
+                <p-button label="Acessar" icon="pi pi-user" type="submit" [style]="{ 'width': '100%' }" />
+                <p class="forgot-password">Esqueceu a senha?</p>
+            </div>
         </div>
-        <div class="w-full md:w-2">
-            <p-divider layout="vertical" styleClass="hidden md:flex">
-                <b>OR</b>
-            </p-divider>           
+        
+        <div class="signup">
+            <label for="">Ainda não tem uma conta?</label>
+            <p-button label="Registrar-se" icon="pi pi-user-plus" styleClass="p-button-success w-10rem" />
         </div>
-        <div class="w-full md:w-5 flex align-items-center justify-content-center py-5">
-            <p-button label="Sign Up" icon="pi pi-user-plus" styleClass="p-button-success w-10rem" />
-        </div>
-        </form>
-    </div>
+    </form>
 </div>
