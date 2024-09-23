@@ -14,8 +14,6 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { Authentication, AuthenticationResponse } from '../../../models/user/authentication';
 import { Router } from '@angular/router';
 import { LoadingComponent } from '../../shared/components/loading/loading.component';
-
-
 @Component({
   selector: 'app-auth',
   standalone: true,
@@ -41,7 +39,6 @@ export class AuthComponent {
     email:['',Validators.required],
     password: ['', Validators.required]
   })
-  isLoading = false; // Adiciona estado de loading
 
   constructor(
     private fb: FormBuilder,
@@ -82,10 +79,9 @@ export class AuthComponent {
         this.loadingComponent.hide();
         if (error.status === 404) {
           this.notificationService.showErrorToast('User not found.');
-        } else {
-          const errorMessage = error?.error ?? 'An error has occurred during the operation.';
-          this.notificationService.showErrorToast(errorMessage);
-        }
+        } 
+          this.notificationService.showErrorToast('An error has occurred during the operation.');
+        
       },
       complete: () => {
         this.loadingComponent.hide();

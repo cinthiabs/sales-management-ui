@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
 import { CalendarModule } from 'primeng/calendar';
@@ -11,6 +11,7 @@ import { CostsService } from '../../services/costs/costs.service';
 import { RelCostPrice } from '../../models/costs/costs';
 import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
+import { LoadingComponent } from '../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-home',
@@ -23,13 +24,16 @@ import { CommonModule } from '@angular/common';
           FormsModule,
           TableModule,
           TagModule,
-          CommonModule
+          CommonModule,
+          LoadingComponent
         ],
   providers:[],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
+  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
+
  selectedDate?: Date[];
  selectedNewDate?: Date[];
  datePickerOptions: any;
@@ -63,6 +67,7 @@ export class HomeComponent implements OnInit {
   }
 
   getRelQuantity(startDate: string, endDate: string){
+    this.loadingComponent.show();
     this.salesService.getRelQuantity(startDate,endDate).subscribe({
       next:(response) => {
        this.relQuantitySale = response.flat()
@@ -71,6 +76,8 @@ export class HomeComponent implements OnInit {
        this.transformDataForChart(this.relQuantitySale);
        this.transformDataPayForChart(this.relQuantitySale);
        this.calculateTotalProfit();
+       this.loadingComponent.hide();
+
       }
     
     })

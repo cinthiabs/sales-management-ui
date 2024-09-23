@@ -19,7 +19,7 @@ import { Product } from '../../../models/products/products';
 import { RegisterProductHandlers } from './register-product-handlers';
 import { ProductsService } from '../../../services/products/products.service';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { Response  } from '../../../models/shared/response';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-register-products',
@@ -38,6 +38,7 @@ import { Response  } from '../../../models/shared/response';
     DropdownModule,
     CalendarModule,
     InputNumberModule,
+    LoadingComponent,
     InputTextModule],
   templateUrl: './register-products.component.html',
   styleUrl: './register-products.component.scss',
@@ -46,6 +47,8 @@ import { Response  } from '../../../models/shared/response';
 })
 export class RegisterProductsComponent implements OnInit {
   @ViewChild('dt') dataTable!: Table;
+  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
+
   products: Product[] = [];
   allProducts: Product[] = [];
   selectedProducts: any = [];
@@ -57,7 +60,6 @@ export class RegisterProductsComponent implements OnInit {
   productId: number = 0;
   isViewing: boolean = false;
   search: string = '';
-
 
   createForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
@@ -105,12 +107,16 @@ export class RegisterProductsComponent implements OnInit {
 
 
   getAllProducts(){
+    this.loadingComponent.show();
     this.productService.getAllProducts().subscribe({
       next:(response) => {
         this.products = response.data;
+        this.loadingComponent.hide();
+
       },
       error: () => {
         this.messageTable = 'No data found';
+        this.loadingComponent.hide();
       }
     })
   }

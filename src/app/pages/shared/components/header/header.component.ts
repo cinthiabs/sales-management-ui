@@ -19,40 +19,32 @@ export class HeaderComponent {
 
     this.items = [
       { label: 'Home', icon: 'pi pi-home', route: '/home' },
-      { label: 'Upload', icon: 'pi pi-file-excel', route: '/upload' },
+      { label: 'Importar', icon: 'pi pi-file-excel', route: '/upload' },
       {
-        label: 'Sales',
+        label: 'Vendas',
         items: [
-          { label: 'Register Sale', icon: 'pi pi-file-plus', route: '/register-sales' },
-          { label: 'Others', icon: 'pi pi-fw pi-bell', route: '/home' }
+          { label: 'Registrar', icon: 'pi pi-file-plus', route: '/register-sales' },
+          { label: 'Relátorio', icon: 'pi pi-align-justify', route: '/report-sales' },
         ]
       },
       {
-        label: 'Products',
+        label: 'Produtos',
         items: [
-          { label: 'Register Product', icon: 'pi pi-file-plus', route: '/register-products' },
-          { label: 'Others', icon: 'pi pi-fw pi-bell', route: '/home' }
+          { label: 'Produtos', icon: 'pi pi-file-plus', route: '/register-products' },
+          { label: 'Relátorio', icon: 'pi pi-align-justify', route: '/report-products' }
         ]
       },
       {
-        label: 'Costs',
+        label: 'Custos',
         items: [
-          { label: 'Register Costs', icon: 'pi pi-file-plus', route: '/register-costs' },
-          { label: 'Others', icon: 'pi pi-fw pi-bell', route: '/home' }
-        ]
-      },
-      {
-        label: 'Reports',
-        items: [
-          { label: 'Sales', icon: 'pi pi-align-justify', route: '/report-sales' },
-          { label: 'Products', icon: 'pi pi-align-justify', route: '/report-products' },
-          { label: 'Costs', icon: 'pi pi-align-justify', route: '/report-costs' }
+          { label: 'Registrar', icon: 'pi pi-file-plus', route: '/register-costs' },
+          { label: 'Relátorio', icon: 'pi pi-align-justify', route: '/report-costs' }
         ]
       }
     ];
 
     this.userMenu = [
-      { label: '', icon: 'pi pi-user',route: '/profile'}
+      { label: '', icon: 'pi pi-user', route: '/profile'}
     ];
   }
 

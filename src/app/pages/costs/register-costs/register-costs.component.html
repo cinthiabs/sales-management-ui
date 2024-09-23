@@ -1,12 +1,13 @@
 <p-toast key="success"></p-toast>
 <p-toast key="error"></p-toast>
+<app-loading></app-loading>
 
 <div class="container">
   <div class="crud">
     <p-toast></p-toast>
     <p-toolbar styleClass="mb-4 gap-2">
       <ng-template pTemplate="left">
-        <p-button pRipple label="New" icon="pi pi-plus" class="mr-2" (click)="openCreate()"></p-button>
+        <p-button pRipple label="Novo" icon="pi pi-plus" class="mr-2" (click)="openCreate()"></p-button>
       </ng-template>
       <ng-template pTemplate="right">
         <span class="p-input-icon-left">
@@ -15,7 +16,7 @@
             pInputText 
             type="text" 
             (input)="filterGlobal($event)" 
-            placeholder="Search..." />
+            placeholder="Pesquisar..." />
         </span>
       </ng-template>
     </p-toolbar>
@@ -36,12 +37,12 @@
 
           <div class="form-grid">
             <div class="form-field">
-              <label for="username" class="font-semibold">Product Name<span class="required">*</span></label>
+              <label for="username" class="font-semibold">Nome<span class="required">*</span></label>
               <input pInputText  formControlName="name" id="username" autocomplete="off" />
           </div>
 
             <div class="form-field">
-              <label for="username" class="font-semibold">Date Cost<span class="required">*</span></label>
+              <label for="username" class="font-semibold">Data do Custo<span class="required">*</span></label>
               <p-calendar 
               [iconDisplay]="'input'" 
               [showIcon]="true" 
@@ -53,23 +54,23 @@
           </p-calendar>
           </div>
             <div class="form-field">
-                <label for="quantity" class="font-semibold">Quantity<span class="required">*</span></label>
+                <label for="quantity" class="font-semibold">Quantidade<span class="required">*</span></label>
                 <p-inputNumber formControlName="quantity" id="quantity" [style]="{ 'width': '100%' }" ></p-inputNumber>
             </div>
             
             <div class="form-field">
-                <label for="unitPrice" class="font-semibold">Unit Price (R$)</label>
+                <label for="unitPrice" class="font-semibold">Valor Unitário (R$)</label>
                 <p-inputNumber id="unitPrice" formControlName="unitPrice"  mode="currency" currency="BRL" locale="pt-BR"  [style]="{ 'width': '100%' }" ></p-inputNumber>
             </div>    
             <div class="form-field">
-                <label for="price" class="font-semibold">Total Price (R$)<span class="required">*</span></label>
+                <label for="price" class="font-semibold">Valor Total (R$)<span class="required">*</span></label>
                 <p-inputNumber id="price" formControlName="price"  mode="currency" currency="BRL" locale="pt-BR"  [style]="{ 'width': '100%' }" ></p-inputNumber>
               </div>    
         </div>
         
           <div class="footer-dialog">
-              <p-button pRipple [label]="isEditMode ? 'Update' : 'Save'" severity="success" type="submit" [loading]="loadingButton" />
-              <p-button pRipple label="Cancel" severity="danger" (click)="cancel()"/>
+              <p-button pRipple [label]="isEditMode ? 'Atualizar' : 'Salvar'" severity="success" type="submit" [loading]="loadingButton" />
+              <p-button pRipple label="Cancelar" severity="danger" (click)="cancel()"/>
           </div>
       </form>    
 
@@ -84,29 +85,29 @@
       [rows]="5"
       [loading]="loadingTable"
       [rowsPerPageOptions]="[5, 10, 15, 20]"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
       [showCurrentPageReport]="true">
       <ng-template pTemplate="header">
         <tr>
           <th pSortableColumn="dateCost">
-            Date Cost <p-sortIcon field="dateCost"></p-sortIcon>
+            Data do Custo <p-sortIcon field="dateCost"></p-sortIcon>
           </th>
           <th pSortableColumn="dateCreate">
-            Date Create <p-sortIcon field="dateCreate"></p-sortIcon>
+            Data da Criação <p-sortIcon field="dateCreate"></p-sortIcon>
           </th>
           <th pSortableColumn="name">
-            Product Name <p-sortIcon field="name"></p-sortIcon>
+            Nome <p-sortIcon field="name"></p-sortIcon>
           </th>
           <th pSortableColumn="quantity">
-            Quantity <p-sortIcon field="quantity"></p-sortIcon>
+            Qtd <p-sortIcon field="quantity"></p-sortIcon>
           </th>
           <th pSortableColumn="unitPrice">
-            Unit Price <p-sortIcon field="unitPrice"></p-sortIcon>
+            Valor Unit <p-sortIcon field="unitPrice"></p-sortIcon>
           </th>
           <th pSortableColumn="totalPrice">
-            Total Price <p-sortIcon field="totalPrice"></p-sortIcon>
+            Valor Total <p-sortIcon field="totalPrice"></p-sortIcon>
           </th>
-          <th>Actions</th>
+          <th>Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-cost>
