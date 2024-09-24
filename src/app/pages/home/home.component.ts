@@ -77,7 +77,6 @@ export class HomeComponent implements OnInit {
        this.transformDataPayForChart(this.relQuantitySale);
        this.calculateTotalProfit();
        this.loadingComponent.hide();
-
       }
     
     })
@@ -90,7 +89,6 @@ export class HomeComponent implements OnInit {
        this.totalPrice = this.relCostPrice.reduce((acc, current) => acc + current.totalPrice, 0);
        this.calculateTotalProfit();
       }
-      
     })
   }
 
@@ -132,7 +130,7 @@ export class HomeComponent implements OnInit {
       labels: labels,
       datasets: [
         {
-          label: 'Quantity',
+          label: 'Quantidade',
           backgroundColor: '#42A5F5',
           borderColor: '#d7ecfb',
           data: quantities
@@ -156,7 +154,7 @@ export class HomeComponent implements OnInit {
   });
   
     this.costsData = {
-        labels: ['Pending', 'Paid'],
+        labels: ['Pendente', 'Pago'],
         datasets: [
             {
                 data: [notPaid, paid],

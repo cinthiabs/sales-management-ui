@@ -22,7 +22,7 @@
           <ng-template pTemplate="title">
             <div class="card-header">
               <i class="pi pi-plus-circle"></i>
-              <span>Quantity Sale</span>
+              <span>Qtd de Vendas</span>
             </div>
           </ng-template>
           <ng-template pTemplate="subtitle">
@@ -35,7 +35,7 @@
           <ng-template pTemplate="title">
             <div class="card-header">
               <i class="pi pi-shopping-cart"></i>
-              <span>Cost</span>
+              <span>Custos</span>
             </div>
           </ng-template>
           <ng-template pTemplate="subtitle">
@@ -48,7 +48,7 @@
           <ng-template pTemplate="title">
             <div class="card-header">
               <i class="pi pi-money-bill"></i>
-              <span>Sales</span>
+              <span>Vendas</span>
             </div>
           </ng-template>
           <ng-template pTemplate="subtitle">
@@ -61,7 +61,7 @@
           <ng-template pTemplate="title">
             <div class="card-header">
               <i class="pi pi-chart-line"></i>
-              <span>Profit</span>
+              <span>Lucro</span>
             </div>
           </ng-template>
           <ng-template pTemplate="subtitle">
@@ -76,7 +76,7 @@
       <div class="p-col-12 p-md-6">
         <p-card class="chart-card"> 
           <ng-template pTemplate="title">
-            <div class="title-card-title">Quantity of product sales</div>
+            <div class="title-card-title">Qtd de produtos vendidos</div>
           </ng-template>
           <ng-template pTemplate="content">
             <p-chart 
@@ -91,7 +91,7 @@
       <div class="p-col-12 p-md-6">
         <p-card class="chart-card">
           <ng-template pTemplate="title">
-            <div class="title-card-title">Quantity product pending and paid</div>
+            <div class="title-card-title">Qtd de vendas pagas e pendentes</div>
           </ng-template>
           <ng-template pTemplate="content">
             <p-chart type="pie" [data]="costsData" [options]="costsOptions"></p-chart>
@@ -113,12 +113,12 @@
             [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr>
-                <th style="width:25%">Product Name</th>
-                <th>Paid</th>
-                <th>Pending</th>
-                <th>Total(qtd)</th>
-                <th>Price</th>
-                <th style="width:15%">Pay?</th>
+                <th style="width:25%">Produto</th>
+                <th>Pago</th>
+                <th>Pendente</th>
+                <th>Total(Qtd)</th>
+                <th>Valor(R$)</th>
+                <th style="width:15%">Pago?</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-relQuantitySale>
