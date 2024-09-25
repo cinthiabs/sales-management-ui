@@ -196,7 +196,7 @@ export class RegisterCostsComponent implements OnInit  {
 
   saveNewCost(form: FormGroup){
     if (form.invalid) {
-      this.notificationService.showErrorToast('Please fill in all required fields.');
+      this.notificationService.showErrorToast('Por favor, preencha todos os campos obrigatórios.');
       return;
     }
     this.loadingButton = true;
@@ -216,7 +216,7 @@ export class RegisterCostsComponent implements OnInit  {
 
       },
       error: (error) => {
-        const errorMessage = error?.error ?? 'Ocorreu um erro durante a operação.';
+        const errorMessage = error?.error ?? 'Ocorreu um erro durante a operação. Tente novamente mais tarde.';
         this.notificationService.showErrorToast(errorMessage)
         this.loadingButton = false;
         this.getallCosts()

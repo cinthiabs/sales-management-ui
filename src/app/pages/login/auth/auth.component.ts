@@ -52,7 +52,7 @@ export class AuthComponent {
 
   postAuthentication(form: FormGroup) {
     if (form.invalid) {
-      this.notificationService.showErrorToast('Please fill in all required fields.');
+      this.notificationService.showErrorToast('Por favor, preencha todos os campos obrigatórios.');
       return;
     }
 
@@ -78,9 +78,9 @@ export class AuthComponent {
       error: (error) => {
         this.loadingComponent.hide();
         if (error.status === 404) {
-          this.notificationService.showErrorToast('User not found.');
+          this.notificationService.showErrorToast('Usuário não encontrado.');
         } 
-          this.notificationService.showErrorToast('An error has occurred during the operation.');
+          this.notificationService.showErrorToast('Ocorreu um erro durante a operação. Tente novamente mais tarde.');
         
       },
       complete: () => {

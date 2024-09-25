@@ -13,7 +13,7 @@ export class NotificationService {
     this.messageService.add({
       key: 'success',
       severity: 'success',
-      summary: 'Success',
+      summary: 'Sucesso',
       detail,
     });
   }
@@ -22,7 +22,7 @@ export class NotificationService {
     this.messageService.add({
       key: 'error',
       severity: 'error',
-      summary: 'Failure',
+      summary: 'Erro',
       detail,
     });
   }
