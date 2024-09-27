@@ -55,7 +55,7 @@ export class RegisterSalesComponent implements OnInit {
   productObject: Product[] = [];
   loadingTable = false;
   loadingButton = false;
-  messageTable = 'No data found';
+  messageTable = 'Nenhum dado encontrado';
   isEditMode: boolean = false;
   sale! : Sale;
   saleId: number = 0;
@@ -83,7 +83,7 @@ export class RegisterSalesComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private notificationService: NotificationService
   ){
-    this.titleService.setTitle('Register Sales');
+    this.titleService.setTitle('Registrar Vendas');
   }
 
   ngOnInit() {
@@ -119,7 +119,7 @@ export class RegisterSalesComponent implements OnInit {
         this.sales = [...this.allSales];
       },
       error: () => {
-        this.messageTable = 'No data found';
+        this.messageTable;
       }
     })
   }
@@ -140,19 +140,21 @@ export class RegisterSalesComponent implements OnInit {
 
   deleteSale(id: number) { 
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete this sale?',
-      header: 'Confirm',
+      message: 'Tem certeza que deseja excluir esse registro?',
+      header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sim',  
+      rejectLabel: 'Não',
       accept: () => {
         this.loadingTable = true;
         this.salesService.deleteSale(id).subscribe({
           next:() => {
-              this.notificationService.showSuccessToast('Sale successfully deleted!')
+              this.notificationService.showSuccessToast('Registro excluido com sucesso!')
               this.loadingTable = false;
               this.getallSale()
           },
           error: (error) => {
-            const errorMessage = error?.error ?? 'An error has occurred during the operation.';
+            const errorMessage = error?.error ?? 'Ocorreu um erro durante a operação.';
             this.notificationService.showErrorToast(errorMessage)
             this.loadingTable = false;
           }  
@@ -164,7 +166,7 @@ export class RegisterSalesComponent implements OnInit {
   dialogEdit(sale: Sale){
     this.isEditMode = true;
     this.isViewing = false;
-    this.handlers.headerDialog = 'Edit Sale'
+    this.handlers.headerDialog = 'Editar Venda'
     this.handlers.handleInsertDialog()
     if(!!sale.id){
       this.saleId = sale.id
@@ -199,13 +201,13 @@ export class RegisterSalesComponent implements OnInit {
     };
     this.salesService.updateSale(this.sale, this.saleId).subscribe({
       next:() => {
-        this.notificationService.showSuccessToast('Sale successfully updated!')
+        this.notificationService.showSuccessToast('Venda atualizada com sucesso!')
         this.handlers.visibleCreate = false;
         this.loadingButton = false;
         this.getallSale()
       },
       error: (error) => {
-        const errorMessage = error?.error ?? 'An error has occurred during the operation.';
+        const errorMessage = error?.error ?? 'Ocorreu um erro durante a operação.';
         this.notificationService.showErrorToast(errorMessage)
         this.loadingButton = false;
       }
@@ -213,7 +215,6 @@ export class RegisterSalesComponent implements OnInit {
 
   }
 
-  
   CreateOrEdit(form: FormGroup) {
     if (this.isEditMode) {
       this.editSale(form);
@@ -224,7 +225,7 @@ export class RegisterSalesComponent implements OnInit {
 
   saveNewSale(form: FormGroup){
     if (form.invalid) {
-      this.notificationService.showErrorToast('Please fill in all required fields.');
+      this.notificationService.showErrorToast('Por favor, preencha todos os campos obrigatórios.');
       return;
     }
     this.loadingButton = true;
@@ -239,14 +240,14 @@ export class RegisterSalesComponent implements OnInit {
     };
     this.salesService.postCreateSale(this.sale).subscribe({
       next:() => {
-        this.notificationService.showSuccessToast('Sale created successfully!')
+        this.notificationService.showSuccessToast('Venda criada com sucesso!')
         this.handlers.visibleCreate = false;
         this.loadingButton = false;
         this.getallSale()
 
       },
       error: (error) => {
-        const errorMessage = error?.error ?? 'An error has occurred during the operation.';
+        const errorMessage = error?.error ?? 'Ocorreu um erro durante a operação.';
         this.notificationService.showErrorToast(errorMessage)
         this.loadingButton = false;
         this.getallSale()
@@ -257,7 +258,7 @@ export class RegisterSalesComponent implements OnInit {
 
   getSaleById(id: number){
     this.isViewing = true; 
-    this.handlers.headerDialog = 'View Sale';
+    this.handlers.headerDialog = 'Visualizar Venda';
     this.handlers.handleInsertDialog();
     if (!!id) {
       this.saleId = id;
@@ -279,7 +280,7 @@ export class RegisterSalesComponent implements OnInit {
       },
 
       error: (error) => {
-        const errorMessage = error?.error?.message ?? 'An error has occurred during the operation.';
+        const errorMessage = error?.error?.message ?? 'Ocorreu um erro durante a operação.';
         this.notificationService.showErrorToast(errorMessage);
         this.loadingButton = false;
       }
@@ -293,7 +294,7 @@ export class RegisterSalesComponent implements OnInit {
   openCreate() {
     this.isViewing = false;
     this.isEditMode = false;
-    this.handlers.headerDialog = 'Create Sale'
+    this.handlers.headerDialog = 'Criar Venda'
     this.createForm.reset();
     this.handlers.handleInsertDialog()
   }

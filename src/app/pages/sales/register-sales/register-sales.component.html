@@ -106,32 +106,32 @@
       [rows]="5"
       [loading]="loadingTable"
       [rowsPerPageOptions]="[5, 10, 15, 20]"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
       [showCurrentPageReport]="true">
       <ng-template pTemplate="header">
         <tr>
           <th pSortableColumn="dateSale">
-            Date Sale <p-sortIcon field="dateSale"></p-sortIcon>
+            Data da Venda <p-sortIcon field="dateSale"></p-sortIcon>
           </th>
           <th pSortableColumn="dateCreate">
-            Data Create <p-sortIcon field="dateCreate"></p-sortIcon>
+            Data da Criação <p-sortIcon field="dateCreate"></p-sortIcon>
           </th>
           <th pSortableColumn="name">
-            Product Name <p-sortIcon field="name"></p-sortIcon>
+            Nome <p-sortIcon field="name"></p-sortIcon>
           </th>
           <th pSortableColumn="details" style="min-width:10rem">
-            Details/Clients <p-sortIcon field="details"></p-sortIcon>
+            Detalhes/Cliente <p-sortIcon field="details"></p-sortIcon>
           </th>
           <th pSortableColumn="quantity">
-            Quantity <p-sortIcon field="quantity"></p-sortIcon>
+            Qtd <p-sortIcon field="quantity"></p-sortIcon>
           </th>
           <th pSortableColumn="price">
-            Price <p-sortIcon field="price"></p-sortIcon>
+            Valor <p-sortIcon field="price"></p-sortIcon>
           </th>
           <th pSortableColumn="pay" style="min-width:1rem">
-            Pay <p-sortIcon field="pay"></p-sortIcon>
+            Pago <p-sortIcon field="pay"></p-sortIcon>
           </th>
-          <th>Actions</th>
+          <th>Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-sale>

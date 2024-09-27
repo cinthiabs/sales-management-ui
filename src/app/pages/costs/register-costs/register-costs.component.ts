@@ -80,7 +80,7 @@ export class RegisterCostsComponent implements OnInit  {
     private confirmationService: ConfirmationService,
     private notificationService: NotificationService
   ){
-    this.titleService.setTitle('Register Costs');
+    this.titleService.setTitle('Registrar Custos');
   }
 
   ngOnInit() {
