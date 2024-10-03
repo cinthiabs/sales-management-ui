@@ -8,7 +8,7 @@
             <a href="/src/assets/files/template.xlsx"
                download="template.xlsx"
             >
-            Import File (xls/xlsx)</a>
+            Importar Arquivo (xls/xlsx)</a>
         </div>
             <p-progressSpinner 
                 ariaLabel="loadingUpload"  
@@ -24,7 +24,10 @@
                 [multiple]="true" 
                 accept=".xlsx,.xls"
                 class="file-upload"
-                maxFileSize="1000000">
+                maxFileSize="1000000"
+                chooseLabel="Escolher"
+                uploadLabel="Importar"
+                cancelLabel="Cancelar">
             </p-fileUpload>
     </div>
 </div>

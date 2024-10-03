@@ -30,7 +30,7 @@ export class UploadComponent {
     private titleService: Title,
     private notificationService: NotificationService
   ){
-    this.titleService.setTitle('Upload File');
+    this.titleService.setTitle('Importação de arquivo');
   }
   
   onSelect(event: FileSelectEvent) {
@@ -40,13 +40,13 @@ export class UploadComponent {
       this.upload.postUploadExcel(uploadFile).subscribe({
         next: (response: any) => {
           if (response) {
-            this.notificationService.showSuccessToast('Data imported successfully!')
+            this.notificationService.showSuccessToast('Planilha importada com sucesso!')
             this.loadingUpload = false;
             this.fileUpload.clear();
           }
         },
         error: (error: any) => {
-          const errorMessage = error?.error ?? 'An error has occurred during the operation.';
+          const errorMessage = error?.error ?? 'Ocorreu um erro durante a operação.';
           this.notificationService.showErrorToast(errorMessage)
           this.loadingUpload = false;
           this.fileUpload.clear();
