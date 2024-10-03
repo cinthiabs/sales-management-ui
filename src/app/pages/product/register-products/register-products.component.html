@@ -7,7 +7,7 @@
     <p-toast></p-toast>
     <p-toolbar styleClass="mb-4 gap-2">
       <ng-template pTemplate="left">
-        <p-button pRipple label="New" icon="pi pi-plus" class="mr-2" (click)="openCreate()"></p-button>
+        <p-button pRipple label="Novo" icon="pi pi-plus" class="mr-2" (click)="openCreate()"></p-button>
       </ng-template>
       <ng-template pTemplate="right">
         <span class="p-input-icon-left">
@@ -16,7 +16,7 @@
             pInputText 
             type="text" 
             (input)="filterGlobal($event)" 
-            placeholder="Search..." />
+            placeholder="Pesquisar..." />
         </span>
       </ng-template>
     </p-toolbar>
@@ -37,31 +37,31 @@
 
         <div class="form-grid">
           <div class="form-field">
-            <label for="username" class="font-semibold">Product Name<span class="required">*</span></label>
+            <label for="username" class="font-semibold">Nome<span class="required">*</span></label>
             <input pInputText  formControlName="name" id="username" autocomplete="off" />
           </div>
           <div class="form-field">
-            <label for="details" class="font-semibold">Details<span class="required">*</span></label>
+            <label for="details" class="font-semibold">Detalhes<span class="required">*</span></label>
             <input pInputText id="details" formControlName="details" autocomplete="off" />
           </div>   
           <div class="form-field">
-            <label for="active" class="font-semibold">Active?<span class="required">*</span></label>
+            <label for="active" class="font-semibold">Ativo?<span class="required">*</span></label>
             <p-dropdown [options]="handlers.active"  formControlName="active" 
               [style]="{'width': '100%', 'text-align': 'left'}"
-              id="pay" optionLabel="name" placeholder="Select..."></p-dropdown>
+              id="pay" optionLabel="name" placeholder="Selecione..."></p-dropdown>
           </div> 
           <div class="form-field">
-            <label for="price" class="font-semibold">Price (R$)<span class="required">*</span></label>
+            <label for="price" class="font-semibold">Valor (R$)<span class="required">*</span></label>
             <p-inputNumber id="price" formControlName="price"  mode="currency" currency="BRL" locale="pt-BR"  [style]="{ 'width': '100%' }" ></p-inputNumber>
           </div> 
           
           @if(!!isViewing){
             <div class="form-field">
-              <label for="createDate" class="font-semibold">Create Date</label>
+              <label for="createDate" class="font-semibold">Data de criação</label>
               <input  pInputText id="createDate" formControlName="createDate" type="text" autocomplete="off" />
             </div>
             <div class="form-field">
-              <label for="editDate" class="font-semibold">Edit Date</label>
+              <label for="editDate" class="font-semibold">Data de edição</label>
               <input  pInputText id="editDate" formControlName="editDate" type="text" autocomplete="off" />
             </div> 
           }
@@ -69,8 +69,8 @@
         
         @if(!isViewing){
           <div class="footer-dialog">
-            <p-button pRipple [label]="isEditMode ? 'Update' : 'Save'" severity="success" type="submit" [loading]="loadingButton" />
-            <p-button pRipple label="Cancel" severity="danger" (click)="cancel()"/>
+            <p-button pRipple [label]="isEditMode ? 'Atualizar' : 'Salvar'" severity="success" type="submit" [loading]="loadingButton" />
+            <p-button pRipple label="Cancelar" severity="danger" (click)="cancel()"/>
           </div>
         }
       </form>    
@@ -84,26 +84,26 @@
       dataKey="id"
       [loading]="loadingTable"
       [rowsPerPageOptions]="[5, 10, 15, 20]"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
       [showCurrentPageReport]="true">
       <ng-template pTemplate="header">
         <tr>
           <th pSortableColumn="dateCreate">
-            Date Create <p-sortIcon field="dateCreate"></p-sortIcon>
+            Data da Criação <p-sortIcon field="dateCreate"></p-sortIcon>
           </th>
           <th pSortableColumn="name">
-            Product Name <p-sortIcon field="name"></p-sortIcon>
+            Nome <p-sortIcon field="name"></p-sortIcon>
           </th>
           <th pSortableColumn="details">
-            Details <p-sortIcon field="details"></p-sortIcon>
+            Detalhes <p-sortIcon field="details"></p-sortIcon>
           </th>
           <th pSortableColumn="price">
-            Price <p-sortIcon field="price"></p-sortIcon>
+            Valor <p-sortIcon field="price"></p-sortIcon>
           </th>
           <th pSortableColumn="active" style="min-width:1rem">
-            Active <p-sortIcon field="active"></p-sortIcon>
+            Ativo <p-sortIcon field="active"></p-sortIcon>
           </th>
-          <th>Actions</th>
+          <th>Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-product>

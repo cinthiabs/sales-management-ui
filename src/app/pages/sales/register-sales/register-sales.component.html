@@ -6,7 +6,7 @@
     <p-toast></p-toast>
     <p-toolbar styleClass="mb-4 gap-2">
       <ng-template pTemplate="left">
-        <p-button pRipple label="New" icon="pi pi-plus" class="mr-2" (click)="openCreate()"></p-button>
+        <p-button pRipple label="Novo" icon="pi pi-plus" class="mr-2" (click)="openCreate()"></p-button>
       </ng-template>
       <ng-template pTemplate="right">
         <span class="p-input-icon-left">
@@ -15,7 +15,7 @@
             pInputText 
             type="text" 
             (input)="filterGlobal($event)" 
-            placeholder="Search..." />
+            placeholder="Pesquisar..." />
         </span>
       </ng-template>
     </p-toolbar>
@@ -36,15 +36,15 @@
 
           <div class="form-grid">
             <div class="form-field">
-              <label for="nameProduct" class="font-semibold">Product Name <span class="required">*</span></label>
+              <label for="nameProduct" class="font-semibold"> Nome <span class="required">*</span></label>
               <p-dropdown [style]="{width: '384px'}" 
               id="nameProduct" formControlName="nameProduct" [options]="productObject" optionLabel="name"
-          placeholder="Select a product" [filter]="true" filterBy="name" [virtualScroll]="true" 
+          placeholder="Selecione um produto" [filter]="true" filterBy="name" [virtualScroll]="true" 
           [virtualScrollItemSize]="38"   (onChange)="onProductSelect($event)"/>
           </div>
 
             <div class="form-field">
-              <label for="dateSale" class="font-semibold">Date Sale <span class="required">*</span></label>
+              <label for="dateSale" class="font-semibold">Data da Venda<span class="required">*</span></label>
               <p-calendar 
               [iconDisplay]="'input'" 
               [showIcon]="true" 
@@ -57,41 +57,41 @@
           </div>
 
             <div class="form-field">
-                <label for="details" class="font-semibold">Details/Clients</label>
+                <label for="details" class="font-semibold">Detalhes/Cliente</label>
                 <input pInputText formControlName="details" id="details" autocomplete="off" />
             </div>
             
             <div class="form-field">
-              <label for="quantity" class="font-semibold">Quantity<span class="required">*</span></label>
+              <label for="quantity" class="font-semibold">Quantidade<span class="required">*</span></label>
               <p-inputNumber formControlName="quantity" id="quantity" [style]="{ 'width': '100%' }" ></p-inputNumber>
            </div>
 
             <div class="form-field">
-              <label for="pay" class="font-semibold">Pay?</label>
+              <label for="pay" class="font-semibold">Pago?</label>
               <p-dropdown [options]="handlers.situation"  formControlName="paySelect" 
               [style]="{'width': '100%', 'text-align': 'left'}"
-              id="pay" optionLabel="name" placeholder="Select a situation"></p-dropdown>
+              id="pay" optionLabel="name" placeholder="Selecione a situação"></p-dropdown>
             </div>
 
             <div class="form-field">
-              <label for="price" class="font-semibold">Price (R$) <span class="required">*</span></label>
+              <label for="price" class="font-semibold">Valor (R$) <span class="required">*</span></label>
               <p-inputNumber id="price" formControlName="price"  mode="currency" currency="BRL" locale="pt-BR"  [style]="{ 'width': '100%' }" ></p-inputNumber>
             </div>       
             @if(!!isViewing){
               <div class="form-field">
-                <label for="createDate" class="font-semibold">Create Date</label>
+                <label for="createDate" class="font-semibold">Data de criação</label>
                 <input  pInputText id="createDate" formControlName="createDate" type="text" autocomplete="off" />
               </div>
               <div class="form-field">
-                <label for="editDate" class="font-semibold">Edit Date</label>
+                <label for="editDate" class="font-semibold">Data da edição</label>
                 <input  pInputText id="editDate" formControlName="editDate" type="text" autocomplete="off" />
               </div> 
             }
           </div>
         @if(!isViewing){
           <div class="footer-dialog">
-            <p-button pRipple [label]="isEditMode ? 'Update' : 'Save'" severity="success" type="submit" [loading]="loadingButton" />
-            <p-button pRipple label="Cancel" severity="danger" (click)="cancel()"/>
+            <p-button pRipple [label]="isEditMode ? 'Atualizar' : 'Salvar'" severity="success" type="submit" [loading]="loadingButton" />
+            <p-button pRipple label="Cancelar" severity="danger" (click)="cancel()"/>
           </div>
         }
       </form>    
