@@ -24,8 +24,19 @@
 
             <div class="form-group">
                 <label for="email">E-mail</label>
-                <input id="email" type="text" pInputText placeholder="E-mail" />
+                <input id="email" type="text" pInputText placeholder="E-mail"[disabled]="true" />
             </div>
+            <div class="form-group">
+                <label for="userType">Tipo de Usuário</label>
+                <p-dropdown
+                    id="userType"
+                    [options]="userTypes"
+                    formControlName="userType"
+                    [style]="{'width': '100%'}"
+                    placeholder="Selecione um tipo de usuário"
+                ></p-dropdown>
+            </div>
+
 
             <div class="form-group">
                 <label for="phone">Telefone</label>
