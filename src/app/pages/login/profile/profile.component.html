@@ -1,1 +1,65 @@
-<p>profile works!</p>
+<p-card header="Meu Perfil"  styleClass="profile-card" [style]="{ 'box-shadow': 'none', 'border': 'none' }">
+    <div class="profile-form">
+
+        <div class="profile-pic-section">
+            <div class="profile-pic">
+                <img [src]="'/assets/imgs/default-image-url.jpg'" alt="Profile Picture" class="profile-img">
+                <p-fileUpload mode="basic" name="file" accept="image/*" (onUpload)="onPhotoUpload($event)">
+                    <button pButton type="button" label="Clique para mudar a foto" icon="pi pi-camera"></button>
+                </p-fileUpload>
+            </div>
+            <p class="photo-info">Sua foto de perfil</p>
+        </div>
+
+        <div class="profile-info-section">
+            <div class="form-group">
+                <label for="firstName">Nome</label>
+                <input id="firstName" type="text" pInputText placeholder="Nome" />
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Sobrenome</label>
+                <input id="lastName" type="text" pInputText placeholder="Sobrenome" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input id="email" type="text" pInputText placeholder="E-mail" />
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Telefone</label>
+                <input id="phone" type="text" pInputText placeholder="Telefone" />
+            </div>
+
+            <div class="form-group">
+                <label for="cep">CEP</label>
+                <input id="cep" type="text" pInputText placeholder="CEP" />
+            </div>
+
+            <div class="form-group">
+                <label for="address">Endereço</label>
+                <input id="address" type="text" pInputText placeholder="Endereço" [disabled]="true"/>
+            </div>
+
+            <div class="form-group">
+                <label for="number">Número</label>
+                <input id="number" type="text" pInputText placeholder="Número" />
+            </div>
+
+            <div class="form-group">
+                <label for="city">Cidade</label>
+                <input id="city" type="text" pInputText placeholder="Cidade" [disabled]="true"/>
+            </div>
+
+            <div class="form-group">
+                <label for="state">Estado</label>
+                <input id="state" type="text" pInputText placeholder="Estado" [disabled]="true" />
+            </div>
+        </div>
+
+        <div class="save-button-section">
+            <p-button label="Salvar" icon="pi pi-check" (click)="updateUserProfile()"></p-button>
+        </div>
+    </div>
+</p-card>
