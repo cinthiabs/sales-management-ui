@@ -1,9 +1,9 @@
 export interface Authentication {
-    username?: string,
-    password: string,
-    email: number,
-    confirmPassword?: string,
-    name?: string 
+    username?: string;
+    password: string;
+    email: number;
+    confirmPassword?: string;
+    name?: string; 
 }
 
 export interface AuthenticationResponse {

@@ -1,14 +1,14 @@
 export interface Cost {
-    id?: number,
-    quantity: string,
-    name:string,
-    dateCost:string,
-    unitPrice:number,
-    totalPrice:number,
-    dateCreate?:string | null,
-    dateEdit?:string | null
+    id?: number;
+    quantity: string;
+    name:string;
+    dateCost:string;
+    unitPrice:number;
+    totalPrice:number;
+    dateCreate?:string | null;
+    dateEdit?:string | null;
 }
 export interface RelCostPrice {
-    name: string,
-    totalPrice: number
+    name: string;
+    totalPrice: number;
 }
