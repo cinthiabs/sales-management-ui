@@ -8,7 +8,7 @@ export interface UserProfile{
     city: string;
     state: string;
     zipCode: string;
-    accessLevel: string;
+    accessLevelId: number;
     dateCreate: string;
     dateEdit: string; 
 }

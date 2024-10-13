@@ -14,58 +14,55 @@
         <div class="profile-info-section">
             <div class="form-group">
                 <label for="firstName">Nome</label>
-                <input id="firstName" type="text" pInputText placeholder="Nome" />
+                <input pInputText formControlName="firstName" id="firstName" type="text" pInputText placeholder="Nome" />
             </div>
-
             <div class="form-group">
                 <label for="lastName">Sobrenome</label>
-                <input id="lastName" type="text" pInputText placeholder="Sobrenome" />
+                <input pInputText formControlName="lastName" id="lastName" type="text" pInputText placeholder="Sobrenome" />
             </div>
-
             <div class="form-group">
                 <label for="email">E-mail</label>
-                <input id="email" type="text" pInputText placeholder="E-mail"[disabled]="true" />
+                <input pInputText  formControlName="email" id="email" type="text" pInputText placeholder="E-mail"[disabled]="true" />
             </div>
             <div class="form-group">
                 <label for="userType">Tipo de Usuário</label>
                 <p-dropdown
                     id="userType"
                     [options]="userTypes"
-                    formControlName="userType"
+                    formControlName="accessLevelId"
                     [style]="{'width': '100%'}"
                     placeholder="Selecione um tipo de usuário"
                 ></p-dropdown>
             </div>
 
-
             <div class="form-group">
                 <label for="phone">Telefone</label>
-                <input id="phone" type="text" pInputText placeholder="Telefone" />
+                <input pInputText formControlName="phone" id="phone" type="text" pInputText placeholder="Telefone" />
             </div>
 
             <div class="form-group">
                 <label for="cep">CEP</label>
-                <input id="cep" type="text" pInputText placeholder="CEP" />
+                <input pInputText formControlName="cep" id="cep" type="text" pInputText placeholder="CEP" />
             </div>
 
             <div class="form-group">
                 <label for="address">Endereço</label>
-                <input id="address" type="text" pInputText placeholder="Endereço" [disabled]="true"/>
+                <input pInputText formControlName="address" id="address" type="text" pInputText placeholder="Endereço" [disabled]="true"/>
             </div>
 
             <div class="form-group">
                 <label for="number">Número</label>
-                <input id="number" type="text" pInputText placeholder="Número" />
+                <input pInputText formControlName="number" id="number" type="text" pInputText placeholder="Número" />
             </div>
 
             <div class="form-group">
                 <label for="city">Cidade</label>
-                <input id="city" type="text" pInputText placeholder="Cidade" [disabled]="true"/>
+                <input pInputText formControlName="city" id="city" type="text" pInputText placeholder="Cidade" [disabled]="true"/>
             </div>
 
             <div class="form-group">
                 <label for="state">Estado</label>
-                <input id="state" type="text" pInputText placeholder="Estado" [disabled]="true" />
+                <input pInputText formControlName="state" id="state" type="text" pInputText placeholder="Estado" [disabled]="true" />
             </div>
         </div>
 

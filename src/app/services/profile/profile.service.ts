@@ -21,5 +21,4 @@ export class ProfileService {
   updateUserProfile(profile: UserProfile, id: number):Observable<any>{
     return this.http.put<any>(`/UpdateUserProfile/${id}`, profile);
   }
-
 }

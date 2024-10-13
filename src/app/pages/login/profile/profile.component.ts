@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule , ReactiveFormsModule, Validators} from '@angular/forms';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';  
@@ -8,6 +8,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { Title } from '@angular/platform-browser';
 import { NotificationService } from '../../../services/shared/messages/notification.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ProfileService } from '../../../services/profile/profile.service';
+import { UserProfile } from '../../../models/user/profile';
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -16,14 +18,23 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
+  userProfile : UserProfile[] = [];
+  
   userTypes = [
-    {name: 'Adm', value: true},
-    {name: 'Usuario', value: false}
+    {name: 'Adm', value: 1},
+    {name: 'Usuario', value: 2}
   ]
 
   createForm: FormGroup = this.fb.group({
-    userTypes: [''],
+    firstName: [''],
+    lastName: [''],
+    phone: [''],
+    address: [''],
+    city: [''],
+    state: [''],
+    zipCode: [''],
+    accessLevelId: [''],
     createDate: [{value: '', disabled: true}],
     editDate: [{value: '', disabled: true}] 
   })
@@ -31,29 +42,45 @@ export class ProfileComponent {
     private fb: FormBuilder,
     private titleService: Title,
     private notificationService: NotificationService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private profileService: ProfileService
     ){
       this.titleService.setTitle('Perfil');
     }
 
+
+  ngOnInit() {
+      this.getProfile()
+  }
+  
   updateUserProfile(){
   }
   onPhotoUpload(event: any){
 
   }
 
-  getProfile(){
-    this.salesService.getAllSales().subscribe({
-      next:(response) => {
-        this.allSales = response.data.flat()
-        this.sales = [...this.allSales];
+  getProfile() {
+    this.profileService.getByIdUserProfile(2).subscribe({
+      next: (response) => {
+        this.createForm.patchValue({
+          firstName: response.data[0].firstName,
+          lastName: response.data[0].lastName,
+          phone: response.data[0].phone,
+          address: response.data[0].address,
+          city: response.data[0].city,
+          state: response.data[0].state,
+          zipCode: response.data[0].zipCode,
+          accessLevelId: this.userTypes.find(type => type.value === response.data[0].accessLevelId),
+         // createDate: response.data[0].createDate ? new Date(response.data.createDate).toLocaleDateString('pt-BR') : null,
+          //editDate: response.data[0].editDate ? new Date(response.data.editDate).toLocaleDateString('pt-BR') : null,
+        });
+          this.createForm.disable();
       },
-      error: () => {
-        this.messageTable;
+      error: (error) => {
+        const errorMessage = error?.error?.message ?? 'Ocorreu um erro ao carregar o perfil.';
+        this.notificationService.showErrorToast(errorMessage);
       }
-    })
+    });
   }
-
-
 
 }
