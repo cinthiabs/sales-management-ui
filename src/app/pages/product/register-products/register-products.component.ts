@@ -47,7 +47,7 @@ import { LoadingComponent } from '../../shared/components/loading/loading.compon
 })
 export class RegisterProductsComponent implements OnInit {
   @ViewChild('dt') dataTable!: Table;
-  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
+//  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
 
   products: Product[] = [];
   allProducts: Product[] = [];
@@ -107,16 +107,16 @@ export class RegisterProductsComponent implements OnInit {
 
 
   getAllProducts(){
-    this.loadingComponent.show();
+    //this.loadingComponent.show();
     this.productService.getAllProducts().subscribe({
       next:(response) => {
         this.products = response.data;
-        this.loadingComponent.hide();
+        //this.loadingComponent.hide();
 
       },
       error: () => {
         this.messageTable;
-        this.loadingComponent.hide();
+       // this.loadingComponent.hide();
       }
     })
   }

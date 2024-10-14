@@ -3,7 +3,7 @@
 
         <div class="profile-pic-section">
             <div class="profile-pic">
-                <img [src]="'/assets/imgs/default-image-url.jpg'" alt="Profile Picture" class="profile-img">
+                <img [src]="" alt="Profile Picture" class="profile-img">
                 <p-fileUpload mode="basic" name="file" accept="image/*" (onUpload)="onPhotoUpload($event)">
                     <button pButton type="button" label="Clique para mudar a foto" icon="pi pi-camera"></button>
                 </p-fileUpload>
@@ -11,7 +11,16 @@
             <p class="photo-info">Sua foto de perfil</p>
         </div>
 
+        <form
+        [formGroup]="createForm"
+        method="post"
+        (ngSubmit)="updateUserProfile(createForm)">
+
         <div class="profile-info-section">
+            <div class="form-group">
+                <label for="firstName">username</label>
+                <input pInputText formControlName="username" id="username" type="text" pInputText placeholder="Nome" [disabled]="true"/>
+            </div>
             <div class="form-group">
                 <label for="firstName">Nome</label>
                 <input pInputText formControlName="firstName" id="firstName" type="text" pInputText placeholder="Nome" />
@@ -20,6 +29,7 @@
                 <label for="lastName">Sobrenome</label>
                 <input pInputText formControlName="lastName" id="lastName" type="text" pInputText placeholder="Sobrenome" />
             </div>
+            
             <div class="form-group">
                 <label for="email">E-mail</label>
                 <input pInputText  formControlName="email" id="email" type="text" pInputText placeholder="E-mail"[disabled]="true" />
@@ -41,8 +51,8 @@
             </div>
 
             <div class="form-group">
-                <label for="cep">CEP</label>
-                <input pInputText formControlName="cep" id="cep" type="text" pInputText placeholder="CEP" />
+                <label for="zipCode">CEP</label>
+                <input pInputText formControlName="zipCode" id="zipCode" type="text" pInputText placeholder="CEP" />
             </div>
 
             <div class="form-group">
@@ -51,8 +61,8 @@
             </div>
 
             <div class="form-group">
-                <label for="number">Número</label>
-                <input pInputText formControlName="number" id="number" type="text" pInputText placeholder="Número" />
+                <label for="num">Número</label>
+                <input pInputText formControlName="num" id="num" type="text" pInputText placeholder="Número" />
             </div>
 
             <div class="form-group">
@@ -67,7 +77,8 @@
         </div>
 
         <div class="save-button-section">
-            <p-button label="Salvar" icon="pi pi-check" (click)="updateUserProfile()"></p-button>
+            <p-button label="Salvar" icon="pi pi-check" type="submit"></p-button>
         </div>
-    </div>
+    </form>
+ </div>
 </p-card>

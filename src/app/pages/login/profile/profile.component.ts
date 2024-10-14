@@ -27,16 +27,17 @@ export class ProfileComponent implements OnInit {
   ]
 
   createForm: FormGroup = this.fb.group({
+    username:[''],
     firstName: [''],
     lastName: [''],
+    email: [''],
     phone: [''],
     address: [''],
     city: [''],
     state: [''],
     zipCode: [''],
-    accessLevelId: [''],
-    createDate: [{value: '', disabled: true}],
-    editDate: [{value: '', disabled: true}] 
+    num:[''],
+    accessLevelId: ['']
   })
   constructor(
     private fb: FormBuilder,
@@ -53,10 +54,7 @@ export class ProfileComponent implements OnInit {
       this.getProfile()
   }
   
-  updateUserProfile(){
-  }
   onPhotoUpload(event: any){
-
   }
 
   getProfile() {
@@ -70,17 +68,17 @@ export class ProfileComponent implements OnInit {
           city: response.data[0].city,
           state: response.data[0].state,
           zipCode: response.data[0].zipCode,
-          accessLevelId: this.userTypes.find(type => type.value === response.data[0].accessLevelId),
-         // createDate: response.data[0].createDate ? new Date(response.data.createDate).toLocaleDateString('pt-BR') : null,
-          //editDate: response.data[0].editDate ? new Date(response.data.editDate).toLocaleDateString('pt-BR') : null,
+          accessLevelId: this.userTypes.find(type => type.value === response.data[0].accessLevelId)
         });
-          this.createForm.disable();
       },
       error: (error) => {
         const errorMessage = error?.error?.message ?? 'Ocorreu um erro ao carregar o perfil.';
         this.notificationService.showErrorToast(errorMessage);
       }
     });
+  }
+  
+  updateUserProfile(form: FormGroup){
   }
 
 }
