@@ -45,9 +45,11 @@
     font-weight: bold;
 }
 
-pInputText {
-    width: 100%;
+input[readonly] {
+    background-color: #f7f7f7; 
+    cursor: not-allowed; 
 }
+
 .form-group p-dropdown {
     flex: 1;
     width: 100%;

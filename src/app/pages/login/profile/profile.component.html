@@ -3,7 +3,7 @@
 
         <div class="profile-pic-section">
             <div class="profile-pic">
-                <img [src]="" alt="Profile Picture" class="profile-img">
+                <img src="/src/assets/imgs/default-image-url.jpg" alt="Image" class="profile-img">
                 <p-fileUpload mode="basic" name="file" accept="image/*" (onUpload)="onPhotoUpload($event)">
                     <button pButton type="button" label="Clique para mudar a foto" icon="pi pi-camera"></button>
                 </p-fileUpload>
@@ -19,7 +19,7 @@
         <div class="profile-info-section">
             <div class="form-group">
                 <label for="firstName">Username</label>
-                <input pInputText formControlName="username" id="username" type="text" pInputText placeholder="Nome" [disabled]="true"/>
+                <input pInputText formControlName="username" id="username" type="text" pInputText placeholder="Nome" readonly/>
             </div>
             <div class="form-group">
                 <label for="firstName">Nome</label>
@@ -32,7 +32,7 @@
             
             <div class="form-group">
                 <label for="email">E-mail</label>
-                <input pInputText  formControlName="email" id="email" type="text" pInputText placeholder="E-mail"[disabled]="true" />
+                <input pInputText  formControlName="email" id="email" type="text" pInputText placeholder="E-mail" readonly />
             </div>
             <div class="form-group">
                 <label for="userType">Tipo de Usuário</label>
@@ -57,7 +57,7 @@
 
             <div class="form-group">
                 <label for="address">Endereço</label>
-                <input pInputText formControlName="address" id="address" type="text" pInputText placeholder="Endereço" [disabled]="true"/>
+                <input pInputText formControlName="address" id="address" type="text" pInputText placeholder="Endereço" readonly/>
             </div>
 
             <div class="form-group">
@@ -67,12 +67,12 @@
 
             <div class="form-group">
                 <label for="city">Cidade</label>
-                <input pInputText formControlName="city" id="city" type="text" pInputText placeholder="Cidade" [disabled]="true"/>
+                <input pInputText formControlName="city" id="city" type="text" pInputText placeholder="Cidade" readonly/>
             </div>
 
             <div class="form-group">
                 <label for="state">Estado</label>
-                <input pInputText formControlName="state" id="state" type="text" pInputText placeholder="Estado" [disabled]="true" />
+                <input pInputText formControlName="state" id="state" type="text" pInputText placeholder="Estado" readonly />
             </div>
         </div>
 
