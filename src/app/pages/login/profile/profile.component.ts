@@ -27,6 +27,7 @@ export class ProfileComponent implements OnInit {
   ]
 
   createForm: FormGroup = this.fb.group({
+    image: [''],
     username:[''],
     firstName: [''],
     lastName: [''],
@@ -61,8 +62,11 @@ export class ProfileComponent implements OnInit {
     this.profileService.getByIdUserProfile(2).subscribe({
       next: (response) => {
         this.createForm.patchValue({
+          image:response.data[0].image,
+          username: response.data[0].username,
           firstName: response.data[0].firstName,
           lastName: response.data[0].lastName,
+          email: response.data[0].email,
           phone: response.data[0].phone,
           address: response.data[0].address,
           city: response.data[0].city,
@@ -70,6 +74,7 @@ export class ProfileComponent implements OnInit {
           zipCode: response.data[0].zipCode,
           accessLevelId: this.userTypes.find(type => type.value === response.data[0].accessLevelId)
         });
+        console.log(response)
       },
       error: (error) => {
         const errorMessage = error?.error?.message ?? 'Ocorreu um erro ao carregar o perfil.';
