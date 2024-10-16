@@ -1,84 +1,87 @@
-<p-card header="Meu Perfil"  styleClass="profile-card" [style]="{ 'box-shadow': 'none', 'border': 'none' }">
-    <div class="profile-form">
-
-        <div class="profile-pic-section">
-            <div class="profile-pic">
-                <img src="/src/assets/imgs/default-image-url.jpg" alt="Image" class="profile-img">
-                <p-fileUpload mode="basic" name="file" accept="image/*" (onUpload)="onPhotoUpload($event)">
-                    <button pButton type="button" label="Clique para mudar a foto" icon="pi pi-camera"></button>
-                </p-fileUpload>
-            </div>
-            <p class="photo-info">Sua foto de perfil</p>
+<div class="account-container" [formGroup]="createForm">
+    <div class="profile-image-section">
+        <div class="profile-img-container">
+            <img src="assets/default-profile.png" alt="Imagem de Perfil" class="profile-img" />
         </div>
+        <p-fileUpload mode="basic" name="file" accept=".jpg,.png,.webp" maxFileSize="2000000"
+                      (onUpload)="onPhotoUpload($event)" [auto]="true">
+        </p-fileUpload>
+        <p class="upload-info">Apenas .jpg, .png, são aceitos. Tamanho máximo: 2 MB</p>
+    </div>
 
-        <form
-        [formGroup]="createForm"
-        method="post"
-        (ngSubmit)="updateUserProfile(createForm)">
+    <div class="account-info-section">
+        <div class="section personal-info">
+            <h3>Informações sobre a conta</h3>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input pInputText formControlName="username" id="username" type="text" readonly />
+            </div>
 
-        <div class="profile-info-section">
             <div class="form-group">
-                <label for="firstName">Username</label>
-                <input pInputText formControlName="username" id="username" type="text" pInputText placeholder="Nome" readonly/>
+                <label for="email">Email:</label>
+                <input pInputText formControlName="email" id="email" type="email" readonly />
             </div>
+
             <div class="form-group">
-                <label for="firstName">Nome</label>
-                <input pInputText formControlName="firstName" id="firstName" type="text" pInputText placeholder="Nome" />
-            </div>
-            <div class="form-group">
-                <label for="lastName">Sobrenome</label>
-                <input pInputText formControlName="lastName" id="lastName" type="text" pInputText placeholder="Sobrenome" />
-            </div>
-            
-            <div class="form-group">
-                <label for="email">E-mail</label>
-                <input pInputText  formControlName="email" id="email" type="text" pInputText placeholder="E-mail" readonly />
-            </div>
-            <div class="form-group">
-                <label for="userType">Tipo de Usuário</label>
+                <label for="userTypes">Tipo de Usuário</label>
                 <p-dropdown
-                    id="userType"
+                    id="userTypes"
                     [options]="userTypes"
                     formControlName="accessLevelId"
                     [style]="{'width': '100%'}"
-                    placeholder="Selecione um tipo de usuário"
-                ></p-dropdown>
-            </div>
-
-            <div class="form-group">
-                <label for="phone">Telefone</label>
-                <input pInputText formControlName="phone" id="phone" type="text" pInputText placeholder="Telefone" />
-            </div>
-
-            <div class="form-group">
-                <label for="zipCode">CEP</label>
-                <input pInputText formControlName="zipCode" id="zipCode" type="text" pInputText placeholder="CEP" />
-            </div>
-
-            <div class="form-group">
-                <label for="address">Endereço</label>
-                <input pInputText formControlName="address" id="address" type="text" pInputText placeholder="Endereço" readonly/>
-            </div>
-
-            <div class="form-group">
-                <label for="num">Número</label>
-                <input pInputText formControlName="num" id="num" type="text" pInputText placeholder="Número" />
-            </div>
-
-            <div class="form-group">
-                <label for="city">Cidade</label>
-                <input pInputText formControlName="city" id="city" type="text" pInputText placeholder="Cidade" readonly/>
-            </div>
-
-            <div class="form-group">
-                <label for="state">Estado</label>
-                <input pInputText formControlName="state" id="state" type="text" pInputText placeholder="Estado" readonly />
+                    placeholder="Selecione um tipo de usuário">
+                </p-dropdown>
             </div>
         </div>
 
-        <div class="save-button-section">
-            <p-button label="Salvar" icon="pi pi-check" type="submit"></p-button>
+        <div class="section work-info">
+            <h3>Informações pessoais</h3>
+            <div class="form-group">
+                <label for="firstName" class="font-semibold">Nome:</label>
+                <input pInputText formControlName="firstName" id="firstName" type="text" />
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Sobrenome:</label>
+                <input pInputText formControlName="lastName" id="lastName" type="text" />
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Telefone:</label>
+                <input pInputText formControlName="phone" id="phone" type="text" />
+            </div>
         </div>
-    </form>
- </div>
-</p-card>
+
+        <div class="section address-info">
+            <h3>Informações de endereço</h3>
+            <div class="form-group">
+                <label for="zipcode">CEP:</label>
+                <input pInputText formControlName="zipcode" id="zipcode" type="text" />
+            </div>
+
+            <div class="form-group">
+                <label for="address">Endereço:</label>
+                <input pInputText formControlName="address" id="address" type="text" readonly />
+            </div>
+
+            <div class="form-group">
+                <label for="num">Número:</label>
+                <input pInputText formControlName="num" id="num" type="text" />
+            </div>
+
+            <div class="form-group">
+                <label for="city">Cidade:</label>
+                <input pInputText formControlName="city" id="city" type="text" readonly />
+            </div>
+
+            <div class="form-group">
+                <label for="state">Estado:</label>
+                <input pInputText formControlName="state" id="state" type="text" readonly />
+            </div>
+        </div>
+
+        <div class="button-group">
+            <p-button label="Salvar" icon="pi pi-check" (click)="updateUserProfile()"></p-button>
+        </div>
+    </div>
+</div>

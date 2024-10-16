@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule , ReactiveFormsModule, Validators} from '@angular/forms';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';  
+import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';  
 import { CardModule } from 'primeng/card';  
 import { DropdownModule } from 'primeng/dropdown';
@@ -13,7 +14,7 @@ import { UserProfile } from '../../../models/user/profile';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,FileUploadModule,ButtonModule,InputTextModule,CardModule, DropdownModule],
+  imports: [FormsModule,ReactiveFormsModule,InputMaskModule,FileUploadModule,ButtonModule,InputTextModule,CardModule, DropdownModule],
   providers: [MessageService, NotificationService, ConfirmationService],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
@@ -72,7 +73,7 @@ export class ProfileComponent implements OnInit {
           city: response.data[0].city,
           state: response.data[0].state,
           zipCode: response.data[0].zipCode,
-          accessLevelId: this.userTypes.find(type => type.value === response.data[0].accessLevelId)
+          accessLevelId: this.userTypes.find(option => option.value === response.data[0].accessLevelId)
         });
         console.log(response)
       },
@@ -83,7 +84,7 @@ export class ProfileComponent implements OnInit {
     });
   }
   
-  updateUserProfile(form: FormGroup){
+  updateUserProfile(){
   }
 
 }
