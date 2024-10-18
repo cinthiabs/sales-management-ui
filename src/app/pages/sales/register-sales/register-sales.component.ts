@@ -231,6 +231,7 @@ export class RegisterSalesComponent implements OnInit {
     this.loadingButton = true;
     this.sale = {
       idProduct : this.selectedProduct.id,
+      idClient: null,
       name:  this.selectedProduct.name,
       dateSale: new Date(form.get('dateSale')?.value).toISOString().split('T')[0],
       details: form.get('details')?.value,
@@ -244,13 +245,21 @@ export class RegisterSalesComponent implements OnInit {
         this.handlers.visibleCreate = false;
         this.loadingButton = false;
         this.getallSale()
-
       },
       error: (error) => {
-        const errorMessage = error?.error ?? 'Ocorreu um erro durante a operação.';
-        this.notificationService.showErrorToast(errorMessage)
+        let errorMessage = 'Ocorreu um erro durante a operação.';
+      
+        if (error?.status === 400) {
+          errorMessage = 'Requisição inválida. Verifique os dados informados.';
+        } else if (error?.status === 409) {
+          errorMessage = 'Venda já existe na base.';
+        } else  {
+          errorMessage;
+        }
+        
+        this.notificationService.showErrorToast(errorMessage);
         this.loadingButton = false;
-        this.getallSale()
+        this.getallSale();
       }
 
     })

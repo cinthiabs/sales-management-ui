@@ -8,8 +8,8 @@ export class RegisterHandlers {
   headerDialog = '';
 
   situation = [
-    {name: 'Pago', value: true},
-    {name: 'Pendente', value: false}
+    {name: 'Pago', value: 1},
+    {name: 'Pendente', value: 0}
   ]
 
   handleInsertDialog() {

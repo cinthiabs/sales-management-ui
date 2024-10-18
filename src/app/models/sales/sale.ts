@@ -1,12 +1,13 @@
 export interface Sale {
     id? :number;
     idProduct: number;
+    idClient?: string | null;
     dateSale: string;
     name:string;
     details:string;
     quantity:number;
     price:number;
-    pay:boolean;
+    pay:number;
     dateCreate?:string | null;
     dateEdit?:string | null;
 }
