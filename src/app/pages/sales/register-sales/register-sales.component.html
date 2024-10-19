@@ -33,14 +33,23 @@
         [formGroup]="createForm"
         method="post"
         (ngSubmit)="CreateOrEdit(createForm)">
-
+        @if(!!isViewing){
+          <div class="form-field">
+            <label for="createDate" class="font-semibold">Data de criação</label>
+            <input  pInputText id="createDate" formControlName="createDate" type="text" autocomplete="off" />
+          </div>
+          <div class="form-field">
+            <label for="editDate" class="font-semibold">Data da edição</label>
+            <input  pInputText id="editDate" formControlName="editDate" type="text" autocomplete="off" />
+          </div> 
+        }
           <div class="form-grid">
             <div class="form-field">
               <label for="nameProduct" class="font-semibold"> Nome <span class="required">*</span></label>
               <p-dropdown [style]="{width: '384px'}" 
               id="nameProduct" formControlName="nameProduct" [options]="productObject" optionLabel="name"
-          placeholder="Selecione um produto" [filter]="true" filterBy="name" [virtualScroll]="true" 
-          [virtualScrollItemSize]="38"   (onChange)="onProductSelect($event)"/>
+              placeholder="Selecione um produto" [filter]="true" filterBy="name" [virtualScroll]="true" 
+              [virtualScrollItemSize]="38"   (onChange)="onProductSelect($event)"/>
           </div>
 
             <div class="form-field">
@@ -77,16 +86,6 @@
               <label for="price" class="font-semibold">Valor (R$) <span class="required">*</span></label>
               <p-inputNumber id="price" formControlName="price"  mode="currency" currency="BRL" locale="pt-BR"  [style]="{ 'width': '100%' }" ></p-inputNumber>
             </div>       
-            @if(!!isViewing){
-              <div class="form-field">
-                <label for="createDate" class="font-semibold">Data de criação</label>
-                <input  pInputText id="createDate" formControlName="createDate" type="text" autocomplete="off" />
-              </div>
-              <div class="form-field">
-                <label for="editDate" class="font-semibold">Data da edição</label>
-                <input  pInputText id="editDate" formControlName="editDate" type="text" autocomplete="off" />
-              </div> 
-            }
           </div>
         @if(!isViewing){
           <div class="footer-dialog">

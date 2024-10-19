@@ -85,6 +85,13 @@ export class RegisterCostsComponent implements OnInit  {
 
   ngOnInit() {
     this.getallCosts()
+    
+    this.createForm.get('quantity')?.valueChanges.subscribe(() => {
+      this.calculateTotalPrice();
+    });
+    this.createForm.get('unitPrice')?.valueChanges.subscribe(() => {
+      this.calculateTotalPrice();
+    });
   }
 
   filterGlobal(event: any){
@@ -234,5 +241,13 @@ export class RegisterCostsComponent implements OnInit  {
     this.handlers.headerDialog = 'Cadastrar Custo'
     this.createForm.reset();
     this.handlers.handleInsertDialog()
+  }
+
+  calculateTotalPrice() {
+    const quantity = this.createForm.get('quantity')?.value || 0;
+    const unitPrice = this.createForm.get('unitPrice')?.value || 0;
+    const totalPrice = quantity * unitPrice;
+    
+    this.createForm.get('price')?.setValue(totalPrice, { emitEvent: false });
   }
 }
