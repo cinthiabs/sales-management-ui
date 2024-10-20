@@ -1,10 +1,11 @@
 <div class="account-container" [formGroup]="createForm">
     <div class="profile-image-section">
         <div class="profile-img-container">
-            <img src="assets/default-profile.png" alt="Imagem de Perfil" class="profile-img" />
+            <img [src]="imageDefault" alt="Imagem de Perfil" class="profile-img" />
         </div>
         <p-fileUpload mode="basic" name="file" accept=".jpg,.png,.webp" maxFileSize="2000000"
-                      (onUpload)="onPhotoUpload($event)" [auto]="true">
+                      chooseIcon="pi pi-upload" chooseLabel="Escolher Imagem" 
+                      (onSelect)="onPhotoSelect($event)" [auto]="true">
         </p-fileUpload>
         <p class="upload-info">Apenas .jpg, .png, são aceitos. Tamanho máximo: 2 MB</p>
     </div>
@@ -13,12 +14,12 @@
         <div class="section personal-info">
             <h3>Informações sobre a conta</h3>
             <div class="form-group">
-                <label for="username">Username:</label>
+                <label for="username">Username</label>
                 <input pInputText formControlName="username" id="username" type="text" readonly />
             </div>
 
             <div class="form-group">
-                <label for="email">Email:</label>
+                <label for="email">Email</label>
                 <input pInputText formControlName="email" id="email" type="email" readonly />
             </div>
 
@@ -28,8 +29,7 @@
                     id="userTypes"
                     [options]="userTypes"
                     formControlName="accessLevelId"
-                    [style]="{'width': '100%'}"
-                    placeholder="Selecione um tipo de usuário">
+                    [style]="{'width': '100%'}">
                 </p-dropdown>
             </div>
         </div>
@@ -37,51 +37,53 @@
         <div class="section work-info">
             <h3>Informações pessoais</h3>
             <div class="form-group">
-                <label for="firstName" class="font-semibold">Nome:</label>
+                <label for="firstName" class="font-semibold">Nome</label>
                 <input pInputText formControlName="firstName" id="firstName" type="text" />
             </div>
 
             <div class="form-group">
-                <label for="lastName">Sobrenome:</label>
+                <label for="lastName">Sobrenome</label>
                 <input pInputText formControlName="lastName" id="lastName" type="text" />
             </div>
 
             <div class="form-group">
-                <label for="phone">Telefone:</label>
+                <label for="phone">Telefone</label>
                 <input pInputText formControlName="phone" id="phone" type="text" />
             </div>
         </div>
 
         <div class="section address-info">
             <h3>Informações de endereço</h3>
-            <div class="form-group">
-                <label for="zipcode">CEP:</label>
-                <input pInputText formControlName="zipcode" id="zipcode" type="text" />
+            <div class="form-row" style="display: flex; gap: 5px;">
+                <div class="form-group" style="flex: 1;">
+                    <label for="zipCode">CEP</label>
+                    <p-inputMask mask="99999-999" [style]="{width: '360px'}" pInputText formControlName="zipCode" id="zipCode" type="text" />
+                </div>
+
+                <div class="form-group" style="flex: 1;">
+                    <label for="city">Cidade</label>
+                    <input pInputText formControlName="city" id="city" type="text" readonly />
+                </div>
             </div>
 
             <div class="form-group">
-                <label for="address">Endereço:</label>
+                <label for="address">Endereço</label>
                 <input pInputText formControlName="address" id="address" type="text" readonly />
             </div>
 
             <div class="form-group">
-                <label for="num">Número:</label>
-                <input pInputText formControlName="num" id="num" type="text" />
+                <label for="num">Número</label>
+                <input pInputText formControlName="num" id="num" type="number" />
             </div>
 
             <div class="form-group">
-                <label for="city">Cidade:</label>
-                <input pInputText formControlName="city" id="city" type="text" readonly />
-            </div>
-
-            <div class="form-group">
-                <label for="state">Estado:</label>
+                <label for="state">Estado</label>
                 <input pInputText formControlName="state" id="state" type="text" readonly />
             </div>
         </div>
 
         <div class="button-group">
-            <p-button label="Salvar" icon="pi pi-check" (click)="updateUserProfile()"></p-button>
+            <p-button label="Salvar" icon="pi pi-check" (click)="updateUserProfile(createForm)"></p-button>
         </div>
     </div>
 </div>

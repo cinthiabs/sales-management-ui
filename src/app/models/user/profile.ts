@@ -1,6 +1,6 @@
 export interface UserProfile{
     id: number;
-    userId: number;
+    userId?: number;
     image:string;
     username:string;
     firstName: string;

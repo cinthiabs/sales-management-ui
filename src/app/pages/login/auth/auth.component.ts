@@ -64,6 +64,7 @@ export class AuthComponent {
       password: form.get('password')?.value,
       username: username ? username[1] : ''
     };
+    localStorage.setItem('username', this.authentication.username!);
     
     this.loadingComponent.show();
 
@@ -79,9 +80,11 @@ export class AuthComponent {
         this.loadingComponent.hide();
         if (error.status === 404) {
           this.notificationService.showErrorToast('Usuário não encontrado.');
-        } 
+        }else if(error.status === 401){
+          this.notificationService.showErrorToast('Senha inválida!');
+        } else{
           this.notificationService.showErrorToast('Ocorreu um erro durante a operação. Tente novamente mais tarde.');
-        
+        } 
       },
       complete: () => {
         this.loadingComponent.hide();

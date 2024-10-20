@@ -47,7 +47,6 @@ import { LoadingComponent } from '../../shared/components/loading/loading.compon
 })
 export class RegisterProductsComponent implements OnInit {
   @ViewChild('dt') dataTable!: Table;
-//  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
 
   products: Product[] = [];
   allProducts: Product[] = [];
@@ -107,16 +106,12 @@ export class RegisterProductsComponent implements OnInit {
 
 
   getAllProducts(){
-    //this.loadingComponent.show();
     this.productService.getAllProducts().subscribe({
       next:(response) => {
         this.products = response.data;
-        //this.loadingComponent.hide();
-
       },
       error: () => {
         this.messageTable;
-       // this.loadingComponent.hide();
       }
     })
   }
@@ -218,6 +213,7 @@ export class RegisterProductsComponent implements OnInit {
       }
     });
   }
+
   CreateOrEdit(form: FormGroup) {
     if (this.isEditMode) {
       this.editProduct(form);
@@ -225,6 +221,7 @@ export class RegisterProductsComponent implements OnInit {
       this.saveNewProduct(form);
     }
   }
+
   saveNewProduct(form: FormGroup){
     if (form.invalid) {
       this.notificationService.showErrorToast('Preencha todos os campo obrigatórios!');

@@ -71,7 +71,9 @@ export class RegisterCostsComponent implements OnInit  {
     dateCost: ['', Validators.required],
     quantity: ['',Validators.required],
     unitPrice: [''],
-    price: ['',Validators.required]
+    price: ['',Validators.required],
+    createDate: [{value: '', disabled: true}],
+    editDate: [{value: '', disabled: true}] 
   })
   constructor(
     private fb: FormBuilder,
@@ -126,7 +128,7 @@ export class RegisterCostsComponent implements OnInit  {
   }
   getByIdCost(id: number) {
     this.isViewing = true; 
-    this.handlers.headerDialog = 'Visualizar Costo';
+    this.handlers.headerDialog = 'Visualizar Custo';
     this.handlers.handleInsertDialog();
   
     if (!!id) {
@@ -139,12 +141,11 @@ export class RegisterCostsComponent implements OnInit  {
           quantity: response.data[0].quantity,
           unitPrice: response.data[0].unitPrice,
           totalPrice: response.data[0].totalPrice,
-          dateCost: response.data[0].dateCost,
+          dateCost: response.data[0].dateCost  ? new Date(response.data[0].dateCost).toLocaleDateString('pt-BR') : null,
           createDate: response.data[0].dateCreate ? new Date(response.data[0].dateCreate).toLocaleDateString('pt-BR') : null,
           editDate: response.data[0].dateEdit ? new Date(response.data[0].dateEdit).toLocaleDateString('pt-BR') : null,
         });
         this.createForm.disable();
-        console.log(response)
       },
 
       error: (error) => {
