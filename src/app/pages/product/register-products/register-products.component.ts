@@ -126,6 +126,8 @@ export class RegisterProductsComponent implements OnInit {
       message: 'Você tem certeza que deseja excluir esse produto?',
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sim',  
+      rejectLabel: 'Não',
       accept: () => {
         this.loadingTable = true;
         this.productService.deleteProduct(id).subscribe({

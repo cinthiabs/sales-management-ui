@@ -46,7 +46,13 @@ export class UploadComponent {
           }
         },
         error: (error: any) => {
-          const errorMessage = error?.error ?? 'Ocorreu um erro durante a operação.';
+          let errorMessage = 'Ocorreu um erro durante a operação.';
+      
+          if (error?.status === 400) {
+            errorMessage = 'Requisição inválida. Verifique os dados informados na planilha.';
+          }  else  {
+            errorMessage;
+          }
           this.notificationService.showErrorToast(errorMessage)
           this.loadingUpload = false;
           this.fileUpload.clear();

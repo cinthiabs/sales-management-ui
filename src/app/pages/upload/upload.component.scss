@@ -4,18 +4,17 @@
     margin: 0 auto;
     padding: 20px;
     text-align: center;
+    align-items: center;
 }
 .icon-text-container {
     display: flex;
-    margin-left: 40%;
+  margin: auto 30%;
     align-items: center;
     color: var(--primary-color);
     text-align: center;
     height: 10%;
     padding-top: 10px;
     padding-bottom: 20px;
-    
-
 }
 .icon-text-container i {
     margin-right: 8px; 
@@ -28,11 +27,10 @@
     font-weight: 600;
     cursor: pointer;
     text-decoration: underline;
+    align-items: center;
+    text-align: center;
 }
-.text-template{
-  padding-top: 10px; 
-  color:var(--font-color);
-}
+
 .return-message{
   color: var(--primary-color);
   text-align: center;

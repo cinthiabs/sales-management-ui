@@ -65,13 +65,25 @@
             <div class="form-field">
                 <label for="price" class="font-semibold">Valor Total (R$)<span class="required">*</span></label>
                 <p-inputNumber id="price" formControlName="price"  mode="currency" currency="BRL" locale="pt-BR"  [style]="{ 'width': '100%' }" ></p-inputNumber>
-              </div>    
+              </div> 
+              @if(!!isViewing){
+                <div class="form-field">
+                  <label for="createDate" class="font-semibold">Data de criação</label>
+                  <input  pInputText id="createDate" formControlName="createDate" type="text" autocomplete="off" />
+                </div>
+                <div class="form-field">
+                  <label for="editDate" class="font-semibold">Data de edição</label>
+                  <input  pInputText id="editDate" formControlName="editDate" type="text" autocomplete="off" />
+                </div> 
+              }   
         </div>
         
+        @if(!isViewing){
           <div class="footer-dialog">
               <p-button pRipple [label]="isEditMode ? 'Atualizar' : 'Salvar'" severity="success" type="submit" [loading]="loadingButton" />
               <p-button pRipple label="Cancelar" severity="danger" (click)="cancel()"/>
           </div>
+        }
       </form>    
 
     </p-dialog>
@@ -131,6 +143,12 @@
             {{ handlers.formartValor(cost.totalPrice) }}
           </td>         
           <td>
+            <p-button pRipple icon="pi pi-eye" class="mr-2" [rounded]="true" [outlined]="true" severity="info"
+            [style]="{
+             'margin':'5px',
+             height: '40px',
+             width: '40px'
+            }" (click)="getByIdCost(cost.id)"></p-button>
             <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"
             [style]="{
              'margin':'5px',

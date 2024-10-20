@@ -62,6 +62,7 @@ export class RegisterCostsComponent implements OnInit  {
   messageTable = 'Nenhum dado encontrado';
   isEditMode: boolean = false;
   cost! : Cost;
+  isViewing: boolean = false;
   costId: number = 0;
   search = '';
   
@@ -123,6 +124,36 @@ export class RegisterCostsComponent implements OnInit  {
       }
     })
   }
+  getByIdCost(id: number) {
+    this.isViewing = true; 
+    this.handlers.headerDialog = 'Visualizar Costo';
+    this.handlers.handleInsertDialog();
+  
+    if (!!id) {
+      this.costId = id;
+    }
+    this.costsService.getByIdCost(id).subscribe({
+      next: (response) => {
+        this.createForm.patchValue({
+          name: response.data[0].name,
+          quantity: response.data[0].quantity,
+          unitPrice: response.data[0].unitPrice,
+          totalPrice: response.data[0].totalPrice,
+          dateCost: response.data[0].dateCost,
+          createDate: response.data[0].dateCreate ? new Date(response.data[0].dateCreate).toLocaleDateString('pt-BR') : null,
+          editDate: response.data[0].dateEdit ? new Date(response.data[0].dateEdit).toLocaleDateString('pt-BR') : null,
+        });
+        this.createForm.disable();
+        console.log(response)
+      },
+
+      error: (error) => {
+        const errorMessage = error?.error?.message ?? 'Ocorreu um erro durante a operação.';
+        this.notificationService.showErrorToast(errorMessage);
+        this.loadingButton = false;
+      }
+    });
+  }
 
   deleteCost(id: number) { 
     this.confirmationService.confirm({
@@ -150,6 +181,7 @@ export class RegisterCostsComponent implements OnInit  {
   }
 
   dialogEdit(cost: Cost){
+    this.isViewing = false;
     this.isEditMode = true;
     this.handlers.headerDialog = 'Atualizar Custo'
     this.handlers.handleInsertDialog()
@@ -167,6 +199,7 @@ export class RegisterCostsComponent implements OnInit  {
   }
 
   editCost(form: FormGroup) { 
+    this.isViewing = false;
     this.loadingButton = true;
     this.cost = {
       id: this.costId,
@@ -237,6 +270,7 @@ export class RegisterCostsComponent implements OnInit  {
   }
   
   openCreate() {
+    this.isViewing = false;
     this.isEditMode = false;
     this.handlers.headerDialog = 'Cadastrar Custo'
     this.createForm.reset();
