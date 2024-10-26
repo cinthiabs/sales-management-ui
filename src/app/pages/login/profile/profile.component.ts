@@ -11,6 +11,7 @@ import { NotificationService } from '../../../services/shared/messages/notificat
 import { MessageService } from 'primeng/api';
 import { ProfileService } from '../../../services/profile/profile.service';
 import { UserProfile } from '../../../models/user/profile';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-profile',
@@ -23,6 +24,7 @@ import { UserProfile } from '../../../models/user/profile';
     ButtonModule,
     InputTextModule,
     CardModule, 
+    ToastModule,
     DropdownModule
   ],
   providers: [MessageService, NotificationService],
@@ -74,10 +76,9 @@ export class ProfileComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imageDefault = e.target.result; 
-        this.userProfile[0].image = this.imageDefault;
+        this.createForm.patchValue({ image: this.imageDefault }); 
       };
       reader.readAsDataURL(file); 
-      console.log(this.userProfile);
     }
   }
 
@@ -86,8 +87,11 @@ export class ProfileComponent implements OnInit {
 
     this.profileService.getByUserProfile(this.username!).subscribe({
       next: (response) => {
+        const imageBase64 = response.data[0].image 
+        ? `data:image/jpg;base64,${response.data[0].image}` : '';
+
         this.createForm.patchValue({
-          image: response.data[0].image,
+          image: imageBase64,
           username: response.data[0].username,
           firstName: response.data[0].firstName,
           lastName: response.data[0].lastName,
@@ -99,6 +103,7 @@ export class ProfileComponent implements OnInit {
           zipCode: response.data[0].zipCode,
           accessLevelId: this.userTypes.find(option => option.value === response.data[0].accessLevelId)
         });
+        this.imageDefault = imageBase64;
       },
       error: (error) => {
         const errorMessage = error?.error?.message ?? 'Ocorreu um erro ao carregar o perfil.';
@@ -111,7 +116,7 @@ export class ProfileComponent implements OnInit {
     if (this.username == null) return; 
     
     const objUser = {
-      image: this.imageDefault,
+      image: this.imageDefault.split(',')[1],
       username: form.get('username')?.value,
       firstName: form.get('firstName')?.value,
       lastName: form.get('lastName')?.value,
@@ -120,7 +125,7 @@ export class ProfileComponent implements OnInit {
       city: form.get('city')?.value,
       state: form.get('state')?.value,
       zipCode: form.get('zipCode')?.value,
-      accessLevelId: form.get('accessLevelId')?.value.value, 
+      accessLevelId: form.get('accessLevelId')?.value?.value
     };
 
     this.profileService.updateUserProfile(objUser, this.username).subscribe({

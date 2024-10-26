@@ -1,3 +1,6 @@
+<p-toast key="success"></p-toast>
+<p-toast key="error"></p-toast>
+
 <div class="account-container" [formGroup]="createForm">
     <div class="profile-image-section">
         <div class="profile-img-container">
@@ -28,6 +31,7 @@
                 <p-dropdown
                     id="userTypes"
                     [options]="userTypes"
+                    optionLabel="name" 
                     formControlName="accessLevelId"
                     [style]="{'width': '100%'}">
                 </p-dropdown>
