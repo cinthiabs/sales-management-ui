@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 import { ProfileService } from '../../../services/profile/profile.service';
 import { UserProfile } from '../../../models/user/profile';
 import { ToastModule } from 'primeng/toast';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-profile',
@@ -25,6 +26,7 @@ import { ToastModule } from 'primeng/toast';
     InputTextModule,
     CardModule, 
     ToastModule,
+    LoadingComponent,
     DropdownModule
   ],
   providers: [MessageService, NotificationService],
@@ -32,6 +34,7 @@ import { ToastModule } from 'primeng/toast';
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {
+  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
   userProfile: UserProfile[] = [];
   profile!: UserProfile;
   imageDefault: string = '';
@@ -71,6 +74,9 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.getProfile();
   }
+  ngAfterViewInit() {
+    this.loadingComponent.show();
+  }
   
   onPhotoSelect(event: any) {
     const file = event.files[0]; 
@@ -86,7 +92,6 @@ export class ProfileComponent implements OnInit {
 
   getProfile() {
     if (this.username == null) return; 
-
     this.profileService.getByUserProfile(this.username!).subscribe({
       next: (response) => {
         const imageBase64 = response.data[0].image 
@@ -106,10 +111,12 @@ export class ProfileComponent implements OnInit {
           accessLevelId: this.userTypes.find(option => option.value === response.data[0].accessLevelId)
         });
         this.imageDefault = imageBase64;
+        this.loadingComponent.hide();
       },
       error: (error) => {
         const errorMessage = error?.error?.message ?? 'Ocorreu um erro ao carregar o perfil.';
         this.notificationService.showErrorToast(errorMessage);
+        this.loadingComponent.hide();
       }
     });
   }

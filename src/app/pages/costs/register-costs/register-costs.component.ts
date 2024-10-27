@@ -97,6 +97,11 @@ export class RegisterCostsComponent implements OnInit  {
     });
   }
 
+  ngAfterViewInit() {
+    this.loadingComponent.show();
+  }
+
+
   filterGlobal(event: any){
     this.search = (event.target as HTMLInputElement).value.trim().toLowerCase();
     if (!this.search) {
@@ -119,10 +124,12 @@ export class RegisterCostsComponent implements OnInit  {
       next:(response) => {
         this.allCosts = response.data.flat()
         this.costs = [...this.allCosts];
+        this.loadingComponent.hide();
 
       },
       error: () => {
          this.messageTable;
+         this.loadingComponent.hide();
       }
     })
   }

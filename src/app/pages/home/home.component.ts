@@ -58,16 +58,19 @@ export class HomeComponent implements OnInit {
     this.setDate()
     this.getRel()
   }
+  ngAfterViewInit() {
+    this.loadingComponent.show();
+  }
 
   getRel(){
     const startDate = this.selectedDate ? new Date(this.selectedDate[0]).toISOString().split('T')[0] : '';
     const endDate = this.selectedDate ? new Date(this.selectedDate[1]).toISOString().split('T')[0] : '';
       this.getRelQuantity(startDate, endDate),
       this.getRelCostPrice(startDate, endDate)
+
   }
 
   getRelQuantity(startDate: string, endDate: string){
-    this.loadingComponent.show();
     this.salesService.getRelQuantity(startDate,endDate).subscribe({
       next:(response) => {
        this.relQuantitySale = response.flat()
@@ -77,8 +80,10 @@ export class HomeComponent implements OnInit {
        this.transformDataPayForChart(this.relQuantitySale);
        this.calculateTotalProfit();
        this.loadingComponent.hide();
+      },
+      error: () => {
+        this.loadingComponent.hide();
       }
-    
     })
   }
   
@@ -88,6 +93,9 @@ export class HomeComponent implements OnInit {
        this.relCostPrice = response.flat()
        this.totalPrice = this.relCostPrice.reduce((acc, current) => acc + current.totalPrice, 0);
        this.calculateTotalProfit();
+      },
+      error: () => {
+        this.loadingComponent.hide();
       }
     })
   }

@@ -22,6 +22,7 @@ import { Title } from '@angular/platform-browser';
 import { NotificationService } from '../../../services/shared/messages/notification.service';
 import { Product } from '../../../models/products/products';
 import { ProductsService } from '../../../services/products/products.service';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
 @Component({
   selector: 'app-register-sales',
   standalone: true,
@@ -40,6 +41,7 @@ import { ProductsService } from '../../../services/products/products.service';
     DropdownModule,
     InputNumberModule,
     CalendarModule,
+    LoadingComponent,
     InputTextModule],
   templateUrl: './register-sales.component.html',
   styleUrl: './register-sales.component.scss',
@@ -48,6 +50,7 @@ import { ProductsService } from '../../../services/products/products.service';
 })
 export class RegisterSalesComponent implements OnInit {
   @ViewChild('dt') dataTable!: Table;
+  @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
   
   sales: Sale[] = [];
   allSales: Sale[] = [];
@@ -90,6 +93,10 @@ export class RegisterSalesComponent implements OnInit {
     this.getallSale()
     this.getProduct()
   }
+  
+  ngAfterViewInit() {
+    this.loadingComponent.show();
+  }
 
   filterGlobal(event: any){
     this.search = (event.target as HTMLInputElement).value.trim().toLowerCase();
@@ -117,9 +124,11 @@ export class RegisterSalesComponent implements OnInit {
       next:(response) => {
         this.allSales = response.data.flat()
         this.sales = [...this.allSales];
+        this.loadingComponent.hide();
       },
       error: () => {
         this.messageTable;
+        this.loadingComponent.hide();
       }
     })
   }
