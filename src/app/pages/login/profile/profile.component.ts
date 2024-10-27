@@ -36,6 +36,8 @@ export class ProfileComponent implements OnInit {
   profile!: UserProfile;
   imageDefault: string = '';
   username = localStorage.getItem('username');
+  loadingButton = false;
+
   
   userTypes = [
     { name: 'Adm', value: 1 },
@@ -114,7 +116,8 @@ export class ProfileComponent implements OnInit {
   
   updateUserProfile(form: FormGroup) {
     if (this.username == null) return; 
-    
+    this.loadingButton = true;
+
     const objUser = {
       image: this.imageDefault.split(',')[1],
       username: form.get('username')?.value,
@@ -131,10 +134,12 @@ export class ProfileComponent implements OnInit {
     this.profileService.updateUserProfile(objUser, this.username).subscribe({
       next: () => {
         this.notificationService.showSuccessToast('Dados atualizados com sucesso!');
+        this.loadingButton = false;
       },
       error: (error) => {
         const errorMessage = error?.error ?? 'Ocorreu um erro durante a operação.';
         this.notificationService.showErrorToast(errorMessage);
+        this.loadingButton = false;
       }
     });
   }

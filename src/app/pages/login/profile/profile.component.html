@@ -87,7 +87,7 @@
         </div>
 
         <div class="button-group">
-            <p-button label="Salvar" icon="pi pi-check" (click)="updateUserProfile(createForm)"></p-button>
+            <p-button label="Salvar" icon="pi pi-check" [loading]="loadingButton" (click)="updateUserProfile(createForm)"></p-button>
         </div>
     </div>
 </div>
