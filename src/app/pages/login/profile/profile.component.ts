@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ButtonModule } from 'primeng/button';  
@@ -13,6 +13,7 @@ import { ProfileService } from '../../../services/profile/profile.service';
 import { UserProfile } from '../../../models/user/profile';
 import { ToastModule } from 'primeng/toast';
 import { LoadingComponent } from '../../shared/components/loading/loading.component';
+import { ZipcodeService } from '../../../services/zipcode/zipcode.service';
 
 @Component({
   selector: 'app-profile',
@@ -56,6 +57,7 @@ export class ProfileComponent implements OnInit {
     phone: [''],
     address: [''],
     city: [''],
+    neighborhood: [''],
     state: [''],
     zipCode: [''],
     num: [''],
@@ -66,6 +68,7 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private titleService: Title,
     private notificationService: NotificationService,
+    private zipcodeService: ZipcodeService,
     private profileService: ProfileService
   ) {
     this.titleService.setTitle('Perfil');
@@ -74,10 +77,37 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.getProfile();
   }
+
   ngAfterViewInit() {
     this.loadingComponent.show();
   }
+
+  getZipCode(): void {
+    const zipCode = this.createForm.get('zipCode')?.value.replace(/\D/g, '');
+    if (zipCode.length !== 8) return;
   
+    this.zipcodeService.getZipCode(zipCode).subscribe({
+      next: (data) => {
+        const { street, neighborhood, city, state } = data.data[0];
+        this.createForm.patchValue(
+          { address: street,
+            neighborhood,
+            city, 
+            state 
+          });
+      },
+      error: (error) => {
+        let errorMessage = 'Ocorreu um erro durante a operação.';
+        if (error?.status === 404) {
+          errorMessage = 'Cep Invalido.';
+        } else  {
+          errorMessage;
+        }  
+        this.notificationService.showErrorToast(errorMessage);
+      }
+    });
+  }
+
   onPhotoSelect(event: any) {
     const file = event.files[0]; 
     if (file) {

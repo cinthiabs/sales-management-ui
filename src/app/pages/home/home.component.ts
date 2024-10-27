@@ -67,7 +67,6 @@ export class HomeComponent implements OnInit {
     const endDate = this.selectedDate ? new Date(this.selectedDate[1]).toISOString().split('T')[0] : '';
       this.getRelQuantity(startDate, endDate),
       this.getRelCostPrice(startDate, endDate)
-
   }
 
   getRelQuantity(startDate: string, endDate: string){
