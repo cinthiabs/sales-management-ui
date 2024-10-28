@@ -11,6 +11,8 @@ export interface UserProfile{
     city: string;
     state: string;
     zipCode: string;
+    neighborhood: string;
+    number: string;
     accessLevelId: number;
     dateCreate: string;
     dateEdit: string; 

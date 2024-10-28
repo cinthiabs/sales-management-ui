@@ -60,7 +60,7 @@ export class ProfileComponent implements OnInit {
     neighborhood: [''],
     state: [''],
     zipCode: [''],
-    num: [''],
+    number: [''],
     accessLevelId: ['']
   });
 
@@ -138,6 +138,8 @@ export class ProfileComponent implements OnInit {
           city: response.data[0].city,
           state: response.data[0].state,
           zipCode: response.data[0].zipCode,
+          neighborhood: response.data[0].neighborhood,
+          number: response.data[0].number,
           accessLevelId: this.userTypes.find(option => option.value === response.data[0].accessLevelId)
         });
         this.imageDefault = imageBase64;
@@ -165,6 +167,8 @@ export class ProfileComponent implements OnInit {
       city: form.get('city')?.value,
       state: form.get('state')?.value,
       zipCode: form.get('zipCode')?.value,
+      neighborhood: form.get('neighborhood')?.value,
+      number: form.get('number')?.value,
       accessLevelId: form.get('accessLevelId')?.value?.value
     };
 

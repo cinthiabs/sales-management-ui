@@ -38,6 +38,7 @@ export class HeaderComponent {
         label: 'Custos',
         items: [
           { label: 'Registrar', icon: 'pi pi-file-plus', route: '/register-costs' },
+          { label: 'Custo do produto', icon: 'pi pi-calculator', route: '/calculate' },
           { label: 'Relátorio', icon: 'pi pi-align-justify', route: '/report-costs' }
         ]
       }

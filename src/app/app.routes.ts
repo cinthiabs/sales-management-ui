@@ -9,6 +9,7 @@ import { RegisterCostsComponent } from './pages/costs/register-costs/register-co
 import { RegisterSalesComponent } from './pages/sales/register-sales/register-sales.component';
 import { ProfileComponent } from './pages/login/profile/profile.component';
 import { AuthComponent } from './pages/login/auth/auth.component';
+import { CalculateComponent } from './pages/costs/calculate/calculate.component';
 
 export const routes: Routes = [
     {path: '', redirectTo:'/auth',pathMatch: 'full'},
@@ -19,6 +20,7 @@ export const routes: Routes = [
     {path: 'report-sales',component: ReportSalesComponent },
     {path: 'report-products',component: ReportProductsComponent },
     {path: 'report-costs',component: ReportCostsComponent },
+    {path: 'calculate',component: CalculateComponent },
     {path: 'upload',component: UploadComponent },
     {path: 'profile', component:ProfileComponent},
     {path: 'auth', component:AuthComponent}
