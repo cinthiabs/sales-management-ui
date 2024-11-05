@@ -50,7 +50,7 @@ import { LoadingComponent } from '../../shared/components/loading/loading.compon
   encapsulation: ViewEncapsulation.None,
 
 })
-export class RegisterCostsComponent implements OnInit  {
+export class RegisterCostsComponent implements OnInit {
   @ViewChild('dt') dataTable!: Table;
   @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
 

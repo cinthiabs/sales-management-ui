@@ -38,9 +38,10 @@
     margin-top: 16px;
   }
   
-  h3 {
+  h3, h4 {
     margin-top: 16px;
-    font-weight: bold;
+    font-weight: 600;
+    color:#636363;
   }
   
   ::ng-deep .p-inputtext, ::ng-deep .p-dropdown, ::ng-deep .p-inputnumber {

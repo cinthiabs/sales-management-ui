@@ -1,30 +1,34 @@
 <div class="cost-calculation-container">
     <h3>Cálculo de Custo do Produto</h3>
   
-    <div *ngFor="let cost of productCost" class="ingredient-row">
+    <div *ngFor="let cost of productCost; let i = index" class="ingredient-row">
       <div class="form-inline">
         <div class="form-row">
           <label for="userTypes">Ingrediente</label>
           <p-dropdown
-              id="userTypes"
-              optionLabel="name" 
+              [filter]="true"
+              [options]="costs"
+              optionLabel="name"
+              filterBy="name"  
               [(ngModel)]="cost.name"
+              placeholder="Selecione um custo"
+              (onChange)="onCostSelect(i, $event.value)"
               [style]="{'width': '250px'}">
           </p-dropdown>
         </div>
   
         <div class="form-row">
-          <label>Preço Total:</label>
+          <label>Preço Total</label>
           <p-inputNumber [(ngModel)]="cost.totalPrice" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
         </div>
   
         <div class="form-row">
-          <label>Quantidade Total:</label>
+          <label>Quantidade Total</label>
           <p-inputNumber [(ngModel)]="cost.totalQuantity"  useGrouping="true"></p-inputNumber>
         </div>
   
         <div class="form-row">
-          <label>Quantidade Necessária:</label>
+          <label>Quantidade Necessária</label>
           <p-inputNumber [(ngModel)]="cost.requiredQuantity"  useGrouping="true"></p-inputNumber>
         </div>
       </div>
@@ -37,7 +41,9 @@
   
     <div class="buttons">
       <p-button label="Adicionar Ingrediente" icon="pi pi-plus" (click)="addIngredient()"></p-button>
-      <p-button label="Salvar Custo Total" icon="pi pi-calculator" (click)="calculateTotalCost()" class="p-button-success"></p-button>
+      @if(calculateTotalCost() > 0){
+        <p-button label="Salvar Custo Total" icon="pi pi-calculator" (click)="calculateTotalCost()" class="p-button-success"></p-button>
+      }
     </div>
   
     <h4>Custo total do produto: {{ calculateTotalCost() | currency:'BRL' }}</h4>
