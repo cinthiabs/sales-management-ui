@@ -55,19 +55,21 @@ export class CalculateComponent implements OnInit {
     }, 0);
   }
   getallCosts(){
-    console.log('teste ')
     this.costsService.getAllCosts().subscribe({
-      next:(response) => {
-        this.allCosts = response.data.flat()
-        this.costs = [...this.allCosts];
-
+      next: (response) => {
+        this.allCosts = response.data.flat();
+        this.costs = this.allCosts.map(cost => {
+          const date = new Date(cost.dateCost);
+          const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+            return {
+            ...cost, displayName: `${cost.name} ${formattedDate}`
+          };
+        });
       },
       error: () => {
-         //this.messageTable;
-         //this.loadingComponent.hide();
       }
-    })
-  }
+    });
+  }  
   onCostSelect(index: number, selectedCost: Cost) {
     this.productCost[index].totalPrice = selectedCost.totalPrice;
     this.productCost[index].totalQuantity = parseInt(selectedCost.quantity);
