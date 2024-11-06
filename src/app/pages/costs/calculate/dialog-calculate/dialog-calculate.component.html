@@ -1,0 +1,18 @@
+
+<div class="card flex justify-content-center">
+    <p-dialog  
+        [modal]="true" 
+        [(visible)]="visible" 
+        [baseZIndex]="1000" 
+        closable="false"
+        [dismissableMask]="false"
+        [style]="{ width: '32rem' }">
+        <ng-template pTemplate="header">
+             <h3><i class="pi pi-calculator"></i> Cálculo de custo do produto</h3>
+        </ng-template>
+        <div class="button-container">
+            <p-button label="Adicionar Custos" (onClick)="addCost()" icon="pi pi-plus"></p-button>
+            <p-button label="Custos Adicionados" (onClick)="registeredCosts()" icon="pi pi-eye"></p-button>
+        </div>
+    </p-dialog>
+</div>    

@@ -1,4 +1,9 @@
-<div class="cost-calculation-container">
+<app-dialog-calculate 
+    (registeredCostsEvent)="registeredCosts()" 
+    (addCostEvent)="addCost()">
+</app-dialog-calculate>
+
+<div [hidden]="visibleDialog" class="cost-calculation-container">
     <h3>Cálculo de Custo do Produto</h3>
   
     <div *ngFor="let cost of productCost; let i = index" class="ingredient-row">

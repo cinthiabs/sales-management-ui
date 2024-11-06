@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
@@ -11,16 +11,20 @@ import { CostsService } from '../../../services/costs/costs.service';
 import { Title } from '@angular/platform-browser';
 import { NotificationService } from '../../../services/shared/messages/notification.service';
 import { Cost } from '../../../models/costs/costs';
+import { DialogCalculateComponent } from './dialog-calculate/dialog-calculate.component';
 
 @Component({
   selector: 'app-calculate',
   standalone: true,
-  imports: [ButtonModule,InputNumberModule,DividerModule,InputTextModule,FormsModule,CommonModule,DropdownModule],
+  imports: [ButtonModule,DialogCalculateComponent,InputNumberModule,DividerModule,InputTextModule,FormsModule,CommonModule,DropdownModule],
   templateUrl: './calculate.component.html',
   styleUrl: './calculate.component.scss'
  // providers: [NotificationService],
 })
 export class CalculateComponent implements OnInit {
+  @ViewChild(DialogCalculateComponent) dialogCalculateComponent!: DialogCalculateComponent;
+
+  visibleDialog = false;
   costs: Cost[] = [];
   allCosts: Cost[] = [];
   productCost: ProductCost[] = [
@@ -37,6 +41,17 @@ export class CalculateComponent implements OnInit {
     this.titleService.setTitle('Calcular custos unitario');
   }
   ngOnInit() {
+    this.dialogCalculateComponent
+    this.visibleDialog = true;
+    //this.getallCosts()
+  }
+
+  registeredCosts(){
+    
+  }
+  addCost(){
+    console.log('estou aqui')
+    this.visibleDialog = false;
     this.getallCosts()
   }
 
@@ -65,8 +80,6 @@ export class CalculateComponent implements OnInit {
             ...cost, displayName: `${cost.name} ${formattedDate}`
           };
         });
-      },
-      error: () => {
       }
     });
   }  
