@@ -7,9 +7,20 @@
     align-items: center;
     text-align: center;
 }
-::ng-deep .p-dialog-mask {
-    background-color: rgba(0, 0, 1, 0.7); 
-}
 ::ng-deep .p-dialog .p-dialog-header{
     padding: 0px 0 10px 20px;
+}
+.icon-back:hover{
+ cursor: pointer;
+ background-color:var(--gray-001);
+ 
+}
+.icon-back{
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    border-radius: 50%;
+}
+h3{
+    font-weight: 600;
 }

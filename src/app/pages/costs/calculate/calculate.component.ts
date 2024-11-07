@@ -46,11 +46,10 @@ export class CalculateComponent implements OnInit {
     //this.getallCosts()
   }
 
-  registeredCosts(){
-    
+  registeredCosts(){    
   }
+  
   addCost(){
-    console.log('estou aqui')
     this.visibleDialog = false;
     this.getallCosts()
   }

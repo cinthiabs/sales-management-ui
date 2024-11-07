@@ -1,18 +1,55 @@
-
 <div class="card flex justify-content-center">
     <p-dialog  
         [modal]="true" 
         [(visible)]="visible" 
-        [baseZIndex]="1000" 
         closable="false"
-        [dismissableMask]="false"
-        [style]="{ width: '32rem' }">
+        [dismissableMask]="false">
+        
         <ng-template pTemplate="header">
-             <h3><i class="pi pi-calculator"></i> Cálculo de custo do produto</h3>
+            <div class="header-container">
+                <h3><i *ngIf="visibleTable" (click)="goBack()" class="pi pi-arrow-left icon-back"></i>
+                     <i class="pi pi-calculator"></i> Cálculo de custo do produto</h3>
+            </div>
         </ng-template>
-        <div class="button-container">
+
+        <div *ngIf="!visibleTable" class="button-container">
             <p-button label="Adicionar Custos" (onClick)="addCost()" icon="pi pi-plus"></p-button>
             <p-button label="Custos Adicionados" (onClick)="registeredCosts()" icon="pi pi-eye"></p-button>
         </div>
+
+        <p-table *ngIf="visibleTable" #dt 
+            [rows]="10" [paginator]="true"
+            [globalFilterFields]="['name', 'totalPrice', 'dateCreate']"
+            [tableStyle]="{ 'min-width': '50rem' }" 
+            [(selection)]="teste" 
+            [rowHover]="true" 
+            dataKey="id"
+            [rows]="5"
+            [showCurrentPageReport]="true">
+            
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="dateCreate">Data da Criação <p-sortIcon field="dateCreate"></p-sortIcon></th>
+                    <th pSortableColumn="name">Nome do Produto <p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="totalPrice">Valor Total <p-sortIcon field="totalPrice"></p-sortIcon></th>
+                    <th>Ação</th>
+                </tr>
+            </ng-template>
+            
+            <ng-template pTemplate="body" let-cost>
+                <tr>
+                    <td>teste1</td>
+                    <td>teste2</td>
+                    <td>teste3</td>
+                    <td>teste4</td>
+                </tr>
+            </ng-template>
+            
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">Nenhum custo adicionado.</td>
+                </tr>
+            </ng-template>
+        </p-table>
     </p-dialog>
-</div>    
+</div>
