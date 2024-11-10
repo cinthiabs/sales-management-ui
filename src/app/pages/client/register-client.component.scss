@@ -1,0 +1,65 @@
+.crud {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+.p-datatable-thead{
+    tr{
+        th{
+            font-weight: 500;
+            font-size: medium;
+            align-items: center;
+            text-align: center;
+        } 
+    }
+}
+.p-element .p-datatable-tbody{
+    tr{
+        td{
+            align-items: center;
+            text-align: center;
+        }
+    }
+}
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-field {
+    display: flex;
+    align-items: center;
+}
+
+.form-field label {
+    flex: 0 0 10rem; 
+    margin-right: 1rem;
+    font-weight: 500;
+    align-items: left;
+    text-align: left;
+}
+
+.form-field input,
+.form-field p-dropdown,
+.form-field p-calendar,
+.form-field p-inputNumber {
+    flex: 1;
+    width: 100%;
+}
+.p-datatable-loading-overlay {
+    background-color: rgba(214, 213, 213, 0.4);
+}
+.footer-dialog{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 3.5rem;
+}
+.footer-dialog button{
+    margin-left: 0.5rem;
+}
+
+.required {
+    color: var(--danger);
+}

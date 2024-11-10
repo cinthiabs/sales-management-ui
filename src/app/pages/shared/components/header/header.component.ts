@@ -41,6 +41,13 @@ export class HeaderComponent {
           { label: 'Custo do produto', icon: 'pi pi-calculator', route: '/calculate' },
           { label: 'Relátorio', icon: 'pi pi-align-justify', route: '/report-costs' }
         ]
+      },
+      {
+        label: 'Clientes',
+        items: [
+          { label: 'Registrar', icon: 'pi pi-file-plus', route: '/register-client' },
+          { label: 'Relátorio', icon: 'pi pi-align-justify', route: '/report-client' }
+        ]
       }
     ];
 

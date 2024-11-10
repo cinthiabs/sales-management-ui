@@ -1,0 +1,156 @@
+<p-toast key="success"></p-toast>
+<p-toast key="error"></p-toast>
+<app-loading></app-loading>
+
+<div class="container">
+  <div class="crud">
+    <p-toast></p-toast>
+    <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="left">
+        <p-button pRipple label="Novo" icon="pi pi-plus" class="mr-2" (click)="openCreate()"></p-button>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <span class="p-inpuat-icon-left">
+          <i class="pi pi-search"></i>
+          <input 
+            pInputText 
+            type="text" 
+            (input)="filterGlobal($event)" 
+            placeholder="Pesquisar..." />
+        </span>
+      </ng-template>
+    </p-toolbar>
+
+    <p-dialog 
+      header="{{handlers.headerDialog}}"
+      [modal]="true"
+      [draggable]="false"
+      [resizable]="false"
+      [(visible)]="handlers.visibleCreate" 
+      [style]="{ width: '38rem'}"
+      [dismissableMask]="false" >
+      
+      <form
+        [formGroup]="createForm"
+        method="post"
+        (ngSubmit)="CreateOrEdit(createForm)">
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="name" class="font-semibold">Nome<span class="required">*</span></label>
+            <input pInputText  formControlName="name" id="name" autocomplete="off" />
+          </div>
+          <div class="form-field">
+            <label for="phone" class="font-semibold">Telefone<span class="required">*</span></label>
+            <input pInputText id="phone" formControlName="phone" autocomplete="off" />
+          </div>   
+          <div class="form-field">
+            <label for="active" class="font-semibold">Ativo?<span class="required">*</span></label>
+            <p-dropdown [options]="handlers.active"  formControlName="active" 
+              [style]="{'width': '100%', 'text-align': 'left'}"
+              id="pay" optionLabel="name" placeholder="Selecione..."></p-dropdown>
+          </div> 
+          <div class="form-field">
+            <label for="location" class="font-semibold">Endereço<span class="required">*</span></label>
+            <input pInputText  formControlName="location" id="location" autocomplete="off" />
+          </div> 
+          
+          @if(!!isViewing){
+            <div class="form-field">
+              <label for="dateCreate" class="font-semibold">Data de criação</label>
+              <input  pInputText id="dateCreate" formControlName="dateCreate" type="text" autocomplete="off" />
+            </div>
+            <div class="form-field">
+              <label for="dateEdit" class="font-semibold">Data de edição</label>
+              <input  pInputText id="dateEdit" formControlName="dateEdit" type="text" autocomplete="off" />
+            </div> 
+          }
+        </div>
+        
+        @if(!isViewing){
+          <div class="footer-dialog">
+            <p-button pRipple [label]="isEditMode ? 'Atualizar' : 'Salvar'" severity="success" type="submit" [loading]="loadingButton" />
+            <p-button pRipple label="Cancelar" severity="danger" (click)="cancel()"/>
+          </div>
+        }
+      </form>    
+    </p-dialog>
+
+    <p-table #dt [value]="clients" [rows]="5" [paginator]="true"
+      [globalFilterFields]="['name', 'phone', 'active', 'location', 'dateCreate']"
+      [tableStyle]="{ 'min-width': '75rem' }" 
+      [(selection)]="selectedClients" 
+      [rowHover]="true" 
+      dataKey="id"
+      [loading]="loadingTable"
+      [rowsPerPageOptions]="[5, 10, 15, 20]"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
+      [showCurrentPageReport]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="dateCreate">
+            Data da Criação <p-sortIcon field="dateCreate"></p-sortIcon>
+          </th>
+          <th pSortableColumn="name">
+            Nome <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="phone">
+            Telefone <p-sortIcon field="phone"></p-sortIcon>
+          </th>
+          <th pSortableColumn="location">
+            Endereço <p-sortIcon field="location"></p-sortIcon>
+          </th>
+          <th pSortableColumn="active" style="min-width:1rem">
+            Ativo <p-sortIcon field="active"></p-sortIcon>
+          </th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-client>
+        <tr>
+          <td>
+            {{ client.dateCreate  |date: 'dd/MM/yyyy HH:mm:ss'  }}
+          </td>
+          <td>
+            {{ client.name }}
+          </td>
+          <td>
+            {{ client.phone }}
+          </td>
+          <td>
+            {{ client.location }}
+          </td>
+          <td>
+            <p-tag [value]="client.active ? 'ATIVO' : 'INATIVO'" [severity]="client.active ? 'success' : 'danger'"></p-tag>
+          </td>
+          <td>
+            <p-button pRipple icon="pi pi-eye" class="mr-2" [rounded]="true" [outlined]="true" severity="info"
+            [style]="{
+             'margin':'5px',
+             height: '40px',
+             width: '40px'
+            }" (click)="getClientById(client.id)"></p-button>
+            <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"
+            [style]="{
+             'margin':'5px',
+             height: '40px',
+             width: '40px'
+            }" (click)="dialogEdit(client)"></p-button>
+            <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+            [style]="{
+              'margin':'5px',
+              height: '40px',
+              width: '40px'
+             }" (click)="deleteClient(client.id)"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8">{{messageTable}}</td>
+        </tr>
+      </ng-template>
+    </p-table>  
+  </div>
+  <p-confirmDialog [style]="{ width: '450px' }" />
+</div>
