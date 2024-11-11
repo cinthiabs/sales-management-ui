@@ -12,6 +12,8 @@ import { Title } from '@angular/platform-browser';
 import { NotificationService } from '../../../services/shared/messages/notification.service';
 import { Cost } from '../../../models/costs/costs';
 import { DialogCalculateComponent } from './dialog-calculate/dialog-calculate.component';
+import { ProductCostService } from '../../../services/product-cost/product-cost.service';
+import { ProductTotalCostsResponse } from '../../../models/product-cost/product-cost-response';
 
 @Component({
   selector: 'app-calculate',
@@ -27,6 +29,8 @@ export class CalculateComponent implements OnInit {
   visibleDialog = false;
   costs: Cost[] = [];
   allCosts: Cost[] = [];
+  allProductCost: ProductTotalCostsResponse[] = [];
+  productCostResponse:  ProductTotalCostsResponse[] = [];
   productCost: ProductCost[] = [
     { name: '', totalPrice: 0, totalQuantity: 1, requiredQuantity: 0 },
     { name: '', totalPrice: 0, totalQuantity: 1, requiredQuantity: 0 }
@@ -35,10 +39,11 @@ export class CalculateComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private costsService: CostsService,
-    private titleService: Title
-    //private notificationService: NotificationService
+    private titleService: Title,
+    private productCostService: ProductCostService
+   // private notificationService: NotificationService
   ){
-    this.titleService.setTitle('Calcular custos unitario');
+    this.titleService.setTitle('Calcular custos unitário');
   }
   ngOnInit() {
     this.dialogCalculateComponent
@@ -46,7 +51,18 @@ export class CalculateComponent implements OnInit {
     //this.getallCosts()
   }
 
-  registeredCosts(){    
+  registeredCosts(){   
+    console.log('aqui') 
+    this.productCostService.getAllProductCost().subscribe({
+      next: (response) => {
+        this.allProductCost = response.data.flat();
+      },
+      error: () => {
+    //    this.messageTable;
+    //    this.loadingComponent.hide();
+      }
+    });
+    console.log(this.allProductCost)
   }
   
   addCost(){
@@ -68,6 +84,7 @@ export class CalculateComponent implements OnInit {
       return total + ingredient.unitCost;
     }, 0);
   }
+
   getallCosts(){
     this.costsService.getAllCosts().subscribe({
       next: (response) => {
@@ -81,7 +98,8 @@ export class CalculateComponent implements OnInit {
         });
       }
     });
-  }  
+  } 
+
   onCostSelect(index: number, selectedCost: Cost) {
     this.productCost[index].totalPrice = selectedCost.totalPrice;
     this.productCost[index].totalQuantity = parseInt(selectedCost.quantity);
