@@ -15,7 +15,7 @@
               [options]="costs"
               optionLabel="displayName"
               filterBy="name"  
-              [(ngModel)]="cost.name"
+              [(ngModel)]="cost.idCost"
               placeholder="Selecione um custo"
               (onChange)="onCostSelect(i, $event.value)"
               [style]="{'width': '250px'}">
@@ -24,7 +24,7 @@
   
         <div class="form-row">
           <label>Preço Total</label>
-          <p-inputNumber [(ngModel)]="cost.totalPrice" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
+          <p-inputNumber [(ngModel)]="cost.totalProductPrice" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
         </div>
   
         <div class="form-row">
@@ -34,12 +34,14 @@
   
         <div class="form-row">
           <label>Quantidade Necessária</label>
-          <p-inputNumber [(ngModel)]="cost.requiredQuantity"  useGrouping="true"></p-inputNumber>
+          <p-inputNumber [(ngModel)]="cost.quantityRequired"  useGrouping="true"></p-inputNumber>
         </div>
       </div>
   
       <div class="custo-ingrediente">
-        <p>Custo do ingrediente: {{ calculateIngredientCost(cost) | currency:'BRL' }}</p>
+        <p *ngIf="cost.quantityRequired > 0 && cost.totalQuantity && cost.totalProductPrice">
+          Custo do ingrediente: {{ calculateIngredientCost(cost) | currency:'BRL' }}
+        </p>
       </div>
       <p-divider></p-divider>
     </div>
@@ -47,7 +49,7 @@
     <div class="buttons">
       <p-button label="Adicionar Ingrediente" icon="pi pi-plus" (click)="addIngredient()"></p-button>
       @if(calculateTotalCost() > 0){
-        <p-button label="Salvar Custo Total" icon="pi pi-calculator" (click)="calculateTotalCost()" class="p-button-success"></p-button>
+        <p-button label="Salvar Custo Total" icon="pi pi-calculator" (click)="newCost()" class="p-button-success"></p-button>
       }
     </div>
   

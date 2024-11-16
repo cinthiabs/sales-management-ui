@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -13,12 +13,13 @@ import { NotificationService } from '../../../services/shared/messages/notificat
 import { Cost } from '../../../models/costs/costs';
 import { DialogCalculateComponent } from './dialog-calculate/dialog-calculate.component';
 import { ProductCostService } from '../../../services/product-cost/product-cost.service';
-import { ProductTotalCostsResponse } from '../../../models/product-cost/product-cost-response';
+import { ProductCostResponse, ProductTotalCostsResponse } from '../../../models/product-cost/product-cost-response';
+import { ProductCostRequest, ProductTotalCostRequest } from '../../../models/product-cost/product-cost-request';
 
 @Component({
   selector: 'app-calculate',
   standalone: true,
-  imports: [ButtonModule,DialogCalculateComponent,InputNumberModule,DividerModule,InputTextModule,FormsModule,CommonModule,DropdownModule],
+  imports: [ButtonModule,DialogCalculateComponent,InputNumberModule,ReactiveFormsModule,DividerModule,InputTextModule,FormsModule,CommonModule,DropdownModule],
   templateUrl: './calculate.component.html',
   styleUrl: './calculate.component.scss'
  // providers: [NotificationService],
@@ -29,11 +30,12 @@ export class CalculateComponent implements OnInit {
   visibleDialog = false;
   costs: Cost[] = [];
   allCosts: Cost[] = [];
-  allProductCost: ProductTotalCostsResponse[] = [];
-  productCostResponse:  ProductTotalCostsResponse[] = [];
-  productCost: ProductCost[] = [
-    { name: '', totalPrice: 0, totalQuantity: 1, requiredQuantity: 0 },
-    { name: '', totalPrice: 0, totalQuantity: 1, requiredQuantity: 0 }
+  allProductCostTotal: ProductTotalCostsResponse[] = [];
+  allProductCostResponse : ProductCostResponse[] = [];
+  productCostResponseTotal:  ProductTotalCostsResponse[] = [];
+  productCost: ProductCostRequest[] = [
+    { idCost: undefined, totalProductPrice: 0, totalQuantity: 1, quantityRequired: 0 ,ingredientCost: 0},
+    { idCost: undefined, totalProductPrice: 0, totalQuantity: 1, quantityRequired: 0 ,ingredientCost: 0}
   ];
   
   constructor(
@@ -52,36 +54,58 @@ export class CalculateComponent implements OnInit {
   }
 
   registeredCosts(){   
-    console.log('aqui') 
     this.productCostService.getAllProductCost().subscribe({
       next: (response) => {
-        this.allProductCost = response.data.flat();
+        this.allProductCostTotal = response.data.flat();
+        console.log(response.data)
       },
       error: () => {
     //    this.messageTable;
     //    this.loadingComponent.hide();
       }
     });
-    console.log(this.allProductCost)
+    console.log(this.allProductCostResponse)
   }
   
   addCost(){
     this.visibleDialog = false;
-    this.getallCosts()
+    this.getallCosts() 
   }
+
+  newCost() {
+    const payload = this.buildProductTotalCostRequest();  
+    console.log(payload)
+    this.productCostService.postCreateProductCost(payload).subscribe({
+      next: (response) => {
+        console.log('Cálculo enviado com sucesso:', response);
+      },
+      error: (err) => {
+        console.error('Erro ao enviar os dados:', err);
+      }
+    });
+  }
+  
 
   addIngredient() {
-    this.productCost.push({ name: '', totalPrice: 0, totalQuantity: 1, requiredQuantity: 0 });
+    this.productCost.push({
+      idCost: undefined, 
+      totalProductPrice: 0,
+      totalQuantity: 1,
+      quantityRequired: 0,
+      ingredientCost: 0,
+    });
   }
+  
 
-  calculateIngredientCost(productCost: ProductCost) {
-    return (productCost.totalPrice / productCost.totalQuantity) * productCost.requiredQuantity;
+  calculateIngredientCost(productCost: ProductCostRequest) {
+    var calculate = (productCost.totalProductPrice / productCost.totalQuantity) * productCost.quantityRequired;
+    return parseFloat(calculate.toFixed(2));
   }
 
   calculateTotalCost() {
     return this.productCost.reduce((total, ingredient) => {
-      ingredient.unitCost = this.calculateIngredientCost(ingredient);
-      return total + ingredient.unitCost;
+      ingredient.ingredientCost = this.calculateIngredientCost(ingredient);
+      return total + ingredient.ingredientCost;
     }, 0);
   }
 
@@ -100,8 +124,24 @@ export class CalculateComponent implements OnInit {
     });
   } 
 
-  onCostSelect(index: number, selectedCost: Cost) {
-    this.productCost[index].totalPrice = selectedCost.totalPrice;
+  onCostSelect(index: number, selectedCost: any) {
+    this.productCost[index].totalProductPrice = selectedCost.unitPrice;
     this.productCost[index].totalQuantity = parseInt(selectedCost.quantity);
   }
+  
+  
+  buildProductTotalCostRequest(): ProductTotalCostRequest {
+    return {
+      idProduct: 1, // Substitua com o ID real do produto
+      totalProductCost: this.calculateTotalCost(),
+      unitCost: this.productCost.map(cost => ({
+        idCost: cost.idCost,
+        totalProductPrice: cost.totalProductPrice,
+        totalQuantity: cost.totalQuantity,
+        quantityRequired: cost.quantityRequired,
+        ingredientCost: this.calculateIngredientCost(cost),
+      }))
+    };
+  }
+  
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ProductTotalCostsResponse } from '../../models/product-cost/product-cost-response';
-import { ProductTotalCostRequest } from '../../models/product-cost/product-cost';
+import { ProductTotalCostRequest } from '../../models/product-cost/product-cost-request';
 import { Observable } from 'rxjs';
 import { Response  } from '../../models/shared/response';
 
