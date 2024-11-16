@@ -14,8 +14,9 @@
               [filter]="true"
               [options]="costs"
               optionLabel="displayName"
-              filterBy="name"  
-              [(ngModel)]="cost.idCost"
+              filterBy="name" 
+              optionValue="id"
+              [(ngModel)]="productCost[i].idCost" 
               placeholder="Selecione um custo"
               (onChange)="onCostSelect(i, $event.value)"
               [style]="{'width': '250px'}">
@@ -49,10 +50,44 @@
     <div class="buttons">
       <p-button label="Adicionar Ingrediente" icon="pi pi-plus" (click)="addIngredient()"></p-button>
       @if(calculateTotalCost() > 0){
-        <p-button label="Salvar Custo Total" icon="pi pi-calculator" (click)="newCost()" class="p-button-success"></p-button>
+        <p-button label="Salvar Custo Total" icon="pi pi-calculator" (click)="openDialog()" class="p-button-success"></p-button>
       }
     </div>
   
     <h4>Custo total do produto: {{ calculateTotalCost() | currency:'BRL' }}</h4>
-  </div>
+
+   <p-dialog 
+      header="Vincular Custo ao Produto" 
+      [(visible)]="visibleDialogProduct" 
+      [modal]="true" 
+      [style]="{ width: '500px', height: '300px' }"
+      [closable]="false">
+    
+    <div class="form-row">
+      <label for="productDropdown">Selecione um Produto</label>
+      <p-dropdown 
+          [options]="products" 
+          [(ngModel)]="selectedProductId" 
+          optionLabel="name" 
+          optionValue="id" 
+          [style]="{'width': '250px'}"
+          placeholder="Selecione um produto">
+      </p-dropdown>
+    </div>
+
+    <div class="dialog-buttons">
+      <p-button 
+        label="Salvar" 
+        icon="pi pi-save" 
+        (click)="newProductCost()"
+        class="p-button-success">
+      </p-button>
+      <p-button 
+        label="Cancelar" 
+        icon="pi pi-times" 
+        (click)="visibleDialog = false">
+      </p-button>
+    </div>
+  </p-dialog>
+</div>
   
