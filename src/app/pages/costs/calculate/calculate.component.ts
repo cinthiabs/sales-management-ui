@@ -19,11 +19,22 @@ import { MessageService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { ProductsService } from '../../../services/products/products.service';
 import { Product } from '../../../models/products/products';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-calculate',
   standalone: true,
-  imports: [ButtonModule,DialogCalculateComponent,DialogModule,InputNumberModule,ReactiveFormsModule,DividerModule,InputTextModule,FormsModule,CommonModule,DropdownModule],
+  imports: [ButtonModule,
+            ToastModule,
+            DialogCalculateComponent,
+            DialogModule,
+            InputNumberModule,
+            ReactiveFormsModule,
+            DividerModule,
+            InputTextModule,
+            FormsModule,
+            CommonModule,
+            DropdownModule],
   templateUrl: './calculate.component.html',
   styleUrl: './calculate.component.scss',
   providers: [NotificationService,MessageService],
@@ -45,6 +56,8 @@ export class CalculateComponent implements OnInit {
   ];
   selectedCostId = 0; 
   selectedProductId = 0;
+  message = false;
+  loadingButton = false;
 
   constructor(
     private costsService: CostsService,
@@ -65,14 +78,12 @@ export class CalculateComponent implements OnInit {
     this.productCostService.getAllProductCost().subscribe({
       next: (response) => {
         this.allProductCostTotal = response.data.flat();
-        console.log(response.data)
       },
       error: () => {
     //    this.messageTable;
     //    this.loadingComponent.hide();
       }
     });
-    console.log(this.allProductCostResponse)
   }
   
   addCost(){
@@ -158,18 +169,22 @@ export class CalculateComponent implements OnInit {
 
   newProductCost() {
     if (!this.selectedProductId) {
-      alert('Por favor, selecione um produto.');
+      this.message = true;
       return;
     }
+    this.message = false;
+    this.loadingButton = true;
     const payload = this.buildProductTotalCostRequest(this.selectedProductId);  
 
     this.productCostService.postCreateProductCost(payload).subscribe({
-      next: (response) => {
-        console.log('Cálculo enviado com sucesso:', response);
+      next: () => {
+        this.loadingButton = false;
         this.notificationService.showSuccessToast('Cálculo cadastrado com sucesso!')
+        this.visibleDialogProduct = false;
       },
       error: () => {
         this.notificationService.showErrorToast('Erro ao enviar os dados de cadastro');
+        this.loadingButton = false;
       }
     });
   }

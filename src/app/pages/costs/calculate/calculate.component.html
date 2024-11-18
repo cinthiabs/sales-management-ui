@@ -2,6 +2,8 @@
     (registeredCostsEvent)="registeredCosts()" 
     (addCostEvent)="addCost()">
 </app-dialog-calculate>
+<p-toast key="success"></p-toast>
+<p-toast key="error"></p-toast>
 
 <div [hidden]="visibleDialog" class="cost-calculation-container">
     <h3>Cálculo de Custo do Produto</h3>
@@ -57,22 +59,28 @@
     <h4>Custo total do produto: {{ calculateTotalCost() | currency:'BRL' }}</h4>
 
    <p-dialog 
-      header="Vincular Custo ao Produto" 
       [(visible)]="visibleDialogProduct" 
       [modal]="true" 
-      [style]="{ width: '500px', height: '300px' }"
+      [style]="{ width: '400px' }"
       [closable]="false">
     
     <div class="form-row">
-      <label for="productDropdown">Selecione um Produto</label>
+      <h3>Vincular custo ao produto</h3>
       <p-dropdown 
           [options]="products" 
           [(ngModel)]="selectedProductId" 
           optionLabel="name" 
+          appendTo="body"
           optionValue="id" 
           [style]="{'width': '250px'}"
           placeholder="Selecione um produto">
       </p-dropdown>
+      <small 
+      *ngIf="message" 
+      class="p-error"
+      style="color: red; display: block; margin-top: 4px;">
+      O produto é obrigatório.
+    </small>
     </div>
 
     <div class="dialog-buttons">
@@ -80,14 +88,14 @@
         label="Salvar" 
         icon="pi pi-save" 
         (click)="newProductCost()"
+        [loading]="loadingButton"
         class="p-button-success">
       </p-button>
       <p-button 
         label="Cancelar" 
         icon="pi pi-times" 
-        (click)="visibleDialog = false">
+        (click)="visibleDialogProduct = false">
       </p-button>
     </div>
   </p-dialog>
 </div>
-  
