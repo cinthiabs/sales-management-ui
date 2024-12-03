@@ -15,30 +15,32 @@ import { Authentication, AuthenticationResponse } from '../../../models/user/aut
 import { Router, RouterModule } from '@angular/router';
 import { LoadingComponent } from '../../shared/components/loading/loading.component';
 @Component({
-  selector: 'app-auth',
+  selector: 'app-register',
   standalone: true,
   imports: [DividerModule,
-          ButtonModule,
-          RouterModule, 
-          InputTextModule,
-          FormsModule,
-          PasswordModule, 
-          FloatLabelModule,
-          ReactiveFormsModule,
-          LoadingComponent,
-          ToastModule],
+    ButtonModule,
+    InputTextModule,
+    FormsModule,
+    PasswordModule, 
+    FloatLabelModule,
+    ReactiveFormsModule,
+    LoadingComponent,
+    RouterModule,
+    ToastModule],
   providers: [MessageService, NotificationService, ConfirmationService],
-  templateUrl: './auth.component.html',
-  styleUrl: './auth.component.scss'
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.scss'
 })
-export class AuthComponent {
+export class RegisterComponent {
   @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
 
   authentication! : Authentication;
   responseAuth: Response<AuthenticationResponse> | null = null;
   createForm: FormGroup = this.fb.group({
+    name: ['',Validators.required],
     email:['',Validators.required],
-    password: ['', Validators.required]
+    password: ['', Validators.required],
+    confirmPassword: ['', Validators.required]
   })
 
   constructor(
@@ -51,7 +53,7 @@ export class AuthComponent {
     this.titleService.setTitle('Login')
   }
 
-  postAuthentication(form: FormGroup) {
+  postCreateUser(form: FormGroup) {
     if (form.invalid) {
       this.notificationService.showErrorToast('Por favor, preencha todos os campos obrigatórios.');
       return;
@@ -92,5 +94,4 @@ export class AuthComponent {
       }
     });
   }
-  
 }

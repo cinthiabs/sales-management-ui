@@ -11,6 +11,7 @@ import { ProfileComponent } from './pages/login/profile/profile.component';
 import { AuthComponent } from './pages/login/auth/auth.component';
 import { CalculateComponent } from './pages/costs/calculate/calculate.component';
 import { RegisterClientComponent } from './pages/client/register-client.component';
+import { RegisterComponent } from './pages/login/register/register.component';
 
 export const routes: Routes = [
     {path: '', redirectTo:'/auth',pathMatch: 'full'},
@@ -25,5 +26,6 @@ export const routes: Routes = [
     {path: 'calculate',component: CalculateComponent },
     {path: 'upload',component: UploadComponent },
     {path: 'profile', component:ProfileComponent},
-    {path: 'auth', component:AuthComponent}
+    {path: 'auth', component:AuthComponent},
+    {path: 'register', component:RegisterComponent}
 ];

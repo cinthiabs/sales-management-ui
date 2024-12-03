@@ -1,0 +1,44 @@
+<p-toast key="success"></p-toast>
+<p-toast key="error"></p-toast>
+<app-loading></app-loading>
+
+<div class="card">
+    <form [formGroup]="createForm" method="post" (ngSubmit)="postCreateUser(createForm)">
+        <div class="login">
+            <h3>Criar uma conta</h3>
+            <div>
+                <p-floatLabel>
+                    <input pInputText id="name" type="text" formControlName="name" />
+                    <label for="mail">Nome Completo</label>
+                </p-floatLabel>
+            </div>
+            <div>
+                <p-floatLabel>
+                    <input pInputText id="mail" type="text" formControlName="email" />
+                    <label for="mail">Email</label>
+                </p-floatLabel>
+            </div>
+            <div>
+                <p-floatLabel>
+                    <p-password formControlName="password" [toggleMask]="true" [feedback]="false" />
+                    <label for="password">Senha</label>
+                </p-floatLabel>
+            </div>
+            <div>
+                <p-floatLabel>
+                    <p-password formControlName="confirmPassword" [toggleMask]="true" [feedback]="false" />
+                    <label for="password">Confirmar Senha</label>
+                </p-floatLabel>
+            </div>
+            <div class="button-container">
+                <p-button label="Comece agora" icon="pi pi-user" type="submit" [style]="{ 'width': '100%' }" />
+                <p class="account-exists">
+                    Já tem uma conta? 
+                    <b>
+                      <a [routerLink]="['/auth']">Entrar</a>
+                    </b>
+                  </p>
+            </div>
+        </div>
+    </form>
+</div>

@@ -26,7 +26,9 @@
         
         <div class="signup">
             <label for="">Ainda não tem uma conta?</label>
-            <p-button label="Registrar-se" icon="pi pi-user-plus" styleClass="p-button-success w-10rem" />
-        </div>
+            <a [routerLink]="['/register']">
+              <p-button label="Registrar-se" icon="pi pi-user-plus" styleClass="p-button-success w-10rem"></p-button>
+            </a>
+          </div>
     </form>
 </div>
