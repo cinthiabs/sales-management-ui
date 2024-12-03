@@ -1,6 +1,6 @@
 <app-dialog-calculate 
-    (registeredCostsEvent)="registeredCosts()" 
-    (addCostEvent)="addCost()">
+    (addCostEvent)="addCost()"
+    (editProductCost)="onEditProductCost($event)">
 </app-dialog-calculate>
 <p-toast key="success"></p-toast>
 <p-toast key="error"></p-toast>
@@ -9,7 +9,7 @@
     <h3>Cálculo de Custo do Produto</h3>
   
     <div *ngFor="let cost of productCost; let i = index" class="ingredient-row">
-      <div class="form-inline">
+      <div class="form-inline" [formGroup]="formProductCost">
         <div class="form-row">
           <label for="userTypes">Ingrediente</label>
           <p-dropdown
@@ -18,7 +18,8 @@
               optionLabel="displayName"
               filterBy="name" 
               optionValue="id"
-              [(ngModel)]="productCost[i].idCost" 
+              formControlName="cost.idCost" 
+              (onChange)="onDropdownChange($event.value, i)"
               placeholder="Selecione um custo"
               (onChange)="onCostSelect(i, $event.value)"
               [style]="{'width': '250px'}">
@@ -27,17 +28,17 @@
   
         <div class="form-row">
           <label>Preço Total</label>
-          <p-inputNumber [(ngModel)]="cost.totalProductPrice" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
+          <p-inputNumber formControlName="totalProductPrice" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
         </div>
   
         <div class="form-row">
           <label>Quantidade Total</label>
-          <p-inputNumber [(ngModel)]="cost.totalQuantity"  useGrouping="true"></p-inputNumber>
+          <p-inputNumber formControlName="totalQuantity" useGrouping="true"></p-inputNumber>
         </div>
   
         <div class="form-row">
           <label>Quantidade Necessária</label>
-          <p-inputNumber [(ngModel)]="cost.quantityRequired"  useGrouping="true"></p-inputNumber>
+          <p-inputNumber formControlName="quantityRequired"  useGrouping="true"></p-inputNumber>
         </div>
       </div>
   

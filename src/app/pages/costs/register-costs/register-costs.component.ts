@@ -251,7 +251,7 @@ export class RegisterCostsComponent implements OnInit {
     this.cost = {
       name: form.get('name')?.value,
       dateCost: new Date(form.get('dateCost')?.value).toISOString().split('T')[0],
-      quantity: form.get('quantity')?.value,
+      quantity:  form.get('quantity')?.value.toString(),
       unitPrice: form.get('unitPrice')?.value,
       totalPrice: form.get('price')?.value
     };

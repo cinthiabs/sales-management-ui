@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { FileUploadModule } from 'primeng/fileupload';
+import { FileSelectEvent, FileUploadModule, FileUpload } from 'primeng/fileupload';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { RatingModule } from 'primeng/rating';
@@ -23,11 +23,11 @@ import { NotificationService } from '../../../services/shared/messages/notificat
 import { Product } from '../../../models/products/products';
 import { ProductsService } from '../../../services/products/products.service';
 import { LoadingComponent } from '../../shared/components/loading/loading.component';
+import { UploadService } from '../../../services/upload/upload.service';
 @Component({
   selector: 'app-register-sales',
   standalone: true,
   imports: [ButtonModule,
-    FileUploadModule,
     TableModule,
     TagModule,
     ToastModule, 
@@ -41,6 +41,7 @@ import { LoadingComponent } from '../../shared/components/loading/loading.compon
     DropdownModule,
     InputNumberModule,
     CalendarModule,
+    FileUploadModule,
     LoadingComponent,
     InputTextModule],
   templateUrl: './register-sales.component.html',
@@ -51,7 +52,8 @@ import { LoadingComponent } from '../../shared/components/loading/loading.compon
 export class RegisterSalesComponent implements OnInit {
   @ViewChild('dt') dataTable!: Table;
   @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
-  
+  @ViewChild(FileUpload) fileUpload!: FileUpload; 
+
   sales: Sale[] = [];
   allSales: Sale[] = [];
   selectedSales: any[] = [];
@@ -65,6 +67,7 @@ export class RegisterSalesComponent implements OnInit {
   isViewing: boolean = false;
   search = '';
   selectedProduct!: Product;
+  loadingUpload = false;
 
   createForm: FormGroup = this.fb.group({
     dateSale:['',Validators.required],
@@ -80,6 +83,7 @@ export class RegisterSalesComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private salesService: SalesService,
+    private upload: UploadService,
     private productService: ProductsService,
     public handlers: RegisterHandlers,
     private titleService: Title,
@@ -317,4 +321,31 @@ export class RegisterSalesComponent implements OnInit {
     this.handlers.handleInsertDialog()
   }
 
+  onSelect(event: FileSelectEvent) {
+    this.loadingUpload = true;
+    const uploadFile = event.files && event.files.length > 0 ? event.files[0] : null;
+    if (uploadFile) {
+      this.upload.postUploadExcel(uploadFile).subscribe({
+        next: (response: any) => {
+          if (response) {
+            this.notificationService.showSuccessToast('Planilha importada com sucesso!')
+            this.loadingUpload = false;
+            this.fileUpload.clear();
+          }
+        },
+        error: (error: any) => {
+          let errorMessage = 'Ocorreu um erro durante a operação.';
+      
+          if (error?.status === 400) {
+            errorMessage = 'Requisição inválida. Verifique os dados informados na planilha.';
+          }  else  {
+            errorMessage;
+          }
+          this.notificationService.showErrorToast(errorMessage)
+          this.loadingUpload = false;
+          this.fileUpload.clear();
+        }
+      })
+    }
+  }
 }

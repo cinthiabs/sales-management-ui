@@ -43,7 +43,6 @@
 
 .form-field input,
 .form-field p-dropdown,
-.form-field p-calendar,
 .form-field p-inputNumber {
     flex: 1;
     width: 100%;
@@ -59,7 +58,9 @@
 .footer-dialog button{
     margin-left: 0.5rem;
 }
-
 .required {
     color: var(--danger);
+}
+span.p-ripple.p-element.p-button.p-component.p-fileupload-choose {
+    margin-left: 10px;
 }

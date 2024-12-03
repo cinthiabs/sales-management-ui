@@ -42,7 +42,9 @@ import { ToastModule } from 'primeng/toast';
 })
 export class CalculateComponent implements OnInit {
   @ViewChild(DialogCalculateComponent) dialogCalculateComponent!: DialogCalculateComponent;
-
+  selectedProductCostId: number | null = null;
+  formProductCost: FormGroup;
+  
   visibleDialog = false;
   visibleDialogProduct = false; 
   costs: Cost[] = [];
@@ -60,6 +62,7 @@ export class CalculateComponent implements OnInit {
   loadingButton = false;
 
   constructor(
+    private fb: FormBuilder,
     private costsService: CostsService,
     private titleService: Title,
     private productCostService: ProductCostService,
@@ -67,24 +70,52 @@ export class CalculateComponent implements OnInit {
     private notificationService: NotificationService
   ){
     this.titleService.setTitle('Calcular custos unitário');
+    
+    this.formProductCost = this.fb.group({
+      idCost: [null],
+      totalProductPrice: [0],
+      totalQuantity: [1],
+      quantityRequired: [0],
+      ingredientCost: [0],
+    });
   }
   ngOnInit() {
     this.dialogCalculateComponent
     this.visibleDialog = true;
-    //this.getallCosts()
   }
 
-  registeredCosts(){   
-    this.productCostService.getAllProductCost().subscribe({
+  onEditProductCost(id: number) {
+    this.selectedProductCostId = id;
+  
+    this.productCostService.getByIdProductCost(id).subscribe({
       next: (response) => {
-        this.allProductCostTotal = response.data.flat();
+        if (response.isSuccess && response.data) {
+          // Encontra o objeto correto no array `data` com base no ID
+          const productTotalCost = response.data.find(item => item.idProductTotalCost === id);
+          
+          if (productTotalCost) {
+            const productCost = productTotalCost.productCost[0]; // Obtém o primeiro item do array `productCost`
+            
+            this.formProductCost.patchValue({
+              idCost: productCost.idCost,
+              totalProductPrice: productCost.totalProductPrice,
+              totalQuantity: productCost.totalQuantity,
+              quantityRequired: productCost.quantityRequired,
+              ingredientCost: productCost.ingredientCost,
+            });
+  
+            this.visibleDialog = true; // Exibe o diálogo de edição
+          } else {
+            this.notificationService.showErrorToast('Custo do produto não encontrado.');
+          }
+        }
       },
       error: () => {
-    //    this.messageTable;
-    //    this.loadingComponent.hide();
-      }
+        this.notificationService.showErrorToast('Erro ao carregar os dados para edição.');
+      },
     });
   }
+    
   
   addCost(){
     this.visibleDialog = false;
@@ -188,5 +219,7 @@ export class CalculateComponent implements OnInit {
       }
     });
   }
-  
+  onDropdownChange(selectedValue: number, index: number): void {
+    this.productCost[index].idCost = selectedValue; // Atualiza o valor no array
+  }
 }

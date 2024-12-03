@@ -19,7 +19,6 @@ export class HeaderComponent {
 
     this.items = [
       { label: 'Home', icon: 'pi pi-home', route: '/home' },
-      { label: 'Importar', icon: 'pi pi-file-excel', route: '/upload' },
       {
         label: 'Vendas',
         items: [

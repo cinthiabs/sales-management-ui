@@ -99,7 +99,6 @@ export class RegisterClientComponent implements OnInit{
         this.loadingComponent.hide();
       }
     })
-    console.log(this.clients)
   }
 
   deleteClient(id: number) {

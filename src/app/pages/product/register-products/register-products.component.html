@@ -8,20 +8,6 @@
     <p-toolbar styleClass="mb-4 gap-2">
       <ng-template pTemplate="left">
         <p-button pRipple label="Novo" icon="pi pi-plus" class="mr-2" (click)="openCreate()"></p-button>
-        
-        <p-fileUpload 
-        mode="basic" 
-        accept="image/*" 
-        [maxFileSize]="1000000" 
-        label="Import" 
-        chooseLabel="Importar" 
-        class="mr-2 inline-block" 
-        name="demo[]" 
-        fileLimit="1"
-        [disabled]="loadingUpload"
-        (onSelect)="onSelect($event)"
-        accept=".xlsx,.xls"
-        class="file-upload"/>
       </ng-template>
 
       <ng-template pTemplate="right">

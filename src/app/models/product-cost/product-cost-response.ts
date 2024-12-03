@@ -1,7 +1,5 @@
 export interface ProductCostResponse {
-    productCostId: number;
     idProductTotalCost: number;
-    idProduct?: number;
     idCost?: number;
     totalProductPrice: number;
     totalQuantity: number;
@@ -13,6 +11,7 @@ export interface ProductCostResponse {
   
 export interface ProductTotalCostsResponse {
     idProductTotalCost: number;
+    idProduct: number;
     totalProductCost: number;
     active: boolean;
     dateCreate: Date;

@@ -17,31 +17,37 @@
             <p-button label="Custos Adicionados" (onClick)="registeredCosts()" icon="pi pi-eye"></p-button>
         </div>
 
-        <p-table *ngIf="visibleTable" #dt 
-            [rows]="10" [paginator]="true"
+        <p-table *ngIf="visibleTable"
+            [value]="allProductCostTotal"
+            [rows]="10"
+            [paginator]="true"
             [globalFilterFields]="['name', 'totalPrice', 'dateCreate']"
             [tableStyle]="{ 'min-width': '50rem' }" 
-            [(selection)]="teste" 
-            [rowHover]="true" 
-            dataKey="id"
-            [rows]="5"
+            dataKey="idProductTotalCost"
             [showCurrentPageReport]="true">
             
             <ng-template pTemplate="header">
                 <tr>
                     <th pSortableColumn="dateCreate">Data da Criação <p-sortIcon field="dateCreate"></p-sortIcon></th>
                     <th pSortableColumn="name">Nome do Produto <p-sortIcon field="name"></p-sortIcon></th>
-                    <th pSortableColumn="totalPrice">Valor Total <p-sortIcon field="totalPrice"></p-sortIcon></th>
+                    <th pSortableColumn="totalPrice">Custo Total <p-sortIcon field="totalPrice"></p-sortIcon></th>
                     <th>Ação</th>
                 </tr>
             </ng-template>
             
             <ng-template pTemplate="body" let-cost>
                 <tr>
-                    <td>teste1</td>
-                    <td>teste2</td>
-                    <td>teste3</td>
-                    <td>teste4</td>
+                    <td>{{ cost.dateCreate | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ cost.idProduct }}</td>
+                    <td>{{ cost.totalProductCost | currency: 'BRL' }}</td>
+                    <td>
+                        <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"
+                        [style]="{
+                         'margin':'5px',
+                         height: '40px',
+                         width: '40px'
+                        }" (click)="getProductCost(cost.idProductTotalCost)"></p-button>
+                    </td>
                 </tr>
             </ng-template>
             

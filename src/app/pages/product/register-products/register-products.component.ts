@@ -20,8 +20,6 @@ import { RegisterProductHandlers } from './register-product-handlers';
 import { ProductsService } from '../../../services/products/products.service';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { LoadingComponent } from '../../shared/components/loading/loading.component';
-import { FileSelectEvent, FileUpload, FileUploadModule } from 'primeng/fileupload';
-import { UploadService } from '../../../services/upload/upload.service';
 
 @Component({
   selector: 'app-register-products',
@@ -39,7 +37,6 @@ import { UploadService } from '../../../services/upload/upload.service';
     ConfirmDialogModule,
     DropdownModule,
     CalendarModule,
-    FileUploadModule,
     InputNumberModule,
     LoadingComponent,
     InputTextModule],
@@ -51,7 +48,6 @@ import { UploadService } from '../../../services/upload/upload.service';
 export class RegisterProductsComponent implements OnInit {
   @ViewChild('dt') dataTable!: Table;
   @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
-  @ViewChild(FileUpload) fileUpload!: FileUpload; 
 
   products: Product[] = [];
   allProducts: Product[] = [];
@@ -77,7 +73,6 @@ export class RegisterProductsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private titleService: Title,
-    private upload: UploadService,
     private notificationService: NotificationService,
     public handlers: RegisterProductHandlers,
     private confirmationService: ConfirmationService,
@@ -114,7 +109,6 @@ export class RegisterProductsComponent implements OnInit {
         ))
     );
 }
-
 
   getAllProducts(){
     this.productService.getAllProducts().subscribe({
@@ -274,33 +268,5 @@ export class RegisterProductsComponent implements OnInit {
     this.handlers.headerDialog = 'Cadastrar Produto'
     this.createForm.reset();
     this.handlers.handleInsertDialog()
-  }
-  
-  onSelect(event: FileSelectEvent) {
-    this.loadingUpload = true;
-    const uploadFile = event.files && event.files.length > 0 ? event.files[0] : null;
-    if (uploadFile) {
-      this.upload.postUploadExcel(uploadFile).subscribe({
-        next: (response: any) => {
-          if (response) {
-            this.notificationService.showSuccessToast('Planilha importada com sucesso!')
-            this.loadingUpload = false;
-            this.fileUpload.clear();
-          }
-        },
-        error: (error: any) => {
-          let errorMessage = 'Ocorreu um erro durante a operação.';
-      
-          if (error?.status === 400) {
-            errorMessage = 'Requisição inválida. Verifique os dados informados na planilha.';
-          }  else  {
-            errorMessage;
-          }
-          this.notificationService.showErrorToast(errorMessage)
-          this.loadingUpload = false;
-          this.fileUpload.clear();
-        }
-      })
-    }
   }
 }
