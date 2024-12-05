@@ -55,7 +55,7 @@ export class RegisterComponent {
 
   postCreateUser(form: FormGroup) {
     if (form.invalid) {
-      this.notificationService.showErrorToast('Por favor, preencha todos os campos obrigatórios.');
+      this.notificationService.showErrorToast('Por favor, preencha todos os campos.');
       return;
     }
 
@@ -65,26 +65,25 @@ export class RegisterComponent {
     this.authentication = {
       email: form.get('email')?.value,
       password: form.get('password')?.value,
-      username: username ? username[1] : ''
+      confirmPassword: form.get('confirmPassword')?.value,
+      username: username ? username[1] : '',
+      name: form.get('name')?.value
     };
     localStorage.setItem('username', this.authentication.username!);
     
     this.loadingComponent.show();
 
-    this.userService.postAuthentication(this.authentication).subscribe({
-      next: (response) => {
-        const token = response.data[0].token;
-        const tokenExpiration = response.data[0].tokenExpiration;
-        localStorage.setItem('token', token);
-        localStorage.setItem('tokenExpiration', tokenExpiration);
-        this.router.navigate(['/home']);
+    this.userService.postCreateUser(this.authentication).subscribe({
+      next: () => {
+        this.notificationService.showSuccessToast('Conta criada com sucesso! Você será direcionando para a pagina de login.');
+        setTimeout(() => {
+          this.router.navigate(['/auth']);
+        }, 3000);
       },
       error: (error) => {
         this.loadingComponent.hide();
-        if (error.status === 404) {
-          this.notificationService.showErrorToast('Usuário não encontrado.');
-        }else if(error.status === 401){
-          this.notificationService.showErrorToast('Senha inválida!');
+        if (error.status === 409) {
+          this.notificationService.showErrorToast('O usuário já está cadastrado. Por favor, faça login.');
         } else{
           this.notificationService.showErrorToast('Ocorreu um erro durante a operação. Tente novamente mais tarde.');
         } 

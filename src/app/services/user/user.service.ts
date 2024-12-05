@@ -15,4 +15,7 @@ export class UserService {
   postAuthentication(authentication: Authentication): Observable<Response<AuthenticationResponse>> {
     return this.http.post<Response<AuthenticationResponse>>('/Authentication', authentication);
   }
+  postCreateUser(authentication: Authentication): Observable<Response<boolean>> {
+    return this.http.post<Response<boolean>>('/CreateUser', authentication);
+  }
 }
