@@ -39,8 +39,8 @@ export class RegisterComponent {
   createForm: FormGroup = this.fb.group({
     name: ['',Validators.required],
     email:['',Validators.required],
-    password: ['', Validators.required],
-    confirmPassword: ['', Validators.required]
+    password: ['', Validators.required, Validators.minLength(6)],
+    confirmPassword: ['', Validators.required,Validators.minLength(6)]
   })
 
   constructor(
@@ -56,6 +56,11 @@ export class RegisterComponent {
   postCreateUser(form: FormGroup) {
     if (form.invalid) {
       this.notificationService.showErrorToast('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    if (form.get('password')?.value !== form.get('confirmPassword')?.value) {
+      this.notificationService.showErrorToast('As senhas não coincidem.');
       return;
     }
 
