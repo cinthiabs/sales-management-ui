@@ -331,6 +331,7 @@ export class RegisterSalesComponent implements OnInit {
             this.notificationService.showSuccessToast('Planilha importada com sucesso!')
             this.loadingUpload = false;
             this.fileUpload.clear();
+            this.getallSale();
           }
         },
         error: (error: any) => {
