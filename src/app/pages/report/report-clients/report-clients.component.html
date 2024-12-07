@@ -1,0 +1,160 @@
+<app-loading></app-loading>
+<div class="dashboard-container">
+  <div class="date-filter-section">
+    <div class="p-grid p-justify-end">
+
+      <div class="p-col-12 p-md-4">
+        <p-dropdown 
+          [filter]="true"
+          id="nameClient"
+          formControlName="nameClient" 
+          [options]="clientObject" 
+          optionLabel="name" 
+          placeholder="Selecione um cliente"
+          [style]="{ 'width': '100%' }"
+          (onChange)="onClientSelect($event)"
+        />
+      </div>
+
+      <div class="p-col-12 p-md-4">
+        <p-calendar
+          [(ngModel)]="selectedDate"
+          (ngModelChange)="onDateSelect($event)"
+          selectionMode="range"
+          [showIcon]="true"
+          [style]="{ 'height': '35px' }"
+          [panelStyle]="{ 'transform': 'scale(0.7)' }"
+          [dateFormat]="datePickerOptions.dateFormat">
+        </p-calendar>
+      </div>
+    </div>
+  </div>
+  <div class="top-section">
+    <div class="p-grid">
+      <div class="p-col-12 p-md-3">
+        <p-card class="quantity-card" [style]="{ 'background-color': 'var(--default)', 'height': '160px' }">
+          <ng-template pTemplate="title">
+            <div class="card-header">
+              <i class="pi pi-plus-circle"></i>
+              <span>Qtd de Vendas</span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="subtitle">
+            <p class="subtitle">{{ 123 }}</p>
+          </ng-template>
+        </p-card>
+      </div>
+      <div class="p-col-12 p-md-3">
+        <p-card class="quantity-card" [style]="{ 'background-color': 'var(--danger)', 'height': '160px' }">
+          <ng-template pTemplate="title">
+            <div class="card-header">
+              <i class="pi pi-shopping-cart"></i>
+              <span>Custos</span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="subtitle">
+            <p class="subtitle">{{ formartValor(123) }}</p>
+          </ng-template>
+        </p-card>
+      </div>
+      <div class="p-col-12 p-md-3">
+        <p-card class="quantity-card" [style]="{ 'background-color': 'var(--success)', 'height': '160px' }">
+          <ng-template pTemplate="title">
+            <div class="card-header">
+              <i class="pi pi-money-bill"></i>
+              <span>Vendas</span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="subtitle">
+            <p class="subtitle">{{ formartValor(123) }}</p>
+          </ng-template>
+        </p-card>
+      </div>
+      <div class="p-col-12 p-md-3">
+        <p-card class="quantity-card" [style]="{ 'background-color': 'var(--yellow)', 'height': '160px' }">
+          <ng-template pTemplate="title">
+            <div class="card-header">
+              <i class="pi pi-chart-line"></i>
+              <span>Lucro</span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="subtitle">
+            <p class="subtitle">{{ formartValor(123) }}</p>
+          </ng-template>
+        </p-card>
+      </div>
+    </div>
+  </div>
+  <div class="middle-section">
+    <div class="p-grid">
+      <div class="p-col-12 p-md-6">
+        <p-card class="chart-card"> 
+          <ng-template pTemplate="title">
+            <div class="title-card-title">Qtd de produtos vendidos</div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <p-chart 
+              type="bar" 
+              [data]="clientData" 
+              [options]="clientOptions" 
+              >
+            </p-chart>
+          </ng-template>
+        </p-card>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <p-card class="chart-card">
+          <ng-template pTemplate="title">
+            <div class="title-card-title">Qtd de vendas pagas e pendentes</div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <p-chart type="pie" [data]="clientData" [options]="clientOptions"></p-chart>
+          </ng-template>
+        </p-card>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-section">
+    <div class="p-grid">
+      <div class="p-col-12">
+        <p-card class="chart-card">
+          <p-table
+            [value]="relClients"
+            styleClass="p-datatable-striped"
+            [paginator]="true"
+            [rows]="5"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            [rowsPerPageOptions]="[5, 10, 20]">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width:25%">Produto</th>
+                <th>Pago</th>
+                <th>Pendente</th>
+                <th>Total(Qtd)</th>
+                <th>Valor(R$)</th>
+                <th style="width:15%">Pago?</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-relQuantitySale>
+              <tr>
+                <td>{{ relQuantitySale.name }}</td>
+                <td>{{ relQuantitySale.paid }}</td>
+                <td>{{ relQuantitySale.notPaid ? 'Sim':'Não'}}</td>
+                <td>{{ relQuantitySale.quantity }}</td>
+                <td>{{ formartValor(relQuantitySale.price) }}</td>
+                <td>
+                  <ng-container *ngIf="relQuantitySale.notPaid > 0; else paidTemplate">
+                    <p-tag value="PENDENTE" severity="danger"></p-tag>
+                  </ng-container>
+                  <ng-template #paidTemplate>
+                    <p-tag value="PAGO" severity="success"></p-tag>
+                  </ng-template>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div>

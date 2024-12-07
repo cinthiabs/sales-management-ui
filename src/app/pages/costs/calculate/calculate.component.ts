@@ -90,11 +90,10 @@ export class CalculateComponent implements OnInit {
     this.productCostService.getByIdProductCost(id).subscribe({
       next: (response) => {
         if (response.isSuccess && response.data) {
-          // Encontra o objeto correto no array `data` com base no ID
           const productTotalCost = response.data.find(item => item.idProductTotalCost === id);
-          
+        
           if (productTotalCost) {
-            const productCost = productTotalCost.productCost[0]; // Obtém o primeiro item do array `productCost`
+            const productCost = productTotalCost.productCost[0]; 
             
             this.formProductCost.patchValue({
               idCost: productCost.idCost,
@@ -104,7 +103,7 @@ export class CalculateComponent implements OnInit {
               ingredientCost: productCost.ingredientCost,
             });
   
-            this.visibleDialog = true; // Exibe o diálogo de edição
+            this.visibleDialog = true; 
           } else {
             this.notificationService.showErrorToast('Custo do produto não encontrado.');
           }
@@ -220,6 +219,6 @@ export class CalculateComponent implements OnInit {
     });
   }
   onDropdownChange(selectedValue: number, index: number): void {
-    this.productCost[index].idCost = selectedValue; // Atualiza o valor no array
+    this.productCost[index].idCost = selectedValue; 
   }
 }

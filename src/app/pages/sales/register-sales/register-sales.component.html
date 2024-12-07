@@ -10,18 +10,19 @@
         <p-button pRipple label="Novo" icon="pi pi-plus" class="mr-2" (click)="openCreate()"></p-button>
         
         <p-fileUpload 
-        mode="basic" 
-        accept="image/*" 
-        [maxFileSize]="1000000" 
-        label="Import" 
-        chooseLabel="Importar" 
-        class="mr-2 inline-block" 
-        name="demo[]" 
-        fileLimit="1"
-        [disabled]="loadingUpload"
-        (onSelect)="onSelect($event)"
-        accept=".xlsx,.xls"
-        class="file-upload"/>
+          mode="basic" 
+          accept="image/*" 
+          [maxFileSize]="1000000" 
+          label="Import" 
+          chooseLabel="Importar" 
+          class="mr-2 inline-block" 
+          name="demo[]" 
+          fileLimit="1"
+          [disabled]="loadingUpload"
+          (onSelect)="onSelect($event)"
+          accept=".xlsx,.xls"
+          class="file-upload"
+        />
       
       </ng-template>
       <ng-template pTemplate="right">
@@ -52,10 +53,19 @@
           <div class="form-grid">
             <div class="form-field">
               <label for="nameProduct" class="font-semibold"> Nome <span class="required">*</span></label>
-              <p-dropdown [style]="{width: '384px'}" 
-              id="nameProduct" formControlName="nameProduct" [options]="productObject" optionLabel="name"
-              placeholder="Selecione um produto" [filter]="true" filterBy="name" [virtualScroll]="true" 
-              [virtualScrollItemSize]="38"   (onChange)="onProductSelect($event)"/>
+              <p-dropdown 
+                [style]="{width: '384px'}" 
+                id="nameProduct"
+                formControlName="nameProduct" 
+                [options]="productObject" 
+                optionLabel="name"
+                placeholder="Selecione um produto" 
+                [filter]="true" 
+                filterBy="name" 
+                [virtualScroll]="true" 
+                [virtualScrollItemSize]="38"   
+                (onChange)="onProductSelect($event)"
+              />
           </div>
 
             <div class="form-field">

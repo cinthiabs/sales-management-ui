@@ -15,10 +15,10 @@ import { CommonModule } from '@angular/common';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Title } from '@angular/platform-browser';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { LoadingComponent } from '../shared/components/loading/loading.component';
-import { NotificationService } from '../../services/shared/messages/notification.service';
-import { Client } from '../../models/client/client';
-import { ClientService } from '../../services/client/client.service';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
+import { NotificationService } from '../../../services/shared/messages/notification.service';
+import { Client } from '../../../models/client/client';
+import { ClientService } from '../../../services/client/client.service';
 import { RegisterClientHandlers } from './register-client-handlers';
 @Component({
   selector: 'app-register-client',

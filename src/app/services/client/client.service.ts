@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Response  } from '../../models/shared/response';
-import { Client } from '../../models/client/client';
+import { Client, RelClients } from '../../models/client/client';
 
 
 @Injectable({
@@ -26,5 +26,8 @@ export class ClientService {
   }
   deleteClient(id: number):Observable<any>{
     return this.http.delete<any>(`/DeleteClient/${id}`);
+  }
+  getRelQuantity(dateIni: string, dateEnd: string, id?:number): Observable<RelClients[]>{
+    return this.http.get<RelClients[]>(`/GetRelClients?dateIni=${dateIni}&dateEnd=${dateEnd}&id=${id}`);
   }
 }
