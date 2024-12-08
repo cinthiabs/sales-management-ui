@@ -3,7 +3,7 @@ import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
 import { CalendarModule } from 'primeng/calendar';
 import { startOfMonth, endOfMonth } from 'date-fns';
-import { FormGroup, FormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
@@ -25,12 +25,12 @@ import { DropdownModule } from 'primeng/dropdown';
           TagModule,
           CommonModule,
           LoadingComponent,
-          DropdownModule
+          DropdownModule,
+          ReactiveFormsModule
         ],
   providers:[],
   templateUrl: './report-clients.component.html',
-  styleUrl: './report-clients.component.scss',
-  encapsulation: ViewEncapsulation.None,
+  styleUrl: './report-clients.component.scss'
 })
 export class ReportClientsComponent  implements OnInit{
   @ViewChild(LoadingComponent) loadingComponent!: LoadingComponent;
@@ -42,16 +42,25 @@ export class ReportClientsComponent  implements OnInit{
   relClients: RelClients[] = [];
   clientData: any;
   clientOptions: any;
+  topProductsData: any;
   selectedClient!: Client;
   clients:Client[] = [];
   clientObject: Client[] = [];
+  totalQuantity: number = 0;
+  salesPrice: number = 0;
+  totalPending: number = 0;
 
   constructor(
     private clientService: ClientService ) {}
 
   ngOnInit() {
+   this.setDate()
    this.getRel();
    this.getallClient();
+  }
+
+  ngAfterViewInit() {
+    this.loadingComponent.show();
   }
 
   getRel(){
@@ -71,11 +80,19 @@ export class ReportClientsComponent  implements OnInit{
     this.selectedClient = event.value; 
   }
   getRelClients(startDate: string, endDate: string){
-    this.clientService.getRelQuantity(startDate,endDate,this.selectedClient.id).subscribe({
+    this.clientService.getRelQuantity(startDate,endDate,1003).subscribe({
       next:(response) => {
-       this.relClients = response.flat()
-      // this.salesPrice = this.relQuantitySale.reduce((acc, current) => acc + current.price, 0);
-      // this.totalQuantity = this.relQuantitySale.reduce((acc, current) => acc + current.quantity, 0);
+       this.relClients = response.data.flat()
+       this.salesPrice = this.relClients
+          .filter(client => client.pay === true) 
+          .reduce((acc, current) => acc + current.price, 0);
+        this.totalPending = this.relClients
+        .filter(client => client.pay === false) 
+        .reduce((acc, current) => acc + current.price, 0);
+       this.totalQuantity = this.relClients.reduce((acc, current) => acc + current.quantity, 0);
+
+       this.getTopSellingDays();
+       this.getTopSellingProducts();
      //  this.transformDataForChart(this.relQuantitySale);
      //  this.transformDataPayForChart(this.relQuantitySale);
        this.loadingComponent.hide();
@@ -135,29 +152,70 @@ export class ReportClientsComponent  implements OnInit{
     };
   }
 
-  transformDataPayForChart(data: any[]) {
-    let paid = 0;
-    let notPaid = 0;
-
-    data.forEach(item => {
-      paid += item.paid;
-      notPaid += item.notPaid;
-  });
+  getTopSellingDays() {
+    const salesByDay = this.relClients.reduce((acc, current) => {
+      const date = current.dateSale || 'Data não especificada';
+      if (!acc[date]) {
+        acc[date] = { quantity: 0, totalPrice: 0 };
+      }
+      acc[date].quantity += current.quantity;
+      acc[date].totalPrice += current.price;
+      return acc;
+    }, {} as Record<string, { quantity: number; totalPrice: number }>);
+  
+    const sortedDays = Object.entries(salesByDay)
+      .map(([date, values]) => {
+        const formattedDate =
+          date !== 'Data não especificada'
+            ? new Intl.DateTimeFormat('pt-BR').format(new Date(date))
+            : date;
+        return {
+          date: formattedDate,
+          quantity: values.quantity,
+          totalPrice: values.totalPrice,
+        };
+      })
+      .sort((a, b) => b.quantity - a.quantity);
   
     this.clientData = {
-        labels: ['Pendente', 'Pago'],
-        datasets: [
-            {
-                data: [notPaid, paid],
-                backgroundColor: ['#D43241', '#22C55E'],
-                hoverBackgroundColor:  ['#D43241', '#22C55E']
-            }
-        ]
+      labels: sortedDays.map(item => item.date), 
+      datasets: [
+        {
+          label: 'Quantidade de Vendas',
+          backgroundColor: '#42A5F5',
+          data: sortedDays.map(item => item.quantity),
+        },
+      ],
     };
+  } 
+  
+getTopSellingProducts() {
+  const salesByProduct = this.relClients.reduce((acc, current) => {
+    const { productName, quantity } = current;
 
-    this.clientOptions = {
-        responsive: true,
-        maintainAspectRatio: false
-    };
-  }
+    if (!acc[productName]) {
+      acc[productName] = 0;
+    }
+    acc[productName] += quantity;
+
+    return acc;
+  }, {} as Record<string, number>);
+
+  const sortedProducts = Object.entries(salesByProduct)
+    .map(([product, quantity]) => ({ product, quantity }))
+    .sort((a, b) => b.quantity - a.quantity);
+
+  this.topProductsData = {
+    labels: sortedProducts.map(item => item.product),
+    datasets: [
+      {
+        label: 'Quantidade Vendida',
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+        data: sortedProducts.map(item => item.quantity)
+      }
+    ]
+  };
+}
+
+
 }

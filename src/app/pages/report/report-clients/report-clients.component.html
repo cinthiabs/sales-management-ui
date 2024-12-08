@@ -6,8 +6,6 @@
       <div class="p-col-12 p-md-4">
         <p-dropdown 
           [filter]="true"
-          id="nameClient"
-          formControlName="nameClient" 
           [options]="clientObject" 
           optionLabel="name" 
           placeholder="Selecione um cliente"
@@ -24,7 +22,7 @@
           [showIcon]="true"
           [style]="{ 'height': '35px' }"
           [panelStyle]="{ 'transform': 'scale(0.7)' }"
-          [dateFormat]="datePickerOptions.dateFormat">
+          [dateFormat]="datePickerOptions?.dateFormat">
         </p-calendar>
       </div>
     </div>
@@ -40,7 +38,7 @@
             </div>
           </ng-template>
           <ng-template pTemplate="subtitle">
-            <p class="subtitle">{{ 123 }}</p>
+            <p class="subtitle">{{ totalQuantity }}</p>
           </ng-template>
         </p-card>
       </div>
@@ -49,11 +47,11 @@
           <ng-template pTemplate="title">
             <div class="card-header">
               <i class="pi pi-shopping-cart"></i>
-              <span>Custos</span>
+              <span>Pendencias</span>
             </div>
           </ng-template>
           <ng-template pTemplate="subtitle">
-            <p class="subtitle">{{ formartValor(123) }}</p>
+            <p class="subtitle">{{ formartValor(totalPending) }}</p>
           </ng-template>
         </p-card>
       </div>
@@ -62,27 +60,14 @@
           <ng-template pTemplate="title">
             <div class="card-header">
               <i class="pi pi-money-bill"></i>
-              <span>Vendas</span>
+              <span>Receita Total</span>
             </div>
           </ng-template>
           <ng-template pTemplate="subtitle">
-            <p class="subtitle">{{ formartValor(123) }}</p>
+            <p class="subtitle">{{ formartValor(salesPrice) }}</p>
           </ng-template>
         </p-card>
-      </div>
-      <div class="p-col-12 p-md-3">
-        <p-card class="quantity-card" [style]="{ 'background-color': 'var(--yellow)', 'height': '160px' }">
-          <ng-template pTemplate="title">
-            <div class="card-header">
-              <i class="pi pi-chart-line"></i>
-              <span>Lucro</span>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="subtitle">
-            <p class="subtitle">{{ formartValor(123) }}</p>
-          </ng-template>
-        </p-card>
-      </div>
+      </div> 
     </div>
   </div>
   <div class="middle-section">
@@ -90,13 +75,13 @@
       <div class="p-col-12 p-md-6">
         <p-card class="chart-card"> 
           <ng-template pTemplate="title">
-            <div class="title-card-title">Qtd de produtos vendidos</div>
+            <div class="title-card-title">Dias de Maior Venda</div>
           </ng-template>
           <ng-template pTemplate="content">
             <p-chart 
-              type="bar" 
+              type="line" 
               [data]="clientData" 
-              [options]="clientOptions" 
+              [options]="{ responsive: true, maintainAspectRatio: false }">
               >
             </p-chart>
           </ng-template>
@@ -105,10 +90,14 @@
       <div class="p-col-12 p-md-6">
         <p-card class="chart-card">
           <ng-template pTemplate="title">
-            <div class="title-card-title">Qtd de vendas pagas e pendentes</div>
+            <div class="title-card-title">Top Produtos Vendidos</div>
           </ng-template>
           <ng-template pTemplate="content">
-            <p-chart type="pie" [data]="clientData" [options]="clientOptions"></p-chart>
+            <p-chart 
+              type="doughnut" 
+              [data]="topProductsData" 
+              [options]="{ responsive: true, maintainAspectRatio: false }">
+            </p-chart>
           </ng-template>
         </p-card>
       </div>
@@ -135,15 +124,15 @@
                 <th style="width:15%">Pago?</th>
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-relQuantitySale>
+            <ng-template pTemplate="body" let-relClients>
               <tr>
-                <td>{{ relQuantitySale.name }}</td>
-                <td>{{ relQuantitySale.paid }}</td>
-                <td>{{ relQuantitySale.notPaid ? 'Sim':'Não'}}</td>
-                <td>{{ relQuantitySale.quantity }}</td>
-                <td>{{ formartValor(relQuantitySale.price) }}</td>
+                <td>{{ relClients.productName }}</td>
+                <td>{{ relClients.quant }}</td>
+                <td>{{ relClients.pay === true ? 'Sim' : 'Não' }}</td>
+                <td>{{ relClients.quantity }}</td>
+                <td>{{ formartValor(relClients.price) }}</td>
                 <td>
-                  <ng-container *ngIf="relQuantitySale.notPaid > 0; else paidTemplate">
+                  <ng-container *ngIf="relClients.pay === false; else paidTemplate">
                     <p-tag value="PENDENTE" severity="danger"></p-tag>
                   </ng-container>
                   <ng-template #paidTemplate>

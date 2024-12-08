@@ -37,7 +37,6 @@ export class HomeComponent implements OnInit {
  selectedDate?: Date[];
  selectedNewDate?: Date[];
  datePickerOptions: any;
- filterForm!: FormGroup;
  salesPrice: number = 0;
  totalPrice: number = 0;
  totalQuantity: number = 0;

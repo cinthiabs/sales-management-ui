@@ -27,7 +27,7 @@ export class ClientService {
   deleteClient(id: number):Observable<any>{
     return this.http.delete<any>(`/DeleteClient/${id}`);
   }
-  getRelQuantity(dateIni: string, dateEnd: string, id?:number): Observable<RelClients[]>{
-    return this.http.get<RelClients[]>(`/GetRelClients?dateIni=${dateIni}&dateEnd=${dateEnd}&id=${id}`);
+  getRelQuantity(dateIni: string, dateEnd: string, id?:number): Observable<Response<RelClients[]>>{
+    return this.http.get<Response<RelClients[]>>(`/GetRelClients?dateIni=${dateIni}&dateEnd=${dateEnd}&id=${id}`);
   }
 }
