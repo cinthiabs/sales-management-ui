@@ -118,10 +118,11 @@
               <tr>
                 <th style="width:20%">Produto</th>
                 <th>Cliente</th>
-                <th>Pago</th>
-                <th>Pendente</th>
-                <th>Total(Qtd)</th>
-                <th>Valor(R$)</th>
+                <th>Pago (Qtd)</th>
+                <th>Pendente (Qtd)</th>
+                <th>Total (Qtd)</th>
+                <th>Pago (R$)</th>
+                <th>Pendente (R$)</th>
                 <th style="width:15%">Pago?</th>
               </tr>
             </ng-template>
@@ -129,13 +130,14 @@
               <tr>
                 <td>{{ relClients.productName }}</td>
                 <td>{{ relClients.clientName }}</td>
-                <td>{{ relClients.quant }}</td>
-                <td>{{ relClients.pay === true ? 'Sim' : 'Não' }}</td>
-                <td>{{ relClients.quantity }}</td>
-                <td>{{ formartValor(relClients.price) }}</td>
+                <td>{{ relClients.paidQuantity }}</td>
+                <td>{{ relClients.pendingQuantity }}</td>
+                <td>{{ relClients.totalQuantity }}</td>
+                <td>{{ formartValor(relClients.totalPaid) }}</td>
+                <td>{{ formartValor(relClients.totalPending) }}</td>
                 <td>
-                  <ng-container *ngIf="relClients.pay === false; else paidTemplate">
-                    <p-tag value="PENDENTE" severity="danger"></p-tag>
+                  <ng-container *ngIf="relClients.totalPending > 0; else paidTemplate">
+                    <p-tag value="{{formartValor(relClients.totalPending)}}" severity="danger"></p-tag>
                   </ng-container>
                   <ng-template #paidTemplate>
                     <p-tag value="PAGO" severity="success"></p-tag>

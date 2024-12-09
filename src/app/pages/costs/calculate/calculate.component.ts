@@ -147,11 +147,10 @@ export class CalculateComponent implements OnInit {
     this.costsService.getAllCosts().subscribe({
       next: (response) => {
         this.allCosts = response.data.flat();
+        this.allCosts.sort((a, b) => new Date(b.dateCost).getTime() - new Date(a.dateCost).getTime());
         this.costs = this.allCosts.map(cost => {
-          const date = new Date(cost.dateCost);
-          const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
             return {
-            ...cost, displayName: `${cost.name} ${formattedDate}`
+            ...cost, displayName: `${cost.name} R$${cost.totalPrice}`
           };
         });
       }
@@ -218,6 +217,7 @@ export class CalculateComponent implements OnInit {
       }
     });
   }
+  
   onDropdownChange(selectedValue: number, index: number): void {
     this.productCost[index].idCost = selectedValue; 
   }

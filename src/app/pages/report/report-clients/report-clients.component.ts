@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
 import { CalendarModule } from 'primeng/calendar';
@@ -81,31 +81,63 @@ export class ReportClientsComponent  implements OnInit{
     this.selectedClient = event.value; 
   }
   
-  getRelClients(startDate: string, endDate: string){
+  getRelClients(startDate: string, endDate: string) {
     const clientId = this.selectedClient?.id ?? 0;
-    
-    this.clientService.getRelQuantity(startDate,endDate,clientId).subscribe({
-      next:(response) => {
-       this.relClients = response.data.flat()
-       this.salesPrice = this.relClients
-          .filter(client => client.pay === true) 
+  
+    this.clientService.getRelQuantity(startDate, endDate, clientId).subscribe({
+      next: (response) => {
+        const rawData = response.data.flat();
+  
+        const groupedData = rawData.reduce((acc, current) => {
+          const key = `${current.productName}-${current.clientName}`;
+          if (!acc[key]) {
+            acc[key] = {
+              productName: current.productName,
+              clientName: current.clientName,
+              totalQuantity: 0,
+              totalPaid: 0, // Total em R$ pago
+              totalPending: 0, // Total em R$ pendente
+              paidQuantity: 0, // Quantidade paga
+              pendingQuantity: 0, // Quantidade pendente
+            };
+          }
+  
+          acc[key].totalQuantity += current.quantity;
+  
+          if (current.pay) {
+            acc[key].totalPaid += current.price;
+            acc[key].paidQuantity += current.quantity;
+          } else {
+            acc[key].totalPending += current.price;
+            acc[key].pendingQuantity += current.quantity;
+          }
+  
+          return acc;
+        }, {} as Record<string, any>);
+  
+        this.relClients = Object.values(groupedData);
+  
+        this.salesPrice = rawData
+          .filter(client => client.pay === true)
           .reduce((acc, current) => acc + current.price, 0);
-        this.totalPending = this.relClients
-        .filter(client => client.pay === false) 
-        .reduce((acc, current) => acc + current.price, 0);
-       this.totalQuantity = this.relClients.reduce((acc, current) => acc + current.quantity, 0);
-
-       this.getTopSellingDays();
-       this.getTopSellingProducts();
-
-       this.loadingComponent.hide();
-       console.log(this.relClients)
+  
+        this.totalPending = rawData
+          .filter(client => client.pay === false)
+          .reduce((acc, current) => acc + current.price, 0);
+  
+        this.totalQuantity = rawData.reduce((acc, current) => acc + current.quantity, 0);
+  
+        this.getTopSellingDays();
+        this.getTopSellingProducts();
+        this.loadingComponent.hide();
       },
       error: () => {
         this.loadingComponent.hide();
-      }
-    })
+      },
+    });
   }
+  
+  
 
   setDate(){
     const startDate = startOfMonth(new Date());
