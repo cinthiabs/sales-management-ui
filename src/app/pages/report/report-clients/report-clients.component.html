@@ -47,7 +47,7 @@
           <ng-template pTemplate="title">
             <div class="card-header">
               <i class="pi pi-shopping-cart"></i>
-              <span>Pendencias</span>
+              <span>Pêndencias</span>
             </div>
           </ng-template>
           <ng-template pTemplate="subtitle">
@@ -75,7 +75,7 @@
       <div class="p-col-12 p-md-6">
         <p-card class="chart-card"> 
           <ng-template pTemplate="title">
-            <div class="title-card-title">Dias de Maior Venda</div>
+            <div class="title-card-title">Top Dias de Maiores Vendas</div>
           </ng-template>
           <ng-template pTemplate="content">
             <p-chart 
@@ -116,7 +116,8 @@
             [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr>
-                <th style="width:25%">Produto</th>
+                <th style="width:20%">Produto</th>
+                <th>Cliente</th>
                 <th>Pago</th>
                 <th>Pendente</th>
                 <th>Total(Qtd)</th>
@@ -127,6 +128,7 @@
             <ng-template pTemplate="body" let-relClients>
               <tr>
                 <td>{{ relClients.productName }}</td>
+                <td>{{ relClients.clientName }}</td>
                 <td>{{ relClients.quant }}</td>
                 <td>{{ relClients.pay === true ? 'Sim' : 'Não' }}</td>
                 <td>{{ relClients.quantity }}</td>

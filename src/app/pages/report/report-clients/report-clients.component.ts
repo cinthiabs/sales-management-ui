@@ -76,11 +76,15 @@ export class ReportClientsComponent  implements OnInit{
       }
     });
   } 
+
   onClientSelect(event: any){
     this.selectedClient = event.value; 
   }
+  
   getRelClients(startDate: string, endDate: string){
-    this.clientService.getRelQuantity(startDate,endDate,1003).subscribe({
+    const clientId = this.selectedClient?.id ?? 0;
+    
+    this.clientService.getRelQuantity(startDate,endDate,clientId).subscribe({
       next:(response) => {
        this.relClients = response.data.flat()
        this.salesPrice = this.relClients
@@ -93,8 +97,7 @@ export class ReportClientsComponent  implements OnInit{
 
        this.getTopSellingDays();
        this.getTopSellingProducts();
-     //  this.transformDataForChart(this.relQuantitySale);
-     //  this.transformDataPayForChart(this.relQuantitySale);
+
        this.loadingComponent.hide();
        console.log(this.relClients)
       },
@@ -119,7 +122,6 @@ export class ReportClientsComponent  implements OnInit{
       style: 'currency',
       currency: 'BRL'
     });
-
     return formatter.format(valor).replace('.', '|').replace('.', ',').replace('|', '.');
   }
 
@@ -127,29 +129,6 @@ export class ReportClientsComponent  implements OnInit{
     if(this.selectedDate && this.selectedDate[1] !== undefined && this.selectedDate[1] !== null){
       this.getRel()
     }
-  }
-
-  transformDataForChart(data: any[]) {
-    const labels = data.map(item => item.name);
-    const quantities = data.map(item => item.quantity);
-    const prices = data.map(item => item.price);
-
-    this.clientData = {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Quantidade',
-          backgroundColor: '#42A5F5',
-          borderColor: '#d7ecfb',
-          data: quantities
-        }
-      ]
-    };
-
-    this.clientData = {
-      responsive: true,
-      maintainAspectRatio: false
-    };
   }
 
   getTopSellingDays() {
@@ -189,33 +168,32 @@ export class ReportClientsComponent  implements OnInit{
     };
   } 
   
-getTopSellingProducts() {
-  const salesByProduct = this.relClients.reduce((acc, current) => {
-    const { productName, quantity } = current;
+  getTopSellingProducts() {
+    const salesByProduct = this.relClients.reduce((acc, current) => {
+      const { productName, quantity } = current;
 
-    if (!acc[productName]) {
-      acc[productName] = 0;
-    }
-    acc[productName] += quantity;
-
-    return acc;
-  }, {} as Record<string, number>);
-
-  const sortedProducts = Object.entries(salesByProduct)
-    .map(([product, quantity]) => ({ product, quantity }))
-    .sort((a, b) => b.quantity - a.quantity);
-
-  this.topProductsData = {
-    labels: sortedProducts.map(item => item.product),
-    datasets: [
-      {
-        label: 'Quantidade Vendida',
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-        data: sortedProducts.map(item => item.quantity)
+      if (!acc[productName]) {
+        acc[productName] = 0;
       }
-    ]
-  };
-}
+      acc[productName] += quantity;
 
+      return acc;
+    }, {} as Record<string, number>);
+
+    const sortedProducts = Object.entries(salesByProduct)
+      .map(([product, quantity]) => ({ product, quantity }))
+      .sort((a, b) => b.quantity - a.quantity);
+
+    this.topProductsData = {
+      labels: sortedProducts.map(item => item.product),
+      datasets: [
+        {
+          label: 'Quantidade Vendida',
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+          data: sortedProducts.map(item => item.quantity)
+        }
+      ]
+    };
+  }
 
 }
