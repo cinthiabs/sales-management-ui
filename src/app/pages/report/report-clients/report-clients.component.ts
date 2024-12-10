@@ -40,6 +40,7 @@ export class ReportClientsComponent  implements OnInit{
   datePickerOptions: any;
   filterForm!: FormGroup;
   relClients: RelClients[] = [];
+  rawData: RelClients[] = [];
   clientData: any;
   clientOptions: any;
   topProductsData: any;
@@ -83,11 +84,11 @@ export class ReportClientsComponent  implements OnInit{
   
   getRelClients(startDate: string, endDate: string) {
     const clientId = this.selectedClient?.id ?? 0;
-  
+
     this.clientService.getRelQuantity(startDate, endDate, clientId).subscribe({
       next: (response) => {
         const rawData = response.data.flat();
-  
+        this.rawData = [...rawData];
         const groupedData = rawData.reduce((acc, current) => {
           const key = `${current.productName}-${current.clientName}`;
           if (!acc[key]) {
@@ -95,10 +96,10 @@ export class ReportClientsComponent  implements OnInit{
               productName: current.productName,
               clientName: current.clientName,
               totalQuantity: 0,
-              totalPaid: 0, // Total em R$ pago
-              totalPending: 0, // Total em R$ pendente
-              paidQuantity: 0, // Quantidade paga
-              pendingQuantity: 0, // Quantidade pendente
+              totalPaid: 0, 
+              totalPending: 0,
+              paidQuantity: 0, 
+              pendingQuantity: 0,
             };
           }
   
@@ -164,7 +165,7 @@ export class ReportClientsComponent  implements OnInit{
   }
 
   getTopSellingDays() {
-    const salesByDay = this.relClients.reduce((acc, current) => {
+    const salesByDay = this.rawData.reduce((acc, current) => {
       const date = current.dateSale || 'Data não especificada';
       if (!acc[date]) {
         acc[date] = { quantity: 0, totalPrice: 0 };
@@ -201,7 +202,7 @@ export class ReportClientsComponent  implements OnInit{
   } 
   
   getTopSellingProducts() {
-    const salesByProduct = this.relClients.reduce((acc, current) => {
+    const salesByProduct = this.rawData.reduce((acc, current) => {
       const { productName, quantity } = current;
 
       if (!acc[productName]) {
