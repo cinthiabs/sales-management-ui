@@ -80,6 +80,7 @@ export class ReportClientsComponent  implements OnInit{
 
   onClientSelect(event: any){
     this.selectedClient = event.value; 
+    this.getRel();
   }
   
   getRelClients(startDate: string, endDate: string) {
@@ -134,11 +135,20 @@ export class ReportClientsComponent  implements OnInit{
       },
       error: () => {
         this.loadingComponent.hide();
+        this.clearDash()
       },
     });
   }
   
-  
+  clearDash(){
+    this.relClients = [];
+    this.rawData = [];
+    this.totalQuantity = 0;
+    this.totalPending = 0;
+    this.salesPrice = 0;
+    this.clientData = { labels: [], datasets: [] };
+    this.topProductsData = { labels: [], datasets: [] };
+  }
 
   setDate(){
     const startDate = startOfMonth(new Date());
