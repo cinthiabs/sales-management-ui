@@ -12,6 +12,7 @@ import { RelCostPrice } from '../../models/costs/costs';
 import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
 import { LoadingComponent } from '../shared/components/loading/loading.component';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -50,8 +51,11 @@ export class HomeComponent implements OnInit {
 
  constructor(
   private salesService: SalesService,
-  private costService: CostsService
- ) {}
+  private costService: CostsService,
+  private titleService: Title
+ ) {
+  this.titleService.setTitle('Home')
+ }
 
   ngOnInit() {
     this.setDate()
