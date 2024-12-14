@@ -19,7 +19,6 @@ export class DialogCalculateComponent implements OnInit{
   @Output() addCostEvent = new EventEmitter<void>();
   @Output() editProductCost = new EventEmitter<number>();
 
-  teste = '';
   visibleTable = false;
   allProductCostTotal: ProductTotalCostsResponse[] = [];
  
@@ -33,6 +32,7 @@ export class DialogCalculateComponent implements OnInit{
   ngOnInit() {
     this.showDialog();
   }
+  
   registeredCosts(){
     this.visibleTable = true;
     this.productCostService.getAllProductCost().subscribe({

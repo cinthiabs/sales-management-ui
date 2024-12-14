@@ -38,7 +38,7 @@
             <ng-template pTemplate="body" let-cost>
                 <tr>
                     <td>{{ cost.dateCreate | date: 'dd/MM/yyyy' }}</td>
-                    <td>{{ cost.idProduct }}</td>
+                    <td>{{ cost.productName }}</td>
                     <td>{{ cost.totalProductCost | currency: 'BRL' }}</td>
                     <td>
                         <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"
