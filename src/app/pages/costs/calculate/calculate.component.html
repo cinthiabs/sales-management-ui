@@ -9,7 +9,7 @@
     <h3>Cálculo de Custo do Produto</h3>
   
     <div *ngFor="let cost of productCost; let i = index" class="ingredient-row">
-      <div class="form-inline" [formGroup]="formProductCost">
+      <div class="form-inline">
         <div class="form-row">
           <label for="userTypes">Ingrediente</label>
           <p-dropdown
@@ -18,7 +18,8 @@
               optionLabel="displayName"
               filterBy="name" 
               optionValue="id"
-              formControlName="cost.idCost" 
+              [(ngModel)]="cost.idCost"
+              [ngModelOptions]="{standalone: true}"
               placeholder="Selecione um custo"
               (onChange)="onCostSelect(i, $event.value)"
               [style]="{'width': '250px'}">
@@ -27,17 +28,30 @@
   
         <div class="form-row">
           <label>Preço Total</label>
-          <p-inputNumber formControlName="totalProductPrice" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
+          <p-inputNumber 
+            [(ngModel)]="cost.totalProductPrice"
+            [ngModelOptions]="{standalone: true}"
+            prefix="R$ "
+            [readonly]="true">
+          </p-inputNumber>
         </div>
   
         <div class="form-row">
           <label>Quantidade Total</label>
-          <p-inputNumber formControlName="totalQuantity" useGrouping="true"></p-inputNumber>
+          <p-inputNumber 
+            [(ngModel)]="cost.totalQuantity"
+            [ngModelOptions]="{standalone: true}"
+            [readonly]="true">
+          </p-inputNumber>
         </div>
   
         <div class="form-row">
           <label>Quantidade Necessária</label>
-          <p-inputNumber formControlName="quantityRequired"  useGrouping="true"></p-inputNumber>
+          <p-inputNumber 
+            [(ngModel)]="cost.quantityRequired"
+            [ngModelOptions]="{standalone: true}"
+            useGrouping="true">
+          </p-inputNumber>
         </div>
       </div>
   

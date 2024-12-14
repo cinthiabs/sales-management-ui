@@ -196,6 +196,17 @@ export class CalculateComponent implements OnInit {
     })
   }
 
+  clearForm() {
+    this.selectedProductId = 0;
+    this.productCost = [{
+      idCost: undefined,
+      totalProductPrice: 0,
+      totalQuantity: 1,
+      quantityRequired: 0,
+      ingredientCost: 0
+    }];
+  }
+
   newProductCost() {
     if (!this.selectedProductId) {
       this.message = true;
@@ -210,6 +221,7 @@ export class CalculateComponent implements OnInit {
         this.loadingButton = false;
         this.notificationService.showSuccessToast('Cálculo cadastrado com sucesso!')
         this.visibleDialogProduct = false;
+        this.clearForm();
       },
       error: () => {
         this.notificationService.showErrorToast('Erro ao enviar os dados de cadastro');
