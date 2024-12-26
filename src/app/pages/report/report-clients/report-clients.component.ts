@@ -11,6 +11,7 @@ import { LoadingComponent } from '../../shared/components/loading/loading.compon
 import { ClientService } from '../../../services/client/client.service';
 import { Client, RelClients } from '../../../models/client/client';
 import { DropdownModule } from 'primeng/dropdown';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-report-clients',
@@ -52,7 +53,11 @@ export class ReportClientsComponent  implements OnInit{
   totalPending: number = 0;
 
   constructor(
-    private clientService: ClientService ) {}
+    private clientService: ClientService,
+    private titleService: Title,
+   ) {
+    this.titleService.setTitle('Relatório de Clientes');
+   }
 
   ngOnInit() {
    this.setDate()
