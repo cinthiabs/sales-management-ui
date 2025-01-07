@@ -91,7 +91,8 @@ export class RegisterClientComponent implements OnInit{
   getAllClients(){
     this.clientService.getAllClients().subscribe({
       next:(response) => {
-        this.clients = response.data;
+        this.allClients = response.data.flat();
+        this.clients = [...this.allClients];
         this.loadingComponent.hide();
       },
       error: () => {
