@@ -91,7 +91,6 @@ export class RegisterProductsComponent implements OnInit {
 
   filterGlobal(event: any) {
     this.search = (event.target as HTMLInputElement).value.trim().toLowerCase();
-
     if (!this.search) {
         this.products = [...this.allProducts];
         return;
@@ -113,7 +112,8 @@ export class RegisterProductsComponent implements OnInit {
   getAllProducts(){
     this.productService.getAllProducts().subscribe({
       next:(response) => {
-        this.products = response.data;
+        this.allProducts = response.data.flat();
+        this.products = [...this.allProducts];
         this.loadingComponent.hide();
       },
       error: () => {
