@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { InputMaskModule } from 'primeng/inputmask';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { CommonModule } from '@angular/common';
@@ -38,6 +39,7 @@ import { RegisterClientHandlers } from './register-client-handlers';
     CalendarModule,
     InputNumberModule,
     LoadingComponent,
+    InputMaskModule,
     InputTextModule],
   templateUrl: './register-client.component.html',
   styleUrl: './register-client.component.scss',
