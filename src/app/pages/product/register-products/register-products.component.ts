@@ -267,6 +267,9 @@ export class RegisterProductsComponent implements OnInit {
     this.isEditMode = false;
     this.handlers.headerDialog = 'Cadastrar Produto'
     this.createForm.reset();
+        this.createForm.patchValue({
+      active: this.handlers.active[0]
+    });
     this.handlers.handleInsertDialog()
   }
 }
